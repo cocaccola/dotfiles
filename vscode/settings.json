@@ -1,0 +1,69 @@
+{
+    "telemetry.telemetryLevel": "off",
+    "workbench.startupEditor": "none",
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.fontLigatures": false,
+    "editor.fontSize": 16,
+    "editor.lineNumbers": "relative",
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.detectIndentation": true,
+    "editor.rulers": [
+       80,
+       120,
+    ],
+    "terminal.external.osxExec": "iTerm.app",
+    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.macOptionIsMeta": true,
+    "terminal.integrated.fontWeight": "normal",
+    "terminal.integrated.fontWeightBold": "bold",
+    "vim.foldfix": true,
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j","k"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before":["<leader>", "n"],
+            "after":[],
+            "commands": [
+               {
+                    "command": ":nohl"
+                }
+            ]
+        }
+    ],
+    "vim.leader": "<space>",
+    "vim.handleKeys":{
+        "<C-a>": false,
+        "<C-f>": true,
+    },
+    "window.title": "${activeEditorMedium}${separator}${rootName}",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "editor.parameterHints.enabled": false,
+    "debug.console.fontSize": 16,
+    "merge-conflict.diffViewPosition": "Below",
+    "extensions.ignoreRecommendations": false,
+    "go.formatTool": "goimports",
+    "go.useLanguageServer": true,
+    "explorer.confirmDragAndDrop": false,
+    "terminal.integrated.shell.osx": "/bin/zsh",
+    "workbench.editor.enablePreview": false,
+    "redhat.telemetry.enabled": false,
+    "editor.guides.bracketPairs": "active",
+    "go.toolsManagement.autoUpdate": true,
+    "workbench.colorTheme": "Dracula",
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "off",
+        "strings": "off"
+    },
+    "editor.bracketPairColorization.enabled": false,
+}
