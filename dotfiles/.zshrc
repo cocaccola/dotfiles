@@ -1,5 +1,4 @@
-#export PS1='%F{39}%n %F{49}%~ %F{253}%#%f '
-export PS1='%F{49}%~ %F{253}%#%f '
+export PROMPT='%F{49}%~ %F{253}%#%f '
 
 if [[ -d $HOME/go/bin ]]; then
     export PATH=$PATH:$HOME/go/bin
@@ -37,11 +36,28 @@ promptinit
 #not sure if I like this one
 #setopt correctall
 
+# git info in prompt
+autoload -Uz vcs_info
+precmd () { vcs_info }
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' unstagedstr ' *'
+zstyle ':vcs_info:*' stagedstr ' +'
+zstyle ':vcs_info:git:*' formats       '(%{%F{49}%}%b%{%f%}%{%F{red}%}%u%c%{%f%})'
+zstyle ':vcs_info:git:*' actionformats '(%{%F{49}%}%b%{%f%}|%{%F{red}%}%a%u%c%{%f%})'
+
+setopt prompt_subst
+
 # kube-ps1
 if [[ -a /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh ]]; then
     source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-    export PS1=$'\n''$(kube_ps1)'$'\n'$PS1
+    export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_}'$'\n'$PS1
+elif [[ -a /usr/local/opt/kube-ps1/share/kube-ps1.sh ]]; then
+    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+    export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_}'$'\n'$PS1
+else
+   export PROMPT='${vcs_info_msg_0_} '$PS1
 fi
+
 
 # Aliases
 alias vi='vim'
