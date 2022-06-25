@@ -38,9 +38,9 @@ promptinit
 #setopt correctall
 
 # kube-ps1
-if [[ -a /usr/local/opt/kube-ps1/share/kube-ps1.sh ]]; then
-    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-    PS1='$(kube_ps1) '$PS1
+if [[ -a /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh ]]; then
+    source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+    export PS1=$'\n''$(kube_ps1)'$'\n'$PS1
 fi
 
 # Aliases
@@ -49,13 +49,19 @@ alias ls='ls -G'
 alias ll='ls -Gl'
 alias la='ls -Gla'
 alias l.='ls -Gld .*'
+alias l1='ls -1'
 alias grep='grep --colour=always'
 alias less='less -R'
 alias gs='git status'
 alias ga='git add'
+alias gaa='git add -A'
 alias gb='git branch'
-alias gc='git commit '
+alias gco='git checkout'
+alias gc='git commit'
 alias gd='git diff'
+alias gp='git push'
+alias gpo='git push -u origin $(git branch --show-current)'
+alias gsha='git rev-parse --verify HEAD'
 alias k='kubectl'
 alias kg='kubectl get'
 alias kd='kubectl describe'
@@ -75,3 +81,64 @@ fi
 if command -v keychain >&-; then
     eval $(keychain --quick --quiet --eval --noask --nogui --agents ssh)
 fi
+
+# Functions
+function gmp () {
+    # gmp - Git checkout Main/Master & Pull
+    {git co main  || git co master} &> /dev/null
+    git pull
+    echo -e "\nHEAD: $(git rev-parse --verify HEAD | sed s/\n//g)"
+}
+
+function gub () {
+    # gub - Git Update current Branch
+    local current=$(git branch --show-current)
+    gmp
+    git co $current
+
+    #determine main branch
+    if git rev-parse --abbrev-ref master &> /dev/null; then
+        local m="master"
+    else
+        local m="main"
+    fi
+
+    git merge $m
+}
+
+function grm () {
+    # grm - Git Rebase current branch from Main/Master
+    local current=$(git branch --show-current)
+    gmp
+
+    #determine main branch
+    if git rev-parse --abbrev-ref master &> /dev/null; then
+        local m="master"
+    else
+        local m="main"
+    fi
+
+    git rebase $m $current
+}
+
+function gcob () {
+    git co -b caccola/$1
+}
+
+function gdf () {
+    git diff --name-status ${1}..${2}
+}
+
+function gdfm () {
+    if git rev-parse --abbrev-ref master &> /dev/null; then
+        local m="master"
+    else
+        local m="main"
+    fi
+
+    git diff --name-status $m
+}
+
+# add fuctions to add a directory to vsocde, pushd the current directory, and switch to the added directory
+# add fucntions to popd back
+# add function to grab current directory, popd back, and pushd the saved directory in step 1
