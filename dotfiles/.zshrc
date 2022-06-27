@@ -1,6 +1,6 @@
 # TODOs
 # integrate fzf
-# integrate bat as a replacement for cat when installed
+# write unified main or master helper function
 
 # General Behaviors
 setopt autocd
@@ -106,7 +106,8 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Standard-Styles
 # other values to try in place of 'search' are 'interactive' and 'search-backward'
-zstyle ':completion:*' menu select search
+# vi keybindings for menuselect do not play nicely with search/search-backward/interactive
+zstyle ':completion:*' menu select interactive
 zstyle ':completion:*' expand yes
 
 # this is a cool idea and looks nice, however the non-grouped way of doing this works better for me
@@ -121,10 +122,12 @@ zstyle ':completion:*' expand yes
 # https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Initialization
 #zstyle ':completion:*:*:-command-:*:*' group-order alias builtins functions commands
 
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
+# vi keybindings for menuselect do not play nicely with search/search-backward/interactive
+# use the default gnu readline / emacs shortcuts for this
+#bindkey -M menuselect 'h' vi-backward-char
+#bindkey -M menuselect 'k' vi-up-line-or-history
+#bindkey -M menuselect 'j' vi-down-line-or-history
+#bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect '^xi' vi-insert
 bindkey -M menuselect '^x^i' vi-insert
 bindkey -M menuselect '/' history-incremental-search-forward
@@ -178,10 +181,12 @@ alias ga='git add'
 alias gaa='git add -A'
 alias gb='git branch'
 alias gco='git checkout'
-alias gc='git commit'
+alias gc='git commit -m'
 alias gd='git diff'
-alias gp='git push'
-alias gpo='git push -u origin $(git branch --show-current)'
+alias gdc='git diff --cached'
+# use unified shell function 'gp'; delete this once it has sufficient testing
+#alias gp='git push'
+#alias gpo='git push -u origin $(git branch --show-current)'
 alias gsha='git rev-parse --verify HEAD'
 alias gl='git l'
 alias glr='git l --date=relative'
@@ -211,6 +216,20 @@ function gmp () {
     {git co main  || git co master} &> /dev/null
     git pull
     echo -e "\nHEAD: $(git rev-parse --verify HEAD | sed s/\n//g)"
+}
+
+function gp () {
+    # gp - Git Push
+    # if there is no upstream branch we will set that up automatically
+    local branch=$(git branch --show-current)
+    local upstream_branch=$(git ls-remote --heads origin $branch)
+    if [[ -z $upstream_branch ]]; then
+        # there is no upstream branch yet
+        git push -u origin $branch
+    else
+        # there is an upstream branch
+        git push $branch
+    fi
 }
 
 function gub () {
