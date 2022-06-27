@@ -1,5 +1,39 @@
-export PROMPT='%F{49}%~ %F{253}%#%f '
+# TODOs
+# integrate fzf
+# integrate bat as a replacement for cat when installed
 
+# General Behaviors
+setopt autocd
+setopt globdots
+
+# History
+export HISTFILE=~/.zsh_history
+export HISTFILESIZE=1000000000
+export HISTSIZE=1000000000
+setopt extendedhistory
+setopt histfindnodups
+setopt histignorealldups
+setopt histexpiredupsfirst
+setopt histignoredups
+setopt incappendhistory
+setopt histreduceblanks
+alias history='fc -li -100 -1'
+
+# Base Prompts
+function get_exit_status () {
+    # https://tldp.org/LDP/abs/html/exitcodes.html
+    # 128 + signal number = signal
+    if (( $1 > 128 )); then
+        echo $(kill -l $1)
+    else
+        echo $1
+    fi
+}
+
+export PROMPT='%F{49}%~ %F{253}%#%f '
+export RPROMPT='%(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'
+
+# Path addons
 if [[ -d $HOME/go/bin ]]; then
     export PATH=$PATH:$HOME/go/bin
 fi
@@ -20,6 +54,10 @@ if [[ -a /usr/local/opt/make/libexec/gnubin ]]; then
     export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 fi
 
+if [[ -d $HOME/.pyenv/bin ]]; then
+    export PATH=$PATH:$HOME/.pyenv/bin
+fi
+
 
 # Enable Ctrl-x-e to edit command line
 EDITOR=vim
@@ -28,26 +66,92 @@ zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
 
-# need to read more about these
+# Directory Stacks
+# https://zsh.sourceforge.io/Intro/intro_6.html
+# https://thevaluable.dev/zsh-install-configure-mouseless/
+DIRSTACKSIZE=10
+setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
+alias d='dirs -v'
+for index ({1..9}) alias "$index"="cd -${index}"; unset index
+
+# Completions
+# https://thevaluable.dev/zsh-completion-guide-examples/
+# Homebrew completions (must be before compinit)
+# https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
+# from the docs:
+# You may also need to forcibly rebuild zcompdump:
+# rm -f ~/.zcompdump; compinit
+# Additionally, if you receive “zsh compinit: insecure directories” warnings
+# when attempting to load these completions, you may need to run this:
+# chmod -R go-w "$(brew --prefix)/share"
+
+if type brew &>/dev/null; then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
+
+zmodload zsh/complist
 autoload -Uz compinit promptinit
 compinit
 promptinit
 
+# I have no idea what verbose yes actually does
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*' file-sort modification reverse
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "~/.zcompcache"
+zstyle ':completion:*' file-list all
+
+# this doesn't work on macOS with BSD ls :(
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
+# https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Standard-Styles
+# other values to try in place of 'search' are 'interactive' and 'search-backward'
+zstyle ':completion:*' menu select search
+zstyle ':completion:*' expand yes
+
+# this is a cool idea and looks nice, however the non-grouped way of doing this works better for me
+#zstyle ':completion:*:*:*:*:descriptions' format '%F{49}-- %d --%f'
+#zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
+#zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
+#zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
+
+#zstyle ':completion:*' group-name ''
+# the ordering does not appear to working 100% correctly...
+# There isn't a tag for aliases sadly
+# https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Initialization
+#zstyle ':completion:*:*:-command-:*:*' group-order alias builtins functions commands
+
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect '^xi' vi-insert
+bindkey -M menuselect '^x^i' vi-insert
+bindkey -M menuselect '/' history-incremental-search-forward
+bindkey -M menuselect '?' history-incremental-search-backward
+
+setopt menucomplete
+setopt autoparamslash
+unsetopt completealiases
+
 #not sure if I like this one
 #setopt correctall
+
+# Prompt enhancements
 
 # git info in prompt
 autoload -Uz vcs_info
 precmd () { vcs_info }
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' unstagedstr ' *'
-zstyle ':vcs_info:*' stagedstr ' +'
-zstyle ':vcs_info:git:*' formats       '(%{%F{49}%}%b%{%f%}%{%F{red}%}%u%c%{%f%})'
-zstyle ':vcs_info:git:*' actionformats '(%{%F{49}%}%b%{%f%}|%{%F{red}%}%a%u%c%{%f%})'
+zstyle ':vcs_info:*' unstagedstr '*'
+zstyle ':vcs_info:*' stagedstr '+'
+zstyle ':vcs_info:git:*' formats       'λ %{%F{49}%}%b%{%f%}%{%F{red}%}%u%c%{%f%}'
+zstyle ':vcs_info:git:*' actionformats 'λ %{%F{49}%}%b%{%f%}|%{%F{red}%}%a%u%c%{%f%}'
 
 setopt prompt_subst
 
 # kube-ps1
+# could reduce this using brew --prefix
 if [[ -a /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh ]]; then
     source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
     export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_}'$'\n'$PS1
@@ -68,6 +172,7 @@ alias l.='ls -Gld .*'
 alias l1='ls -1'
 alias grep='grep --colour=always'
 alias less='less -R'
+alias g='git'
 alias gs='git status'
 alias ga='git add'
 alias gaa='git add -A'
@@ -78,15 +183,16 @@ alias gd='git diff'
 alias gp='git push'
 alias gpo='git push -u origin $(git branch --show-current)'
 alias gsha='git rev-parse --verify HEAD'
+alias gl='git l'
+alias glr='git l --date=relative'
 alias k='kubectl'
 alias kg='kubectl get'
 alias kd='kubectl describe'
 alias kc='kubectx'
 alias kn='kubens'
 
-if [[ -d $HOME/.pyenv/bin ]]; then
-    export PATH=$PATH:$HOME/.pyenv/bin
-fi
+
+# Others
 
 # pyenv
 if command -v pyenv >&- || test -d $HOME/.pyenv/bin; then
@@ -138,14 +244,17 @@ function grm () {
 }
 
 function gcob () {
+    # gcob - Git CheckOut Branch
     git co -b caccola/$1
 }
 
 function gdf () {
+    # gdf - Git Diff Files
     git diff --name-status ${1}..${2}
 }
 
 function gdfm () {
+    # gdfm - Git Diff Files against Main/Master
     if git rev-parse --abbrev-ref master &> /dev/null; then
         local m="master"
     else
@@ -155,6 +264,7 @@ function gdfm () {
     git diff --name-status $m
 }
 
-# add fuctions to add a directory to vsocde, pushd the current directory, and switch to the added directory
-# add fucntions to popd back
-# add function to grab current directory, popd back, and pushd the saved directory in step 1
+function gla () {
+    # gla - Git Log by Author
+    git l --author=$1
+}
