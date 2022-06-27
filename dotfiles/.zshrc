@@ -190,6 +190,7 @@ alias kg='kubectl get'
 alias kd='kubectl describe'
 alias kc='kubectx'
 alias kn='kubens'
+alias tf='terragrunt'
 
 
 # Others
