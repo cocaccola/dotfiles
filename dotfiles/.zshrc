@@ -31,7 +31,8 @@ function get_exit_status () {
 }
 
 export PROMPT='%F{49}%~ %F{253}%#%f '
-export RPROMPT='%(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'
+# this doesn't display on the line I want
+#export RPROMPT='%(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'
 
 # Path addons
 if [[ -d $HOME/go/bin ]]; then
@@ -153,16 +154,16 @@ zstyle ':vcs_info:git:*' actionformats 'λ %{%F{49}%}%b%{%f%}|%{%F{red}%}%a%u%c%
 
 setopt prompt_subst
 
-# kube-ps1
+# put everything together with kube-ps1
 # could reduce this using brew --prefix
 if [[ -a /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh ]]; then
     source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-    export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_}'$'\n'$PS1
+    export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_} %(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'$'\n'$PS1
 elif [[ -a /usr/local/opt/kube-ps1/share/kube-ps1.sh ]]; then
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-    export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_}'$'\n'$PS1
+    export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_} %(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'$'\n'$PS1
 else
-   export PROMPT='${vcs_info_msg_0_} '$PS1
+   export PROMPT='%(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f ${vcs_info_msg_0_} '$PS1
 fi
 
 
@@ -182,11 +183,10 @@ alias gaa='git add -A'
 alias gb='git branch'
 alias gco='git checkout'
 alias gc='git commit -m'
+alias gca='git commit -am'
 alias gd='git diff'
 alias gdc='git diff --cached'
-# use unified shell function 'gp'; delete this once it has sufficient testing
-#alias gp='git push'
-#alias gpo='git push -u origin $(git branch --show-current)'
+alias gpl='git pull'
 alias gsha='git rev-parse --verify HEAD'
 alias gl='git l'
 alias glr='git lr'
@@ -228,7 +228,7 @@ function gp () {
         git push -u origin $branch
     else
         # there is an upstream branch
-        git push $branch
+        git push
     fi
 }
 
