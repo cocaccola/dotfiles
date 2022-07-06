@@ -131,8 +131,10 @@ zstyle ':completion:*' expand yes
 #bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect '^xi' vi-insert
 bindkey -M menuselect '^x^i' vi-insert
-bindkey -M menuselect '/' history-incremental-search-forward
-bindkey -M menuselect '?' history-incremental-search-backward
+# '/' is really annoying for autocomplete as we type / in paths all the time
+#bindkey -M menuselect '/' history-incremental-search-forward
+#bindkey -M menuselect '?' history-incremental-search-backward
+bindkey -M menuselect '?' history-incremental-search-forward
 
 setopt menucomplete
 setopt autoparamslash
