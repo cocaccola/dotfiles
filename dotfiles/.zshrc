@@ -108,7 +108,11 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Standard-Styles
 # other values to try in place of 'search' are 'interactive' and 'search-backward'
 # vi keybindings for menuselect do not play nicely with search/search-backward/interactive
-zstyle ':completion:*' menu select interactive
+
+# I really don't like this feature
+#zstyle ':completion:*' menu select interactive
+
+
 zstyle ':completion:*' expand yes
 
 # this is a cool idea and looks nice, however the non-grouped way of doing this works better for me
