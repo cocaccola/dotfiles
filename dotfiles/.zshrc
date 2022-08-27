@@ -96,11 +96,19 @@ compinit
 promptinit
 
 # I have no idea what verbose yes actually does
-zstyle ':completion:*' verbose yes
+#zstyle ':completion:*' verbose yes
 zstyle ':completion:*' file-sort modification reverse
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "~/.zcompcache"
 zstyle ':completion:*' file-list all
+
+# add completion for special dirs '.' and '..'
+zstyle ':completion:*' special-dirs true
+
+# this may be needed in the future (seems to do the correct thing in the default config)
+# this makes it so where if there's a single autocompletion candidate hitting tab once will just 
+# fill in the completion (like it does in bash)
+# zstyle '*' single-ignored complete
 
 # this doesn't work on macOS with BSD ls :(
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
@@ -140,7 +148,11 @@ bindkey -M menuselect '^x^i' vi-insert
 #bindkey -M menuselect '?' history-incremental-search-backward
 bindkey -M menuselect '?' history-incremental-search-forward
 
-setopt menucomplete
+# disable the really annoying zsh autocomplete behavior
+# make it behave more like bash
+setopt noautomenu
+setopt nomenucomplete
+
 setopt autoparamslash
 unsetopt completealiases
 
@@ -201,7 +213,8 @@ alias kg='kubectl get'
 alias kd='kubectl describe'
 alias kc='kubectx'
 alias kn='kubens'
-alias tf='terragrunt'
+alias tf='terraform'
+alias tg='terragrunt'
 
 
 # Others
