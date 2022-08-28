@@ -185,14 +185,40 @@ else
 fi
 
 
+# Commands Color Support
+# This was lifted from Ubuntu on wsl2 and modified
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+fi
+
+# Setup OS specific aliases
+if [[ $(uname) == "Linux" ]]; then
+    alias ls='ls -F --color=auto'
+    alias ll='ls -l'
+    alias la='ls -la'
+    alias l.='ls -ld .*'
+    alias l1='ls -1'
+elif [[ $(uname) == "Darwin" ]]; then
+    alias ls='ls -GF'
+    alias ll='ls -l'
+    alias la='ls -la'
+    alias l.='ls -ld .*'
+    alias l1='ls -1'
+#    alias grep='grep --colour=always'
+else
+    echo "You are not on macOS or Linux, please check .zshrc for ls color support" >&2
+fi
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+
 # Aliases
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 alias vi='vim'
-alias ls='ls -G'
-alias ll='ls -Gl'
-alias la='ls -Gla'
-alias l.='ls -Gld .*'
-alias l1='ls -1'
-alias grep='grep --colour=always'
 alias less='less -R'
 alias g='git'
 alias gs='git status'
