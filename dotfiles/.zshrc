@@ -106,7 +106,7 @@ zstyle ':completion:*' file-list all
 zstyle ':completion:*' special-dirs true
 
 # this may be needed in the future (seems to do the correct thing in the default config)
-# this makes it so where if there's a single autocompletion candidate hitting tab once will just 
+# this makes it so where if there's a single autocompletion candidate hitting tab once will just
 # fill in the completion (like it does in bash)
 # zstyle '*' single-ignored complete
 
@@ -226,7 +226,8 @@ alias ga='git add'
 alias gaa='git add -A'
 alias gb='git branch'
 alias gco='git checkout'
-alias gc='git commit -m'
+alias gc='git commit'
+alias gcm='git commit -m'
 alias gca='git commit -am'
 alias gd='git diff'
 alias gdc='git diff --cached'
@@ -255,6 +256,19 @@ if command -v keychain >&-; then
     eval $(keychain --quick --quiet --eval --noask --nogui --agents ssh)
 fi
 
+# Helper Functions
+function _primary_branch () {
+    # _primary_branch fetches the primary branch name
+    local __primary_branch_ret_val=$1
+
+    #determine main branch
+    if git rev-parse --abbrev-ref master &> /dev/null; then
+        eval $__primary_branch_ret_val="master"
+    else
+        eval $__primary_branch_ret_val="main"
+    fi
+}
+
 # Functions
 function gmp () {
     # gmp - Git checkout Main/Master & Pull
@@ -280,17 +294,21 @@ function gp () {
 function gub () {
     # gub - Git Update current Branch
     local current=$(git branch --show-current)
+    git stash
     gmp
     git co $current
 
-    #determine main branch
-    if git rev-parse --abbrev-ref master &> /dev/null; then
-        local m="master"
-    else
-        local m="main"
-    fi
+    # #determine main branch
+    # if git rev-parse --abbrev-ref master &> /dev/null; then
+    #     local m="master"
+    # else
+    #     local m="main"
+    # fi
+    local branch_name
+    _primary_branch branch_name
 
-    git merge $m
+    git merge $branch_name
+    git stash pop
 }
 
 function grm () {
@@ -298,19 +316,20 @@ function grm () {
     local current=$(git branch --show-current)
     gmp
 
-    #determine main branch
-    if git rev-parse --abbrev-ref master &> /dev/null; then
-        local m="master"
-    else
-        local m="main"
-    fi
+    local branch_name
+    _primary_branch branch_name
 
-    git rebase $m $current
+    git rebase $branch_name $current
 }
 
 function gcob () {
     # gcob - Git CheckOut Branch
-    git co -b caccola/$1
+    local __branch_suffix="unnamed-$RANDOM"
+    if [ -n "$1" ]; then
+        __branch_suffix=$1
+    fi
+
+    git co -b caccola/$__branch_suffix
 }
 
 function gdf () {
@@ -320,13 +339,10 @@ function gdf () {
 
 function gdfm () {
     # gdfm - Git Diff Files against Main/Master
-    if git rev-parse --abbrev-ref master &> /dev/null; then
-        local m="master"
-    else
-        local m="main"
-    fi
+    local branch_name
+    _primary_branch branch_name
 
-    git diff --name-status $m
+    git diff --name-status $branch_name
 }
 
 function gla () {
