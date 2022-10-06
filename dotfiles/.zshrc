@@ -298,12 +298,6 @@ function gub () {
     gmp
     git co $current
 
-    # #determine main branch
-    # if git rev-parse --abbrev-ref master &> /dev/null; then
-    #     local m="master"
-    # else
-    #     local m="main"
-    # fi
     local branch_name
     _primary_branch branch_name
 
