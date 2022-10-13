@@ -10,6 +10,7 @@ setopt globdots
 export HISTFILE=~/.zsh_history
 export HISTFILESIZE=1000000000
 export HISTSIZE=1000000000
+export SAVEHIST=1000000000
 setopt extendedhistory
 setopt histfindnodups
 setopt histignorealldups
@@ -17,7 +18,12 @@ setopt histexpiredupsfirst
 setopt histignoredups
 setopt incappendhistory
 setopt histreduceblanks
+setopt sharehistory
+setopt histignorespace
+setopt histverify
+setopt histsavenodups
 alias history='fc -li -100 -1'
+alias h='history'
 
 # Base Prompts
 function get_exit_status () {
@@ -272,6 +278,14 @@ function _primary_branch () {
 # Functions
 function gmp () {
     # gmp - Git checkout Main/Master & Pull
+
+    # if there are any changes git checkout will fail
+    git diff HEAD --quiet --exit-code
+    if [ $? -ne 0 ]; then
+        echo "!!!! Stashing Changes !!!!"
+        git stash
+    fi
+
     {git co main  || git co master} &> /dev/null
     git pull
     echo -e "\nHEAD: $(git rev-parse --verify HEAD | sed s/\n//g)"
