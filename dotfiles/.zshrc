@@ -29,12 +29,14 @@ alias h='history'
 function get_exit_status () {
     # https://tldp.org/LDP/abs/html/exitcodes.html
     # 128 + signal number = signal
-    if (( $1 > 128 )); then
-        echo $(kill -l $1)
+    local exit_status=$?
+    if (( exit_status > 128 )); then
+       psvar[1]=$(kill -l $exit_status)
     else
-        echo $1
+       psvar[1]=$exit_status
     fi
 }
+precmd_functions+=(get_exit_status)
 
 export PROMPT='%F{49}%~ %F{253}%#%f '
 # this doesn't display on the line I want
@@ -100,6 +102,11 @@ zmodload zsh/complist
 autoload -Uz compinit promptinit
 compinit
 promptinit
+
+# enable auto rehash
+# this may have a performance penalty
+# disable if slow
+zstyle ':completion:*' rehash true
 
 # I have no idea what verbose yes actually does
 #zstyle ':completion:*' verbose yes
@@ -169,7 +176,8 @@ unsetopt completealiases
 
 # git info in prompt
 autoload -Uz vcs_info
-precmd () { vcs_info }
+vcs_info_hook () { vcs_info }
+precmd_functions+=(vcs_info_hook)
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' unstagedstr '*'
 zstyle ':vcs_info:*' stagedstr '+'
@@ -182,12 +190,12 @@ setopt prompt_subst
 # could reduce this using brew --prefix
 if [[ -a /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh ]]; then
     source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-    export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_} %(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'$'\n'$PS1
+    export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_} %(?.%F{49}✔.%F{red}✘ %v)%f'$'\n'$PS1
 elif [[ -a /usr/local/opt/kube-ps1/share/kube-ps1.sh ]]; then
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-    export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_} %(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'$'\n'$PS1
+    export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_} %(?.%F{49}✔.%F{red}✘ %v)%f'$'\n'$PS1
 else
-   export PROMPT='%(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f ${vcs_info_msg_0_} '$PS1
+   export PROMPT='%(?.%F{49}✔.%F{red}✘ %v)%f ${vcs_info_msg_0_} '$PS1
 fi
 
 
