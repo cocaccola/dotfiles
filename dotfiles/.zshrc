@@ -176,8 +176,7 @@ unsetopt completealiases
 
 # git info in prompt
 autoload -Uz vcs_info
-vcs_info_hook () { vcs_info }
-precmd_functions+=(vcs_info_hook)
+precmd_functions+=(vcs_info)
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' unstagedstr '*'
 zstyle ':vcs_info:*' stagedstr '+'
