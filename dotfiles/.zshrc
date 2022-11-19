@@ -67,6 +67,21 @@ if [[ -d $HOME/.pyenv/bin ]]; then
     export PATH=$PATH:$HOME/.pyenv/bin
 fi
 
+# GKE
+
+# The next line updates PATH for the Google Cloud SDK.
+if [[ -f $HOME/google-cloud-sdk/path.zsh.inc ]]; then
+    source $HOME/google-cloud-sdk/path.zsh.inc
+fi
+
+# The next line enables shell command completion for gcloud.
+if [[ -f $HOME/google-cloud-sdk/completion.zsh.inc ]]; then
+    source $HOME/google-cloud-sdk/completion.zsh.inc
+fi
+
+# https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
 
 # Enable Ctrl-x-e to edit command line
 EDITOR=vim
