@@ -379,3 +379,8 @@ function gla () {
     # gla - Git Log by Author
     git l --author=$1
 }
+
+function kpn () {
+    # kpn - Kubernetes Pods on Node
+    kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=$1
+}
