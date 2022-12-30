@@ -1,6 +1,10 @@
 # TODOs
 # integrate fzf
-# write unified main or master helper function
+
+# psvar indexes
+# 1 - exit status
+# 2 - vcs_info_wrapper
+# 3 - apple logo toggle
 
 # General Behaviors
 setopt autocd
@@ -38,7 +42,15 @@ function get_exit_status () {
 }
 precmd_functions+=(get_exit_status)
 
-export PROMPT='%F{49}%~ %F{253}%#%f '
+# just for fun, display an apple logo if on macOS
+function is_apple () {
+    if [[ $(uname) == "Darwin" ]]; then
+        psvar[3]=
+    fi
+}
+precmd_functions+=(is_apple)
+
+export PROMPT='%(3V. .)%F{49}%~ %F{253}%#%f '
 # this doesn't display on the line I want
 #export RPROMPT='%(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'
 
@@ -97,6 +109,13 @@ DIRSTACKSIZE=10
 setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
 alias d='dirs -v'
 for index ({1..9}) alias "$index"="cd -${index}"; unset index
+
+# homebrew on macOS arm
+if [[ $(uname) == "Darwin" ]] && [[ $(uname -m) == "arm64" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+export HOMEBREW_NO_ANALYTICS=1
 
 # Completions
 # https://thevaluable.dev/zsh-completion-guide-examples/
@@ -191,7 +210,18 @@ unsetopt completealiases
 
 # git info in prompt
 autoload -Uz vcs_info
-precmd_functions+=(vcs_info)
+
+# vcs_info wrapper to fix space padding when not in a git repo and vcs_info_msg_0_ is empty
+function vcs_info_wrapper () {
+    vcs_info
+    if [[ -z "$vcs_info_msg_0_" ]]; then
+        psvar[2]=""
+    else
+        psvar[2]="yes"
+    fi
+}
+
+precmd_functions+=(vcs_info_wrapper)
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' unstagedstr '*'
 zstyle ':vcs_info:*' stagedstr '+'
@@ -204,12 +234,12 @@ setopt prompt_subst
 # could reduce this using brew --prefix
 if [[ -a /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh ]]; then
     source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-    export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_} %(?.%F{49}✔.%F{red}✘ %v)%f'$'\n'$PS1
+    export PROMPT=$'\n''$(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}✔.%F{red}✘ %v)%f'$'\n'$PS1
 elif [[ -a /usr/local/opt/kube-ps1/share/kube-ps1.sh ]]; then
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-    export PROMPT=$'\n''$(kube_ps1) ${vcs_info_msg_0_} %(?.%F{49}✔.%F{red}✘ %v)%f'$'\n'$PS1
+    export PROMPT=$'\n''$(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}✔.%F{red}✘ %v)%f'$'\n'$PS1
 else
-   export PROMPT='%(?.%F{49}✔.%F{red}✘ %v)%f ${vcs_info_msg_0_} '$PS1
+   export PROMPT='%(?.%F{49}✔.%F{red}✘ %v)%f%(2V. ${vcs_info_msg_0_}.) '$PS1
 fi
 
 
