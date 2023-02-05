@@ -1,0 +1,2 @@
+example,cd /some/dir; exec ${SHELL:-bash} -l
+remote-example,bash -lc 'ssh example.com'; bash -l
