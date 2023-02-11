@@ -1,10 +1,6 @@
-# check dependencies
+# dependencies
+# we will check these after homebrew's path is setup
 dependencies=(bat fd tree)
-for dep in ${dependencies[@]}; do
-    if ! command -v $dep >&-; then
-        echo ".zshrc requires $dep to be installed" >&2
-    fi
-done
 
 # psvar indexes
 # 1 - exit status
@@ -136,6 +132,14 @@ export HOMEBREW_NO_ANALYTICS=1
 if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
+
+# check dependencies now that homebrew's path is loaded
+for dep in ${dependencies[@]}; do
+    if ! command -v $dep >&-; then
+        echo ".zshrc requires $dep to be installed" >&2
+    fi
+done
+
 
 zmodload zsh/complist
 autoload -Uz compinit promptinit
