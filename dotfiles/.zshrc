@@ -1,6 +1,3 @@
-# TODOs
-# integrate fzf
-
 # psvar indexes
 # 1 - exit status
 # 2 - vcs_info_wrapper
@@ -314,6 +311,54 @@ if command -v keychain >&-; then
     eval $(keychain --quick --quiet --eval --noask --nogui --agents ssh)
 fi
 
+# fzf
+# install with:
+# brew install fzf
+# $(brew --prefix)/opt/fzf/install
+# see https://github.com/junegunn/fzf#using-homebrew
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# see https://betterprogramming.pub/boost-your-command-line-productivity-with-fuzzy-finder-985aa162ba5d
+# Toggle preview window visibility with '?'
+#--bind '?:toggle-preview'
+# Select all entries with 'CTRL-A'
+#--bind 'ctrl-a:select-all'
+# Copy the selected entries to the clipboard with 'CTRL-Y'
+#--bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
+# Open the selected entries in vim with 'CTRL-E'
+#--bind 'ctrl-e:execute(echo {+} | xargs -o vim)'
+#Open the selected entries in vscode with 'CTRL-V'
+#--bind 'ctrl-v:execute(code {+})'
+
+export FZF_DEFAULT_OPTS="
+-m
+--height 80%
+--layout=reverse
+--preview-window=:hidden
+--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
+--prompt='🔎 '
+--pointer='▶'
+--marker='⚑'
+--bind '?:toggle-preview'
+--bind 'ctrl-a:select-all'
+--bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
+--bind 'ctrl-e:execute(echo {+} | xargs -o vim)'
+--bind 'ctrl-v:execute(code {+})'
+"
+
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+    code|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
+    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
+  esac
+}
+
 # Helper Functions
 function _primary_branch () {
     # _primary_branch fetches the primary branch name
@@ -414,3 +459,4 @@ function kpn () {
     # kpn - Kubernetes Pods on Node
     kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=$1
 }
+
