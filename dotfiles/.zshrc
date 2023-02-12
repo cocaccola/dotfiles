@@ -1,6 +1,11 @@
 # dependencies
 # we will check these after homebrew's path is setup
-dependencies=(bat fd tree)
+# for pbcopy you will need something that replicates its functionality on non macOS systems
+# see the following for ideas:
+# https://www.techtronic.us/pbcopy-pbpaste-for-wsl/
+# https://lloydrochester.com/post/unix/wsl-pbcopy-pbpaste/
+# https://garywoodfine.com/use-pbcopy-on-ubuntu/
+dependencies=(bat fd tree pbcopy)
 
 # psvar indexes
 # 1 - exit status
@@ -302,6 +307,9 @@ alias gpl='git pull'
 alias gsha='git rev-parse --verify HEAD'
 alias gl='git l'
 alias glr='git lr'
+alias gst='git stash'
+alias gstl='git stash list'
+alias gstp='git stash pop'
 alias k='kubectl'
 alias kg='kubectl get'
 alias kd='kubectl describe'
@@ -409,7 +417,7 @@ function gmp () {
     git diff HEAD --quiet --exit-code
     if [ $? -ne 0 ]; then
         echo "!!!! Stashing Changes !!!!"
-        git stash
+        git stash -m 'stashed from gmp'
     fi
 
     {git co main  || git co master} &> /dev/null
@@ -434,7 +442,7 @@ function gp () {
 function gub () {
     # gub - Git Update current Branch
     local current=$(git branch --show-current)
-    git stash
+    git stash -m 'stashed from gub'
     gmp
     git co $current
 
