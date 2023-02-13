@@ -308,6 +308,7 @@ alias gsha='git rev-parse --verify HEAD'
 alias gl="git log --pretty='format:%C(yellow)%h | %ad%Cred%d | %Creset%s%Cblue [%cn]' --decorate --date=iso --graph"
 alias glr="git log --pretty='format:%C(yellow)%h | %ad%Cred%d | %Creset%s%Cblue [%cn]' --decorate --date=relative --reverse"
 alias gst='git stash'
+alias gstm='git stash -m'
 alias gstl='git stash list'
 alias gstp='git stash pop'
 alias k='kubectl'
@@ -341,6 +342,11 @@ fi
 # $(brew --prefix)/opt/fzf/install
 # see https://github.com/junegunn/fzf#using-homebrew
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# https://github.com/junegunn/fzf#key-bindings-for-command-line
+# CTRL-T - Paste the selected files and directories onto the command-line
+# CTRL-R - Paste the selected command from history onto the command-line
+# ALT-C - cd into the selected directory
 
 # see https://betterprogramming.pub/boost-your-command-line-productivity-with-fuzzy-finder-985aa162ba5d
 # Toggle preview window visibility with '?'
@@ -497,7 +503,11 @@ function gcob () {
 }
 
 function gdf () {
-    # gdf - Git Diff Files
+    # gdf - Git Diff Files between commits
+    # example:
+    #   % gdf 1bae4c1 3e7cf49
+    #   A       Makefile
+    #   M       dotfiles/.zshrc
     git diff --name-status ${1}..${2}
 }
 
