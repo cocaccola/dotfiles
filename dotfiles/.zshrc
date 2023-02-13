@@ -305,8 +305,8 @@ alias gd='git diff'
 alias gdc='git diff --cached'
 alias gpl='git pull'
 alias gsha='git rev-parse --verify HEAD'
-alias gl='git l'
-alias glr='git lr'
+alias gl="git log --pretty='format:%C(yellow)%h | %ad%Cred%d | %Creset%s%Cblue [%cn]' --decorate --date=iso --graph"
+alias glr="git log --pretty='format:%C(yellow)%h | %ad%Cred%d | %Creset%s%Cblue [%cn]' --decorate --date=relative --reverse"
 alias gst='git stash'
 alias gstl='git stash list'
 alias gstp='git stash pop'
@@ -317,6 +317,10 @@ alias kc='kubectx'
 alias kn='kubens'
 alias tf='terraform'
 alias tg='terragrunt'
+alias agh='ag --hidden'
+alias agy='ag --yaml'
+alias agtf="ag -G '.*\.(hcl|tf|tfvars)'"
+alias agmd='ag --md'
 
 
 # Others
@@ -410,6 +414,24 @@ function _primary_branch () {
 }
 
 # Functions
+function clean_branches () {
+    # clean_branches - cleans up local branches
+
+    local current=$(git branch --show-current)
+
+    local branch_name
+    _primary_branch branch_name
+    git stash -m 'stashed from clean_branches'
+
+    git checkout $branch_name
+    git fetch --prune
+
+    # might need git branch -D
+    git branch -vv | awk '/: gone]/ { if ($1 !~ /(\*|main|master)/) system("git branch -d "$1) }'
+    git checkout $current
+    git stash pop
+}
+
 function gmp () {
     # gmp - Git checkout Main/Master & Pull
 
@@ -444,7 +466,7 @@ function gub () {
     local current=$(git branch --show-current)
     git stash -m 'stashed from gub'
     gmp
-    git co $current
+    git checkout $current
 
     local branch_name
     _primary_branch branch_name
@@ -471,7 +493,7 @@ function gcob () {
         __branch_suffix=$1
     fi
 
-    git co -b caccola/$__branch_suffix
+    git checkout -b caccola/$__branch_suffix
 }
 
 function gdf () {
@@ -497,3 +519,7 @@ function kpn () {
     kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=$1
 }
 
+function asn () {
+    # asn - asn lookup
+    whois -h whois.cymru.com " -v $1"
+}
