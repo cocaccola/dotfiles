@@ -4,16 +4,16 @@ SHELL=/bin/bash
 dotfiles: gitconfig zshrc tmuxconf vimrc
 
 gitconfig:
-	@cp dotfiles/.gitconfig ~
+	@cp -v dotfiles/.gitconfig ~
 
 zshrc: gitconfig
-	@cp dotfiles/.zshrc ~
+	@cp -v dotfiles/.zshrc ~
 
 tmuxconf:
-	@cp dotfiles/.tmux.conf ~
+	@cp -v dotfiles/.tmux.conf ~
 
 vimrc:
-	@cp dotfiles/.vimrc ~
+	@cp -v dotfiles/.vimrc ~
 
 macOSkeyfix:
 	@./vscode/macos-keyfix.sh
