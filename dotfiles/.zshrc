@@ -22,16 +22,22 @@ export HISTFILESIZE=1000000000
 export HISTSIZE=1000000000
 export SAVEHIST=1000000000
 setopt extendedhistory
+setopt incappendhistorytime
 setopt histfindnodups
 setopt histignorealldups
 setopt histexpiredupsfirst
 setopt histignoredups
-setopt incappendhistory
 setopt histreduceblanks
-setopt sharehistory
+# do not enable these
+# see: https://zsh.sourceforge.io/Doc/Release/Options.html#History
+# setopt sharehistory
+# setopt incappendhistory
 setopt histignorespace
 setopt histverify
 setopt histsavenodups
+
+# fc docs
+# https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html
 alias history='fc -li -100 -1'
 alias h='history'
 
@@ -51,12 +57,12 @@ precmd_functions+=(get_exit_status)
 # just for fun, display an apple logo if on macOS
 function is_apple () {
     if [[ $(uname) == "Darwin" ]]; then
+        # the value of psvar is not directly used in the prompt
         psvar[3]=
     fi
 }
 precmd_functions+=(is_apple)
 
-export PROMPT='%(3V. .)%F{49}%~ %F{253}%#%f '
 # this doesn't display on the line I want
 #export RPROMPT='%(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'
 
@@ -136,6 +142,12 @@ export HOMEBREW_NO_ANALYTICS=1
 
 if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
+
+if command -v exa >&-; then
+    export PROMPT='%(3V.󰀵 .)%F{49}%~ %F{253}%#%f '
+else
+    export PROMPT='%(3V. .)%F{49}%~ %F{253}%#%f '
 fi
 
 # check dependencies now that homebrew's path is loaded
@@ -282,6 +294,20 @@ else
     echo "You are not on macOS or Linux, please check .zshrc for ls color support" >&2
 fi
 
+# exa
+# assumes installation of https://github.com/ryanoasis/nerd-fonts
+# overwrite ls aliases if exa is installed
+if command -v exa >&-; then
+    alias ls='exa -F --icons'
+    alias ll='ls --long --header --binary --group --links  --git'
+    alias la='ls --long --header --binary --all --group  --links --git'
+    alias laa='ls --long --header --binary --all --all --group  --links --git'
+    alias l.='ls --long --header --binary --group --list-dirs --links --git .*'
+    alias l1='ls --oneline'
+    alias tree='exa --icons --tree'
+fi
+
+
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
@@ -360,7 +386,24 @@ fi
 #Open the selected entries in vscode with 'CTRL-V'
 #--bind 'ctrl-v:execute(code {+})'
 
-export FZF_DEFAULT_OPTS="
+if command -v exa >&-; then
+    export FZF_DEFAULT_OPTS="
+-m
+--height 80%
+--layout=reverse
+--preview-window=:hidden
+--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (exa --icons --tree --color=always {} | less)) || echo {} 2> /dev/null | head -200'
+--prompt='🔎 '
+--pointer='▶'
+--marker='⚑'
+--bind '?:toggle-preview'
+--bind 'ctrl-a:select-all'
+--bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
+--bind 'ctrl-e:execute(echo {+} | xargs -o vim)'
+--bind 'ctrl-v:execute(code {+})'
+"
+else
+    export FZF_DEFAULT_OPTS="
 -m
 --height 80%
 --layout=reverse
@@ -375,6 +418,7 @@ export FZF_DEFAULT_OPTS="
 --bind 'ctrl-e:execute(echo {+} | xargs -o vim)'
 --bind 'ctrl-v:execute(code {+})'
 "
+fi
 
 # default is **
 export FZF_COMPLETION_TRIGGER="'"
@@ -384,26 +428,36 @@ export FZF_COMPLETION_TRIGGER="'"
 # command for listing path candidates.
 # - The first argument to the function ($1) is the base path to start traversal
 # - See the source code (completion.{bash,zsh}) for the details.
-_fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" . "$1"
+function _fzf_compgen_path() {
+    fd --hidden --follow --exclude ".git" . "$1"
 }
 
 # Use fd to generate the list for directory completion
-_fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" . "$1"
+function _fzf_compgen_dir() {
+    fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
-_fzf_comprun() {
-  local command=$1
-  shift
+function _fzf_comprun() {
+    local command=$1
+    shift
 
-  case "$command" in
-    cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
-    code|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
-    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
-    ssh)          fzf --preview 'dig {}'                   "$@" ;;
-    *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
-  esac
+    if command -v exa >&-; then
+        case "$command" in
+            cd)           fzf "$@" --preview 'exa --icons --tree --color=always {} | head -200' ;;
+            code|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
+            export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+            ssh)          fzf --preview 'dig {}'                   "$@" ;;
+            *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
+        esac
+    else
+        case "$command" in
+            cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+            code|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
+            export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+            ssh)          fzf --preview 'dig {}'                   "$@" ;;
+            *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
+        esac
+    fi
 }
 
 # Helper Functions
