@@ -15,8 +15,12 @@ tmuxconf:
 vimrc:
 	@cp -v dotfiles/.vimrc ~
 
+neovim:
+	@mkdir -p ~/.config/nvim/ 2>&-
+	@cp -v dotfiles/init.vim ~/.config/nvim/init.vim
+
 macOSkeyfix:
 	@./vscode/macos-keyfix.sh
 
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc macOSkeyfix
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOSkeyfix
