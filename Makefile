@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 .ONESHELL:
 
-dotfiles: gitconfig zshrc tmuxconf vimrc
+dotfiles: gitconfig zshrc tmuxconf vimrc neovim
 
 gitconfig:
 	@cp -v dotfiles/.gitconfig ~
