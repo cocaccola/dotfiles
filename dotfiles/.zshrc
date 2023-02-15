@@ -145,7 +145,7 @@ if type brew &>/dev/null; then
 fi
 
 if command -v exa >&-; then
-    export PROMPT='%(3V.󰀵 .)%F{49}%~ %F{253}%#%f '
+    export PROMPT='%(3V. .)%F{49}%~ %F{253}%#%f '
 else
     export PROMPT='%(3V. .)%F{49}%~ %F{253}%#%f '
 fi
