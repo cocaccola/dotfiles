@@ -386,12 +386,20 @@ fi
 #Open the selected entries in vscode with 'CTRL-V'
 #--bind 'ctrl-v:execute(code {+})'
 
+# Macchiato theme
+# https://github.com/catppuccin/fzf
+
+# bat themeing
+# see https://github.com/catppuccin/bat#adding-the-themes
+
+export BAT_THEME="Catppuccin-macchiato"
+
 if command -v exa >&-; then
     export FZF_DEFAULT_OPTS="
 -m
 --height 80%
 --layout=reverse
---preview-window=:hidden
+--preview-window=right,70%:hidden
 --preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (exa --icons --tree --color=always {} | less)) || echo {} 2> /dev/null | head -200'
 --prompt='🔎 '
 --pointer='▶'
@@ -401,13 +409,18 @@ if command -v exa >&-; then
 --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
 --bind 'ctrl-e:execute(echo {+} | xargs -o vim)'
 --bind 'ctrl-v:execute(code {+})'
+--bind 'alt-up:preview-page-up'
+--bind 'alt-down:preview-page-down'
+--color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796
+--color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
+--color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
 "
 else
     export FZF_DEFAULT_OPTS="
 -m
 --height 80%
 --layout=reverse
---preview-window=:hidden
+--preview-window=right,70%:hidden
 --preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
 --prompt='🔎 '
 --pointer='▶'
@@ -417,6 +430,11 @@ else
 --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
 --bind 'ctrl-e:execute(echo {+} | xargs -o vim)'
 --bind 'ctrl-v:execute(code {+})'
+--bind 'alt-up:preview-page-up'
+--bind 'alt-down:preview-page-down'
+--color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796
+--color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
+--color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
 "
 fi
 
