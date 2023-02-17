@@ -605,3 +605,7 @@ function asn () {
     # asn - asn lookup
     whois -h whois.cymru.com " -v $1"
 }
+
+#### plugins ####
+source ~/.zsh/catppuccin/catppuccin_macchiato-zsh-syntax-highlighting.zsh
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

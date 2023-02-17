@@ -1,15 +1,15 @@
 SHELL=/bin/bash
 .ONESHELL:
 
-dotfiles: gitconfig zshrc tmuxconf vimrc neovim batTheme
+dotfiles: gitconfig zshrc tmux_conf vimrc neovim
 
 gitconfig:
 	@cp -v dotfiles/.gitconfig ~
 
-zshrc: gitconfig batTheme
+zshrc: gitconfig bat_theme zsh_syntax_highlighting
 	@cp -v dotfiles/.zshrc ~
 
-tmuxconf:
+tmux_conf:
 	@cp -v dotfiles/.tmux.conf ~
 
 vimrc:
@@ -19,17 +19,36 @@ neovim:
 	@mkdir -p ~/.config/nvim/ 2>&-
 	@cp -v dotfiles/init.vim ~/.config/nvim/init.vim
 
-macOSkeyfix:
+macOS_keyfix:
 	@./vscode/macos-keyfix.sh
 
-batTheme:
+bat_theme:
 	@git clone git@github.com:catppuccin/bat.git
 	@mkdir -p "$(shell bat --config-dir)/themes"
 	@cp -v bat/*.tmTheme "$(shell bat --config-dir)/themes"
 	@bat cache --build
 	@rm -rf bat
 
+zsh_plugin_dir:
+	@mkdir ~/.zsh 2>&- || true
+
+zsh_syntax_highlighting: zsh_plugin_dir
+	@git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+	@rm -rf zsh-syntax-highlighting/.git
+	@cp -r zsh-syntax-highlighting ~/.zsh
+	@rm -rf zsh-syntax-highlighting
+
+	@git clone https://github.com/catppuccin/zsh-syntax-highlighting.git
+	@mkdir ~/.zsh/catppuccin 2>&- || true
+	@cp -v zsh-syntax-highlighting/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh ~/.zsh/catppuccin
+	@rm -rf zsh-syntax-highlighting
+
+setup_mac:
+	@./scripts/setup_mac.sh
+
 clean:
 	@rm -rf bat
+	@rm -rf zsh-syntax-highlighting
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOSkeyfix batTheme clean
+
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac
