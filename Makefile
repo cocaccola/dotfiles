@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 .ONESHELL:
 
-dotfiles: gitconfig zshrc tmux_conf vimrc neovim
+dotfiles: gitconfig zshrc tmux_conf vimrc neovim terminal_theme
 
 gitconfig:
 	@cp -v dotfiles/.gitconfig ~
@@ -21,6 +21,9 @@ neovim:
 
 macOS_keyfix:
 	@./vscode/macos-keyfix.sh
+
+terminal_theme:
+	@curl -fsSL https://raw.githubusercontent.com/catppuccin/iterm/main/colors/catppuccin-macchiato.itermcolors -o ~/Desktop/catppuccin-macchiato.itermcolors
 
 bat_theme:
 	@git clone git@github.com:catppuccin/bat.git
