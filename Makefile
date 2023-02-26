@@ -19,7 +19,7 @@ neovim:
 	@mkdir -p ~/.config/nvim/ 2>&-
 	@cp -v dotfiles/init.vim ~/.config/nvim/init.vim
 
-macOS_keyfix:
+macOS_vscode_keyfix:
 	@./vscode/macos-keyfix.sh
 
 terminal_theme:
@@ -49,9 +49,12 @@ zsh_syntax_highlighting: zsh_plugin_dir
 setup_mac:
 	@./scripts/setup_mac.sh
 
+install_mac_dev_tools:
+	@xcode-select --install
+
 clean:
 	@rm -rf bat
 	@rm -rf zsh-syntax-highlighting
 
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac terminal_theme
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac terminal_theme install_mac_dev_tools
