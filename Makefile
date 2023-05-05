@@ -49,6 +49,9 @@ zsh_syntax_highlighting: zsh_plugin_dir
 setup_mac:
 	@./scripts/setup_mac.sh
 
+setup_wsl:
+	@./scripts/setup_wsl.sh
+
 install_mac_dev_tools:
 	@xcode-select --install
 
