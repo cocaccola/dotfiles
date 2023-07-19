@@ -158,6 +158,17 @@ for dep in ${dependencies[@]}; do
 done
 
 
+# nvm / node.js
+[[ -d "$HOME/.nvm" ]] || mkdir $HOME/.nvm
+export NVM_DIR="$HOME/.nvm"
+
+# This loads nvm
+[[ -s "$(brew --prefix nvm)/nvm.sh" ]] && source $(brew --prefix nvm)/nvm.sh
+
+# This loads nvm bash_completion
+[[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ]] && source $(brew --prefix nvm)/etc/bash_completion.d/nvm
+
+
 zmodload zsh/complist
 autoload -Uz compinit promptinit
 compinit
@@ -609,3 +620,6 @@ function asn () {
 #### plugins ####
 source ~/.zsh/catppuccin/catppuccin_macchiato-zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# zoxide
+eval "$(zoxide init zsh)"

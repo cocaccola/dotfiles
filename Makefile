@@ -55,9 +55,15 @@ setup_wsl:
 install_mac_dev_tools:
 	@xcode-select --install
 
+# might be needed for zoxide
+# https://github.com/ajeetdsouza/zoxide
+# TODO: this doesn't work when the shell is bash (above)
+rebuild_zsh_completion_cache:
+	@rm ~/.zcompdump*; compinit
+
 clean:
 	@rm -rf bat
 	@rm -rf zsh-syntax-highlighting
 
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache
