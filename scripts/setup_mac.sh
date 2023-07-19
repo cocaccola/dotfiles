@@ -6,13 +6,25 @@ if ! command -v brew >&-; then
 fi
 
 # required packages
-brew update && brew install bat exa fd fzf tree
+brew update && brew install bat exa fd fzf tree zoxide
 
 # k8s
 brew install kube-ps1 kubectx kubernetes-cli k9s stern
 
 # tools
-brew install neovim jq yq terraform terragrunt the_silver_searcher ipcalc
+brew install \
+    neovim \
+    jq \
+    yq \
+    terraform \
+    terragrunt \
+    the_silver_searcher \
+    ipcalc \
+    dog \
+    git-delta
+
+# vscode deps
+brew install ripgrep
 
 # fonts
 brew tap homebrew/cask-fonts
