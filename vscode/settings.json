@@ -8,8 +8,8 @@
     "editor.acceptSuggestionOnEnter": "off",
     "editor.detectIndentation": true,
     "editor.rulers": [
-       80,
-       120
+        80,
+        120,
     ],
     "terminal.external.osxExec": "iTerm.app",
     "terminal.integrated.fontSize": 16,
@@ -23,29 +23,42 @@
     "vim.hlsearch": true,
     "vim.insertModeKeyBindings": [
         {
-            "before": ["j","k"],
-            "after": ["<Esc>"]
+            "before": [
+                "j",
+                "k"
+            ],
+            "after": [
+                "<Esc>"
+            ]
         }
     ],
     "vim.visualModeKeyBindings": [
         {
-            "before": ["j","k"],
-            "after": ["<Esc>"]
+            "before": [
+                "j",
+                "k"
+            ],
+            "after": [
+                "<Esc>"
+            ]
         }
     ],
     "vim.normalModeKeyBindingsNonRecursive": [
         {
-            "before":["<leader>", "n"],
-            "after":[],
+            "before": [
+                "<leader>",
+                "n"
+            ],
+            "after": [],
             "commands": [
-               {
+                {
                     "command": ":nohl"
                 }
             ]
         }
     ],
     "vim.leader": "<space>",
-    "vim.handleKeys":{
+    "vim.handleKeys": {
         "<C-a>": false,
         "<C-f>": true,
     },
@@ -59,8 +72,6 @@
     "go.formatTool": "goimports",
     "go.useLanguageServer": true,
     "explorer.confirmDragAndDrop": false,
-    "terminal.integrated.shell.osx": "/bin/zsh",
-    "workbench.editor.enablePreview": false,
     "redhat.telemetry.enabled": false,
     "editor.guides.bracketPairs": "active",
     "vs-kubernetes": {
@@ -97,5 +108,17 @@
     "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
     },
-    "vscode-neovim.neovimInitVimPaths.darwin": "~/.config/nvim/init.vim"
+    "vscode-neovim.neovimInitVimPaths.darwin": "~/.config/nvim/init.vim",
+    "vscode-neovim.useWSL": true,
+    "vscode-neovim.neovimInitVimPaths.linux": "~/.config/nvim/init.vim",
+    "vscode-neovim.neovimExecutablePaths.linux": "/usr/local/bin/nvim",
+    "workbench.iconTheme": "catppuccin-macchiato",
+    "workbench.tree.indent": 20,
+    "workbench.tree.renderIndentGuides": "always",
+    "editor.stickyScroll.enabled": true,
+    "debug.toolBarLocation": "docked",
+    "editor.cursorBlinking": "smooth",
+    "files.autoSave": "afterDelay",
+    "workbench.editor.enablePreview": false,
+    "editor.formatOnSave": true
 }
