@@ -9,7 +9,7 @@
     "editor.detectIndentation": true,
     "editor.rulers": [
         80,
-        120,
+        120
     ],
     "terminal.external.osxExec": "iTerm.app",
     "terminal.integrated.fontSize": 16,
