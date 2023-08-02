@@ -21,7 +21,8 @@ brew install \
     the_silver_searcher \
     ipcalc \
     dog \
-    git-delta
+    git-delta \
+    gum
 
 # vscode deps
 brew install ripgrep
