@@ -129,6 +129,10 @@ fi
 
 export HOMEBREW_NO_ANALYTICS=1
 
+# Glamor theme
+# https://github.com/charmbracelet/glamour#styles
+export GLAMOUR_STYLE=~/.config/glamour/catppuccin/macchiato.json
+
 # Completions
 # https://thevaluable.dev/zsh-completion-guide-examples/
 # Homebrew completions (must be before compinit)

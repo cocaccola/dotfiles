@@ -1,5 +1,6 @@
+set termguicolors
+colorscheme catppuccin_macchiato
 syntax on
-colo ron
 map <space> <leader>
 map <leader>f :!./%<cr>
 map <leader>d :!clear<cr><cr>
