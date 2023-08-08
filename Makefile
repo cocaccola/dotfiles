@@ -26,7 +26,7 @@ terminal_theme:
 	@curl -fsSL https://raw.githubusercontent.com/catppuccin/iterm/main/colors/catppuccin-macchiato.itermcolors -o ~/Desktop/catppuccin-macchiato.itermcolors
 
 bat_theme:
-	@git clone git@github.com:catppuccin/bat.git
+	@git clone https://github.com/catppuccin/bat.git
 	@mkdir -p "$(shell bat --config-dir)/themes"
 	@cp -v bat/*.tmTheme "$(shell bat --config-dir)/themes"
 	@bat cache --build
@@ -46,9 +46,11 @@ vim_theme:
 	@cp -rv vim/colors ~/.vim
 	@rm -rf vim
 
-
 zsh_plugin_dir:
 	@mkdir ~/.zsh 2>&- || true
+
+zsh_user_config_dir: zsh_plugin_dir
+	@mkdir ~/.zsh/user 2>&- || true
 
 zsh_syntax_highlighting: zsh_plugin_dir
 	@git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
@@ -70,6 +72,11 @@ setup_wsl:
 install_mac_dev_tools:
 	@xcode-select --install
 
+setup_gpg:
+	@mkdir ~/.gnupg
+	@echo "pinentry-program $(which pinentry-mac)" >> ~/.gnupg/gpg-agent.conf
+	@killall gpg-agent
+
 # might be needed for zoxide
 # https://github.com/ajeetdsouza/zoxide
 # TODO: this doesn't work when the shell is bash (above)
@@ -81,4 +88,4 @@ clean:
 	@rm -rf zsh-syntax-highlighting
 
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg

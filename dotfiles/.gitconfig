@@ -1,4 +1,7 @@
 # This is Git's per-user configuration file.
+
+# TODO: add gpg config
+
 [user]
 # Please adapt and uncomment the following lines:
     name = $NAME_HERE

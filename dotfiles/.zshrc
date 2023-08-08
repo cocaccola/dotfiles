@@ -378,6 +378,11 @@ if command -v keychain >&-; then
     eval $(keychain --quick --quiet --eval --noask --nogui --agents ssh)
 fi
 
+# GPG agent
+# https://www.gnupg.org/documentation/manuals/gnupg/Invoking-GPG_002dAGENT.html
+export GPG_TTY=$(tty)
+
+
 # fzf
 # install with:
 # brew install fzf
@@ -621,6 +626,16 @@ function asn () {
     # asn - asn lookup
     whois -h whois.cymru.com " -v $1"
 }
+
+#### User supplied zshrc config ####
+if [ -d ~/.zsh/user ]; then
+    # https://zsh.sourceforge.io/Doc/Release/Expansion.html#Glob-Qualifiers
+    for config in ~/.zsh/user/*(.N); do
+        source $config
+    done
+else
+    echo "The user config dir is missing." >&2
+fi
 
 #### plugins ####
 source ~/.zsh/catppuccin/catppuccin_macchiato-zsh-syntax-highlighting.zsh
