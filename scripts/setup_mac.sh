@@ -6,10 +6,24 @@ if ! command -v brew >&-; then
 fi
 
 # required packages
-brew update && brew install bat exa fd fzf tree zoxide
+brew update \
+    && brew install \
+        bat \
+        exa \
+        fd \
+        fzf \
+        tree \
+        zoxide \
+        pinentry-mac \
+        gnupg
 
 # k8s
-brew install kube-ps1 kubectx kubernetes-cli k9s stern
+brew install \
+    kube-ps1 \
+    kubectx \
+    kubernetes-cli \
+    k9s \
+    stern
 
 # tools
 brew install \
