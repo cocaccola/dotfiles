@@ -5,7 +5,7 @@
 # https://www.techtronic.us/pbcopy-pbpaste-for-wsl/
 # https://lloydrochester.com/post/unix/wsl-pbcopy-pbpaste/
 # https://garywoodfine.com/use-pbcopy-on-ubuntu/
-dependencies=(bat fd tree pbcopy)
+dependencies=(bat fd tree pbcopy gum)
 
 # psvar indexes
 # 1 - exit status
@@ -108,7 +108,7 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 
 # Enable Ctrl-x-e to edit command line
-EDITOR=vim
+export EDITOR=vim
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
@@ -117,7 +117,7 @@ bindkey '^x^e' edit-command-line
 # Directory Stacks
 # https://zsh.sourceforge.io/Intro/intro_6.html
 # https://thevaluable.dev/zsh-install-configure-mouseless/
-DIRSTACKSIZE=10
+export DIRSTACKSIZE=10
 setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
 alias d='dirs -v'
 for index ({1..9}) alias "$index"="cd -${index}"; unset index
@@ -145,7 +145,7 @@ export GLAMOUR_STYLE=~/.config/glamour/catppuccin/macchiato.json
 # chmod -R go-w "$(brew --prefix)/share"
 
 if type brew &>/dev/null; then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+  export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
 
 if command -v exa >&-; then
@@ -334,12 +334,18 @@ alias egrep='egrep --color=auto'
 alias vi='vim'
 alias less='less -R'
 alias g='git'
+alias gw='git worktree'
+# alias gwr='git worktree remove'
+alias gwrf='git worktree remove -f'
+alias gwp='git worktree prune'
+alias gwl='git worktree list'
+alias gfo='git fetch origin'
 alias gs='git status'
 alias ga='git add'
 alias gaa='git add -A'
 alias gb='git branch'
 alias gco='git checkout'
-alias gcln='git clone'
+alias gcln='git clone' # migrating to worktrees
 alias gc='git commit'
 alias gcm='git commit -m'
 alias gca='git commit -am'
@@ -360,6 +366,7 @@ alias kc='kubectx'
 alias kn='kubens'
 alias tf='terraform'
 alias tg='terragrunt'
+alias p='pulumi'
 alias agh='ag --hidden'
 alias agy='ag --yaml'
 alias agtf="ag -G '.*\.(hcl|tf|tfvars)'"
@@ -531,6 +538,115 @@ function clean_branches () {
     git stash pop
 }
 
+function gwcln () {
+    # gwcln - clone a bare repo and setup main branch with git worktrees
+    # based on ideas from https://morgan.cugerone.com/blog/workarounds-to-git-worktree-using-bare-repository-and-cannot-fetch-remote-branches/
+
+    local repo_dir=${${1##*/}%.git}
+
+    mkdir $repo_dir
+    cd $repo_dir
+
+    git clone --bare $1 .bare
+    echo "gitdir: ./.bare" > .git
+
+    # Explicitly sets the remote origin fetch so we can fetch remote branches
+    git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+
+    # Gets all branches from origin
+    # use git fetch origin (gfo) to update the bare repo
+    git fetch origin
+
+    local branch_name
+    _primary_branch branch_name
+
+    git worktree add $branch_name
+    git branch --set-upstream-to=origin/$branch_name $branch_name
+
+    cd ..
+
+}
+
+function gwco () {
+    # gwco - checkout branch using worktrees
+
+    if [ ! -d .bare ]; then
+        cd $(git worktree list | awk '/\(bare\)/ { sub(/\.bare/, "", $1); print $1}')
+    fi
+
+    if [ -n "$1" ]; then
+        git worktree add $1
+        cd $1
+        return
+    fi
+    branch=$(git branch \
+        | gum filter --limit=1 --indicator=">" \
+        | awk '{ if($1 ~ /[+*]/) { print $2 } else { print $1 } }')
+
+    if [ -d $branch ]; then
+        echo "branch is already checked out" 2>&-
+        return
+    fi
+
+    git worktree add $branch
+    git branch --set-upstream-to=origin/$branch $branch
+    cd $branch
+}
+
+function gwr () {
+    # gwr - git worktree remove
+
+    if [ ! -d .bare ]; then
+        cd $(git worktree list | awk '/\(bare\)/ { sub(/\.bare/, "", $1); print $1}')
+    fi
+
+    if [ -n "$1" ]; then
+        git worktree remove $1
+        return
+    fi
+
+    worktrees=$(git worktree list \
+        | awk '/\[.*\]/ { if ($NF !~ /main|master|bare/) { gsub(/[\[\]]/, "", $NF); print $NF } }')
+
+    if [ -z "$worktrees" ]; then
+        echo "no worktrees to remove" 2>&-
+        return
+    fi
+    selected=$(echo $worktrees | gum filter --limit=1 --indicator=">")
+
+    if [ ! -d $selected ]; then
+        # this shouldn't happen
+        echo "the directory does not exist" 2>&-
+        return
+    fi
+
+    git worktree remove $selected
+}
+
+function gwcob () {
+    # gwcob - Git CheckOut Branch (worktrees)
+    local __branch_suffix="unnamed-$RANDOM"
+    if [ -n "$1" ]; then
+        __branch_suffix=$1
+    fi
+
+    git worktree add -b caccola/$__branch_suffix $__branch_suffix
+    cd $__branch_suffix
+}
+
+function gws () {
+    # gws - git worktree switch
+    selected=$(git worktree list \
+        | gum filter --limit=1 --indicator=">" \
+        | awk '{print $1}')
+
+    cd $selected
+
+    if [ "$TERM_PROGRAM" == "vscode" ]; then
+        code -a $selected
+    fi
+}
+
 function gmp () {
     # gmp - Git checkout Main/Master & Pull
 
@@ -634,7 +750,7 @@ if [ -d ~/.zsh/user ]; then
         source $config
     done
 else
-    echo "The user config dir is missing." >&2
+    echo "The user config dir (~/.zsh/user) is missing." >&2
 fi
 
 #### plugins ####
