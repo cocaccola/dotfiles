@@ -574,6 +574,8 @@ function gwcln () {
 
 function gwco () {
     # gwco - checkout branch using worktrees
+    local branch
+    local selected
 
     _change_to_bare
 
@@ -603,6 +605,8 @@ function gwco () {
 
 function gwr () {
     # gwr - git worktree remove
+    local worktrees
+    local selected
 
     _change_to_bare
 
@@ -649,6 +653,8 @@ function gwcob () {
 
 function gws () {
     # gws - git worktree switch
+    local selected
+
     selected=$(git worktree list \
         | gum filter --limit=1 --indicator=">" \
         | awk '{print $1}')
