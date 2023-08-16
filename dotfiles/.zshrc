@@ -519,6 +519,12 @@ function _primary_branch () {
     fi
 }
 
+function _change_to_bare () {
+    if [ ! -d .bare ]; then
+        cd $(git worktree list | awk '/\(bare\)/ { sub(/\.bare/, "", $1); print $1}')
+    fi
+}
+
 # Functions
 function clean_branches () {
     # clean_branches - cleans up local branches
@@ -550,10 +556,10 @@ function gwcln () {
     git clone --bare $1 .bare
     echo "gitdir: ./.bare" > .git
 
-    # Explicitly sets the remote origin fetch so we can fetch remote branches
+    # set the remote origin fetch so we can fetch remote branches
     git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 
-    # Gets all branches from origin
+    # get all branches from origin
     # use git fetch origin (gfo) to update the bare repo
     git fetch origin
 
@@ -564,15 +570,12 @@ function gwcln () {
     git branch --set-upstream-to=origin/$branch_name $branch_name
 
     cd ..
-
 }
 
 function gwco () {
     # gwco - checkout branch using worktrees
 
-    if [ ! -d .bare ]; then
-        cd $(git worktree list | awk '/\(bare\)/ { sub(/\.bare/, "", $1); print $1}')
-    fi
+    _change_to_bare
 
     if [ -n "$1" ]; then
         git worktree add $1
@@ -583,8 +586,13 @@ function gwco () {
         | gum filter --limit=1 --indicator=">" \
         | awk '{ if($1 ~ /[+*]/) { print $2 } else { print $1 } }')
 
+    if [ -z "$selected"]; then
+        echo "nothing selected" >&2
+        return
+    fi
+
     if [ -d $branch ]; then
-        echo "branch is already checked out" 2>&-
+        echo "branch is already checked out" >&2
         return
     fi
 
@@ -596,9 +604,7 @@ function gwco () {
 function gwr () {
     # gwr - git worktree remove
 
-    if [ ! -d .bare ]; then
-        cd $(git worktree list | awk '/\(bare\)/ { sub(/\.bare/, "", $1); print $1}')
-    fi
+    _change_to_bare
 
     if [ -n "$1" ]; then
         git worktree remove $1
@@ -609,14 +615,19 @@ function gwr () {
         | awk '/\[.*\]/ { if ($NF !~ /main|master|bare/) { gsub(/[\[\]]/, "", $NF); print $NF } }')
 
     if [ -z "$worktrees" ]; then
-        echo "no worktrees to remove" 2>&-
+        echo "no worktrees to remove" >&2
         return
     fi
     selected=$(echo $worktrees | gum filter --limit=1 --indicator=">")
 
+    if [ -z "$selected"]; then
+        echo "nothing selected" >&2
+        return
+    fi
+
     if [ ! -d $selected ]; then
         # this shouldn't happen
-        echo "the directory does not exist" 2>&-
+        echo "the directory does not exist" >&2
         return
     fi
 
@@ -625,6 +636,8 @@ function gwr () {
 
 function gwcob () {
     # gwcob - Git CheckOut Branch (worktrees)
+    _change_to_bare
+
     local __branch_suffix="unnamed-$RANDOM"
     if [ -n "$1" ]; then
         __branch_suffix=$1
@@ -639,6 +652,11 @@ function gws () {
     selected=$(git worktree list \
         | gum filter --limit=1 --indicator=">" \
         | awk '{print $1}')
+
+    if [ -z "$selected"]; then
+        echo "nothing selected" >&2
+        return
+    fi
 
     cd $selected
 
