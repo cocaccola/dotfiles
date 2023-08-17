@@ -335,10 +335,10 @@ alias vi='vim'
 alias less='less -R'
 alias g='git'
 alias gw='git worktree'
-# alias gwr='git worktree remove'
 alias gwrf='git worktree remove -f'
 alias gwp='git worktree prune'
 alias gwl='git worktree list'
+alias gf='git fetch'
 alias gfo='git fetch origin'
 alias gs='git status'
 alias ga='git add'
@@ -656,19 +656,31 @@ function gws () {
     local selected
 
     selected=$(git worktree list \
+        | awk '{ if ($NF !~ /\(bare\)/) print $0 }' \
         | gum filter --limit=1 --indicator=">" \
         | awk '{print $1}')
 
-    if [ -z "$selected"]; then
+    if [ -z "$selected" ]; then
         echo "nothing selected" >&2
         return
     fi
 
     cd $selected
 
-    if [ "$TERM_PROGRAM" == "vscode" ]; then
+    if [[ "$TERM_PROGRAM" == "vscode" ]]; then
         code -a $selected
     fi
+}
+
+function gwfo () {
+    # gwfo - git worktree fetch origin
+    # update worktree branches
+    local current_dir=$(pwd)
+
+    _change_to_bare
+    git fetch origin
+
+    cd $current_dir
 }
 
 function gmp () {
