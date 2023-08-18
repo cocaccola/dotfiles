@@ -770,6 +770,17 @@ function gla () {
     git l --author=$1
 }
 
+function gacp () {
+    # gacp - git add / commit / push
+    if [ -z "$1" ]; then
+        echo "commit message needed"
+        return
+    fi
+    gaa
+    gca $1
+    gp
+}
+
 function kpn () {
     # kpn - Kubernetes Pods on Node
     kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=$1
