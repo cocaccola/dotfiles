@@ -367,6 +367,7 @@ alias kn='kubens'
 alias tf='terraform'
 alias tg='terragrunt'
 alias p='pulumi'
+alias pup='pulumi up'
 alias agh='ag --hidden'
 alias agy='ag --yaml'
 alias agtf="ag -G '.*\.(hcl|tf|tfvars)'"

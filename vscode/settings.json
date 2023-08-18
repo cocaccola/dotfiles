@@ -9,7 +9,7 @@
     "editor.detectIndentation": true,
     "editor.rulers": [
         80,
-        120
+        120,
     ],
     "terminal.external.osxExec": "iTerm.app",
     "terminal.integrated.fontSize": 16,
@@ -120,5 +120,7 @@
     "editor.cursorBlinking": "smooth",
     "files.autoSave": "afterDelay",
     "workbench.editor.enablePreview": false,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "terminal.integrated.defaultLocation": "editor",
+    "workbench.fontAliasing": "auto"
 }
