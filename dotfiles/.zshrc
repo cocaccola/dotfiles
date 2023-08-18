@@ -776,8 +776,8 @@ function gacp () {
         echo "commit message needed"
         return
     fi
-    gaa
-    gca $1
+    git add -A
+    git commit -am "$1"
     gp
 }
 
