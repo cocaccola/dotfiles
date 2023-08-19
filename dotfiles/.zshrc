@@ -625,7 +625,7 @@ function gwr () {
     fi
     selected=$(echo $worktrees | gum filter --limit=1 --indicator=">")
 
-    if [ -z "$selected"]; then
+    if [ -z "$selected" ]; then
         echo "nothing selected" >&2
         return
     fi
