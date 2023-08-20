@@ -623,6 +623,7 @@ function gwr () {
         echo "no worktrees to remove" >&2
         return
     fi
+
     selected=$(echo $worktrees | gum filter --limit=1 --indicator=">")
 
     if [ -z "$selected" ]; then
@@ -630,13 +631,18 @@ function gwr () {
         return
     fi
 
-    if [ ! -d $selected ]; then
+    # fetch path of selected worktree
+    wt_path=$(\
+        git worktree list \
+            | awk -v selected=$selected '$NF ~ selected { print $1; exit }')
+
+    if [ ! -d $wt_path ]; then
         # this shouldn't happen
         echo "the directory does not exist" >&2
         return
     fi
 
-    git worktree remove $selected
+    git worktree remove $wt_path
 }
 
 function gwcob () {
