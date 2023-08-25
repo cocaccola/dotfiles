@@ -114,6 +114,9 @@ zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
 
+# fixes issue with vscode integrated terminal ctrl keybinds not working
+bindkey -e
+
 # Directory Stacks
 # https://zsh.sourceforge.io/Intro/intro_6.html
 # https://thevaluable.dev/zsh-install-configure-mouseless/
@@ -545,6 +548,26 @@ function clean_branches () {
     git stash pop
 }
 
+function add_reviewers () {
+    # add_reviewers - add reviewers to a pr
+    # the default reviewers should be sourced from a user supplied zshrc snippet
+    # if [ -z "$DEFAULT_REVIEWERS" ]; then
+    #     echo "default reviewers is missing" >&2
+    #     return
+    # fi
+    # selection=$(\
+    #     gum choose \
+    #         --limit=1 \
+    #         --selected="default" \
+    #         "default" "custom")
+
+    # if [[ $selection == "default" ]]; then
+
+    #     return
+    # fi
+    echo "to do"
+}
+
 function gwcln () {
     # gwcln - clone a bare repo and setup main branch with git worktrees
     # based on ideas from https://morgan.cugerone.com/blog/workarounds-to-git-worktree-using-bare-repository-and-cannot-fetch-remote-branches/
@@ -787,6 +810,35 @@ function gacp () {
     gp
 }
 
+function gacpr () {
+    # gacpr - git add / commit / push / create pr
+    if [ -z "$1" ]; then
+        echo "commit message needed"
+        return
+    fi
+    gacp "$1"
+    gh pr create --draft --fill
+}
+
+function rdy () {
+    # rdy - mark a pr as ready
+    # for now we are going to be super lazy and just use a single set of reviwers
+    if [ -z "$DEFAULT_REVIEWERS" ]; then
+        echo "DEFAULT_REVIEWERS is not set in the env" >&2
+        return
+    fi
+
+    gh pr ready
+
+    gh pr edit --add-reviewer $DEFAULT_REVIEWERS
+}
+
+function gham () {
+    # gham - github auto merge
+    # enables auto merge on a pr
+    gh merge --auto --squash
+}
+
 function kpn () {
     # kpn - Kubernetes Pods on Node
     kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=$1
@@ -798,6 +850,7 @@ function asn () {
 }
 
 #### User supplied zshrc config ####
+export ZSHRC_USER_CONFIG_DIR="$HOME/.zsh/user/"
 if [ -d ~/.zsh/user ]; then
     # https://zsh.sourceforge.io/Doc/Release/Expansion.html#Glob-Qualifiers
     for config in ~/.zsh/user/*(.N); do
