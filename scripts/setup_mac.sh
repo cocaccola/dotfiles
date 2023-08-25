@@ -36,7 +36,10 @@ brew install \
     ipcalc \
     dog \
     git-delta \
-    gum
+    gum \
+    cowsay \
+    gh \
+    lolcat
 
 # vscode deps
 brew install ripgrep

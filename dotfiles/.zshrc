@@ -866,3 +866,6 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # zoxide
 eval "$(zoxide init zsh)"
+
+# motd
+cowsay Moooooooooo | lolcat
