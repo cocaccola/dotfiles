@@ -849,6 +849,10 @@ function asn () {
     whois -h whois.cymru.com " -v $1"
 }
 
+function moo () {
+    cowsay Moooooooooo | lolcat
+}
+
 #### User supplied zshrc config ####
 export ZSHRC_USER_CONFIG_DIR="$HOME/.zsh/user/"
 if [ -d ~/.zsh/user ]; then
@@ -868,4 +872,4 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 eval "$(zoxide init zsh)"
 
 # motd
-cowsay Moooooooooo | lolcat
+moo
