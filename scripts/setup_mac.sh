@@ -39,7 +39,8 @@ brew install \
     gum \
     cowsay \
     gh \
-    lolcat
+    lolcat \
+    zellij
 
 # vscode deps
 brew install ripgrep

@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 .ONESHELL:
 
-dotfiles: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme
+dotfiles: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij
 
 gitconfig:
 	@cp -v dotfiles/.gitconfig ~
@@ -16,8 +16,12 @@ vimrc: vim_theme
 	@cp -v dotfiles/.vimrc ~
 
 neovim:
-	@mkdir -p ~/.config/nvim/ 2>&-
+	@mkdir -p ~/.config/nvim/ 2>&- || true
 	@cp -v dotfiles/init.vim ~/.config/nvim/init.vim
+
+zellij:
+	@mkdir -p ~/.config/zellij 2>&- || true
+	@cp -v dotfiles/zellij.kdl ~/.config/zellij/config.kdl
 
 macOS_vscode_keyfix:
 	@./vscode/macos-keyfix.sh
@@ -88,4 +92,4 @@ clean:
 	@rm -rf zsh-syntax-highlighting
 
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij

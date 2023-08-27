@@ -108,7 +108,7 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 
 # Enable Ctrl-x-e to edit command line
-export EDITOR=vim
+export EDITOR=nvim
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
@@ -334,7 +334,7 @@ fi
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias vi='vim'
+alias vi='nvim'
 alias less='less -R'
 alias g='git'
 alias gw='git worktree'
@@ -375,6 +375,14 @@ alias agh='ag --hidden'
 alias agy='ag --yaml'
 alias agtf="ag -G '.*\.(hcl|tf|tfvars)'"
 alias agmd='ag --md'
+alias zj='zellij'
+alias zjs='zellij -s'
+alias zjls='zellij list-sessions'
+alias zjk='zellij kill-session'
+alias zjka='zellij kill-all-sessions'
+alias zja='zellij attach'
+alias zjr='zellij run'
+alias zje='zellij edit'
 
 
 # Others
@@ -530,6 +538,13 @@ function _change_to_bare () {
 }
 
 # Functions
+function v () {
+    if [ -z "$1" ]; then
+        nvim .
+    fi
+    nvim $1
+}
+
 function clean_branches () {
     # clean_branches - cleans up local branches
 

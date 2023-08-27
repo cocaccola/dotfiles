@@ -20,6 +20,7 @@
     side-by-side = true
     hyperlinks = true
     hyperlinks-file-link-format = "vscode://file/{path}:{line}"
+    wrap-max-lines = unlimited
 
 [merge]
     conflictstyle = diff3
