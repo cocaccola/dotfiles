@@ -851,7 +851,18 @@ function rdy () {
 function gham () {
     # gham - github auto merge
     # enables auto merge on a pr
-    gh merge --auto --squash
+    gh pr merge --auto --squash
+}
+
+function gof () {
+    # gof - git one off
+    if [ -z "$1" ]; then
+        echo "commit message needed"
+        return
+    fi
+    gaspr "$1"
+    rdy
+    gham
 }
 
 function kpn () {
