@@ -19,6 +19,8 @@ neovim:
 	@mkdir -p ~/.config/nvim/ 2>&- || true
 	@cp -v dotfiles/init.vim ~/.config/nvim/init.vim
 
+	@cp -vr neovim/* ~/.config/nvim/
+
 zellij:
 	@mkdir -p ~/.config/zellij 2>&- || true
 	@cp -v dotfiles/zellij.kdl ~/.config/zellij/config.kdl

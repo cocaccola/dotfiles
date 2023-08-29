@@ -16,7 +16,8 @@ keybinds clear-defaults=true {
         bind "Ctrl a" { SwitchToMode "Tmux"; }
     }
     tmux {
-        bind "Ctrl a" { Write 1; SwitchToMode "Normal"; }
+        // bind "Ctrl a" { Write 1; SwitchToMode "Normal"; }
+        bind "a" { Write 1; SwitchToMode "Normal"; }
         bind "Enter" "Esc" { SwitchToMode "Normal"; }
         bind "p" { SwitchToMode "Pane"; }
         bind "r" { SwitchToMode "Resize"; }
