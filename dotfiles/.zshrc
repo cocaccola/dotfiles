@@ -320,6 +320,7 @@ fi
 
 
 # Aliases
+alias wh='which'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -354,6 +355,9 @@ alias gstl='git stash list'
 alias gstp='git stash pop'
 alias k='kubectl'
 alias kg='kubectl get'
+alias ka='kubectl apply -f'
+alias kdel='kubectl delete'
+alias kdelf='kubectl delete -f'
 alias kd='kubectl describe'
 alias kc='kubectx'
 alias kn='kubens'
@@ -419,6 +423,11 @@ export GPG_TTY=$(tty)
 
 # Macchiato theme
 # https://github.com/catppuccin/fzf
+#
+# original theme, edited for transparency below
+#--color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796
+#--color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
+#--color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
 
 # bat themeing
 # see https://github.com/catppuccin/bat#adding-the-themes
@@ -442,7 +451,7 @@ if command -v exa >&-; then
 --bind 'ctrl-v:execute(code {+})'
 --bind 'alt-up:preview-page-up'
 --bind 'alt-down:preview-page-down'
---color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796
+--color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
 --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
 --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
 "
@@ -463,7 +472,7 @@ else
 --bind 'ctrl-v:execute(code {+})'
 --bind 'alt-up:preview-page-up'
 --bind 'alt-down:preview-page-down'
---color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796
+--color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
 --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
 --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
 "
@@ -532,6 +541,7 @@ function _change_to_bare () {
 function v () {
     if [ -z "$1" ]; then
         nvim .
+        return
     fi
     nvim $1
 }
@@ -639,7 +649,7 @@ function gwco () {
         | gum filter --limit=1 --indicator=">" \
         | awk '{ if($1 ~ /[+*]/) { print $2 } else { print $1 } }')
 
-    if [ -z "$selected"]; then
+    if [ -z "$selected" ]; then
         echo "nothing selected" >&2
         return
     fi
@@ -866,8 +876,14 @@ function gham () {
     gh pr merge --auto --squash
 }
 
-function gof () {
-    # gof - git one off
+function ghdam () {
+    # ghdam - github disable auto merge
+    # disables auto merge on a pr
+    gh pr merge --disable-auto
+}
+
+function woof () {
+    # woof - wonderful one off
     if [ -z "$1" ]; then
         echo "commit message needed"
         return

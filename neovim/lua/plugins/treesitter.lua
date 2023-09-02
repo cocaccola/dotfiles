@@ -28,7 +28,11 @@ return {
             },
             sync_install = false,
             auto_install = true,
-            highlight = { enable = true },
+            highlight = {
+                enable = true,
+                -- see: https://github.com/catppuccin/nvim#wrong-treesitter-highlights
+                additional_vim_regex_highlighting = false
+            },
             indent = { enable = true },
         })
     end,

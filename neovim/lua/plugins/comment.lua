@@ -1,5 +1,7 @@
 return {
     'echasnovski/mini.comment',
-    version = '*',
-    config = true,
+    version = false,
+    config = function()
+        require('mini.comment').setup()
+    end,
 }

@@ -41,6 +41,31 @@ k9s_theme:
 	@git clone https://github.com/catppuccin/k9s.git ~/Library/Application\ Support/k9s/skins/catppuccin --depth 1
 	@cp -v ~/Library/Application\ Support/k9s/skins/catppuccin/dist/macchiato.yml ~/Library/Application\ Support/k9s/skin.yml
 
+	@# from https://github.com/derailed/k9s/blob/master/skins/transparent.yml
+	@yq -i ' \
+	  .k9s.body.bgColor = "default" | \
+	  .k9s.prompt.bgColor = "default" | \
+	  .k9s.info.sectionColor = "default" | \
+	  .k9s.dialog.bgColor = "default" | \
+	  .k9s.dialog.labelFgColor = "default" | \
+	  .k9s.dialog.fieldFgColor = "default" | \
+	  .k9s.frame.crumbs.bgColor = "default" | \
+	  .k9s.frame.title.bgColor = "default" | \
+	  .k9s.frame.title.counterColor = "default" | \
+	  .k9s.frame.menu.fgColor = "default" | \
+	  .k9s.views.charts.bgColor = "default" | \
+	  .k9s.views.table.bgColor = "default" | \
+	  .k9s.views.table.header.fgColor = "default" | \
+	  .k9s.views.table.header.bgColor = "default" | \
+	  .k9s.views.xray.bgColor = "default" | \
+	  .k9s.views.logs.bgColor = "default" | \
+	  .k9s.views.logs.indicator.bgColor = "default" | \
+	  .k9s.views.logs.indicator.toggleOnColor = "default" | \
+	  .k9s.views.logs.indicator.toggleOffColor = "default" | \
+	  .k9s.views.yaml.colonColor = "default" | \
+	  .k9s.views.yaml.valueColor = "default" \
+	' ~/Library/Application\ Support/k9s/skin.yml
+
 glamor_theme:
 	@mkdir -p ~/.config/glamour/catppuccin
 	@curl -L https://github.com/catppuccin/glamour/releases/download/v1.0.0/macchiato.json -o ~/.config/glamour/catppuccin/macchiato.json

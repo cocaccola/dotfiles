@@ -1,5 +1,5 @@
 return {
     'echasnovski/mini.surround',
-    version = '*',
+    version = false,
     config = true,
 }

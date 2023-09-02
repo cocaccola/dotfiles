@@ -58,6 +58,7 @@ keybinds clear-defaults=true {
     }
     resize {
         bind "Enter" { SwitchToMode "Normal"; }
+        bind "Ctrl a" "a" { SwitchToMode "Tmux"; }
         bind "m" { SwitchToMode "Move"; }
         bind "h" "Left" { Resize "Increase Left"; }
         bind "j" "Down" { Resize "Increase Down"; }
@@ -75,7 +76,7 @@ keybinds clear-defaults=true {
     }
     pane {
         bind "Enter" { SwitchToMode "Normal"; }
-        bind "Ctrl a" { SwitchToMode "Tmux"; }
+        bind "Ctrl a" "a" { SwitchToMode "Tmux"; }
         bind "h" "Left" { MoveFocus "Left"; }
         bind "l" "Right" { MoveFocus "Right"; }
         bind "j" "Down" { MoveFocus "Down"; }
@@ -93,7 +94,7 @@ keybinds clear-defaults=true {
     }
     move {
         bind "Enter" { SwitchToMode "Normal"; }
-        bind "Ctrl a" { SwitchToMode "Tmux"; }
+        bind "Ctrl a" "a" { SwitchToMode "Tmux"; }
         bind "r" { SwitchToMode "Resize"; }
         bind "n" "Tab" { MovePane; }
         bind "p" { MovePaneBackwards; }
@@ -101,10 +102,13 @@ keybinds clear-defaults=true {
         bind "j" "Down" { MovePane "Down"; }
         bind "k" "Up" { MovePane "Up"; }
         bind "l" "Right" { MovePane "Right"; }
+
+        bind "=" "+" { Resize "Increase"; }
+        bind "-" { Resize "Decrease"; }
     }
     tab {
         bind "Enter" "Ctrl c" { SwitchToMode "Normal"; }
-        bind "Ctrl a" { SwitchToMode "Tmux"; }
+        bind "Ctrl a" "a" { SwitchToMode "Tmux"; }
         bind "r" { SwitchToMode "RenameTab"; TabNameInput 0; }
         bind "h" "Left" "Up" "k" { GoToPreviousTab; }
         bind "l" "Right" "Down" "j" { GoToNextTab; }
@@ -124,7 +128,7 @@ keybinds clear-defaults=true {
     }
     scroll {
         bind "Enter" { SwitchToMode "Normal"; }
-        bind "Ctrl a" { SwitchToMode "Tmux"; }
+        bind "Ctrl a" "a" { SwitchToMode "Tmux"; }
         bind "e" { EditScrollback; SwitchToMode "Normal"; }
         bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
         bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
@@ -139,7 +143,7 @@ keybinds clear-defaults=true {
     }
     search {
         bind "Ctrl s" { SwitchToMode "Normal"; }
-        bind "Ctrl a" { SwitchToMode "Tmux"; }
+        bind "Ctrl a" "a" { SwitchToMode "Tmux"; }
         bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
         bind "j" "Down" { ScrollDown; }
         bind "k" "Up" { ScrollUp; }
