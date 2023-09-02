@@ -42,7 +42,7 @@ brew install \
     lolcat \
     zellij
 
-# vscode deps
+# vscode & neovim deps
 brew install ripgrep
 
 # fonts

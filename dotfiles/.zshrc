@@ -165,17 +165,6 @@ for dep in ${dependencies[@]}; do
 done
 
 
-# nvm / node.js
-[[ -d "$HOME/.nvm" ]] || mkdir $HOME/.nvm
-export NVM_DIR="$HOME/.nvm"
-
-# This loads nvm
-[[ -s "$(brew --prefix nvm)/nvm.sh" ]] && source $(brew --prefix nvm)/nvm.sh
-
-# This loads nvm bash_completion
-[[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ]] && source $(brew --prefix nvm)/etc/bash_completion.d/nvm
-
-
 zmodload zsh/complist
 autoload -Uz compinit promptinit
 compinit
@@ -376,7 +365,8 @@ alias agh='ag --hidden'
 alias agy='ag --yaml'
 alias agtf="ag -G '.*\.(hcl|tf|tfvars)'"
 alias agmd='ag --md'
-alias zj='zellij'
+alias zj='zellij attach --create the-one-session-to-rule-them-all'
+alias zlj='zellij'
 alias zjs='zellij -s'
 alias zjls='zellij list-sessions'
 alias zjk='zellij kill-session'
@@ -544,6 +534,27 @@ function v () {
         nvim .
     fi
     nvim $1
+}
+
+function nvm () {
+    # this function is a wrapper for nvm that lazy loads nvm
+    # loading nvm is slow
+
+    if [ -z "$NVM_DIR" ]; then
+        # nvm / node.js
+        [[ -d "$HOME/.nvm" ]] || mkdir $HOME/.nvm
+        export NVM_DIR="$HOME/.nvm"
+
+        # This loads nvm
+        [[ -s "$(brew --prefix nvm)/nvm.sh" ]] && source $(brew --prefix nvm)/nvm.sh
+
+        # This loads nvm bash_completion
+        [[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ]] && source $(brew --prefix nvm)/etc/bash_completion.d/nvm
+
+        nvm "$@"
+        return
+    fi
+    nvm "$@"
 }
 
 function clean_branches () {
@@ -852,7 +863,18 @@ function rdy () {
 function gham () {
     # gham - github auto merge
     # enables auto merge on a pr
-    gh merge --auto --squash
+    gh pr merge --auto --squash
+}
+
+function gof () {
+    # gof - git one off
+    if [ -z "$1" ]; then
+        echo "commit message needed"
+        return
+    fi
+    gacpr "$1"
+    rdy
+    gham
 }
 
 function kpn () {

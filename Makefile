@@ -16,9 +16,8 @@ vimrc: vim_theme
 	@cp -v dotfiles/.vimrc ~
 
 neovim:
-	@mkdir -p ~/.config/nvim/ 2>&- || true
-	@cp -v dotfiles/init.vim ~/.config/nvim/init.vim
-
+	@test -d ~/.config/nvim && rm -rf ~/.config/nvim
+	@mkdir -p ~/.config/nvim
 	@cp -vr neovim/* ~/.config/nvim/
 
 zellij:
