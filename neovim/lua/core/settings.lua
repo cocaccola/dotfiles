@@ -12,8 +12,9 @@ vim.o.swapfile = false
 
 vim.o.termguicolors = true
 
--- if the cursor shapes get annoying uncommet the following
--- vim.o.guicursor = ""
+vim.o.guicursor = ''
+vim.o.cursorline = true
+vim.o.cursorlineopt = 'line'
 
 -- allows the '@' character to be used in filenames
 vim.o.isfname = vim.o.isfname .. ',@-@'

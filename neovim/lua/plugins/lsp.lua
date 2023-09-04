@@ -24,7 +24,10 @@ return {
             -- see https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/lsp.md#enable-format-on-save
             lsp.buffer_autoformat()
 
-            -- see https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
+            vim.keymap.set('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>', { buffer = true })
+            vim.keymap.set({ 'n', 'x' }, '<leader>fm', '<cmd>lua vim.lsp.buf.format({async = true})<cr>',
+                { buffer = true })
+            vim.keymap.set('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', { buffer = true })
         end)
 
         -- (Optional) Configure lua language server for neovim

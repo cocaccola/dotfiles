@@ -636,7 +636,6 @@ function gwcln () {
 function gwco () {
     # gwco - checkout branch using worktrees
     local branch
-    local selected
 
     _change_to_bare
 
@@ -649,7 +648,7 @@ function gwco () {
         | gum filter --limit=1 --indicator=">" \
         | awk '{ if($1 ~ /[+*]/) { print $2 } else { print $1 } }')
 
-    if [ -z "$selected" ]; then
+    if [ -z "$branch" ]; then
         echo "nothing selected" >&2
         return
     fi
