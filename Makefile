@@ -6,6 +6,9 @@ dotfiles: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij
 gitconfig:
 	@cp -v dotfiles/.gitconfig ~
 
+only_zshrc:
+	@cp -v dotfiles/.zshrc ~
+
 zshrc: gitconfig bat_theme zsh_syntax_highlighting glamor_theme
 	@cp -v dotfiles/.zshrc ~
 
@@ -118,4 +121,4 @@ clean:
 	@rm -rf zsh-syntax-highlighting
 
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc
