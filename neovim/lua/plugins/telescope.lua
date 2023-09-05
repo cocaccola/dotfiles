@@ -51,15 +51,17 @@ return {
         vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [H]elp' })
         vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
         vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = '[F]ind by [G]rep' })
+
         vim.keymap.set('n', '<leader>dg', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
         vim.keymap.set('n', '<leader>ds', builtin.lsp_document_symbols, { desc = '[D]ocument [S]ymbols' })
         vim.keymap.set('n', '<leader>ws', builtin.lsp_workspace_symbols, { desc = '[W]orkspace [S]ymbols' })
         vim.keymap.set('n', '<leader>fr', builtin.lsp_references, { desc = '[F]ind [R]eferences' })
         vim.keymap.set('n', '<leader>fi', builtin.lsp_implementations, { desc = '[F]ind [I]mplementations' })
         vim.keymap.set('n', '<leader>fd', builtin.lsp_definitions, { desc = '[F]ind [D]definitions' })
-        vim.keymap.set('n', '<leader>ft', builtin.lsp_type_definitions, { desc = '[F]ind [T]ype Definitions' })
+        vim.keymap.set('n', '<leader>td', builtin.lsp_type_definitions, { desc = '[T]ype [D]efinitions' })
+
+        vim.keymap.set('n', '<leader>ft', builtin.filetypes, { desc = '[F]ile [T]ypes' })
+        vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
+        vim.keymap.set('n', '<leader>jl', builtin.jumplist, { desc = '[J]ump [L]ist' })
     end,
-
-
-
 }

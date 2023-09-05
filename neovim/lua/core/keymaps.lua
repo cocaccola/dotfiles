@@ -30,3 +30,15 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- close current buffer
 vim.keymap.set("n", "<leader>bd", vim.cmd.bdelete, { silent = true })
+
+-- register keymaps
+-- tend to start with leader r
+
+-- list
+vim.keymap.set("n", "<leader>rl", vim.cmd.registers, { silent = true })
+
+-- mark keymaps
+-- tend to start with leader m
+
+-- list marks
+vim.keymap.set("n", "<leader>ml", vim.cmd.marks, { silent = true })
