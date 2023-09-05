@@ -32,7 +32,10 @@ vim.o.expandtab = true
 vim.o.smartindent = true
 
 vim.o.updatetime = 50
-vim.o.timeoutlen = 300
+
+-- see https://neovim.io/doc/user/options.html#'timeoutlen'
+-- need to find an optimal time, default is 1000
+vim.o.timeoutlen = 500
 
 -- netrw
 vim.g.netrw_banner = 0
