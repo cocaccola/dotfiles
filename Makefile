@@ -52,7 +52,6 @@ k9s_theme:
 	  .k9s.dialog.bgColor = "default" | \
 	  .k9s.dialog.labelFgColor = "default" | \
 	  .k9s.dialog.fieldFgColor = "default" | \
-	  .k9s.frame.crumbs.bgColor = "default" | \
 	  .k9s.frame.title.bgColor = "default" | \
 	  .k9s.frame.title.counterColor = "default" | \
 	  .k9s.frame.menu.fgColor = "default" | \
