@@ -546,20 +546,26 @@ function v () {
     nvim $1
 }
 
+function nvmld () {
+    # nvmld - load nvm
+
+    # nvm / node.js
+    [[ -d "$HOME/.nvm" ]] || mkdir $HOME/.nvm
+    export NVM_DIR="$HOME/.nvm"
+
+    # This loads nvm
+    [[ -s "$(brew --prefix nvm)/nvm.sh" ]] && source $(brew --prefix nvm)/nvm.sh
+
+    # This loads nvm bash_completion
+    [[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ]] && source $(brew --prefix nvm)/etc/bash_completion.d/nvm
+}
+
 function nvm () {
     # this function is a wrapper for nvm that lazy loads nvm
     # loading nvm is slow
 
     if [ -z "$NVM_DIR" ]; then
-        # nvm / node.js
-        [[ -d "$HOME/.nvm" ]] || mkdir $HOME/.nvm
-        export NVM_DIR="$HOME/.nvm"
-
-        # This loads nvm
-        [[ -s "$(brew --prefix nvm)/nvm.sh" ]] && source $(brew --prefix nvm)/nvm.sh
-
-        # This loads nvm bash_completion
-        [[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ]] && source $(brew --prefix nvm)/etc/bash_completion.d/nvm
+        nvmld
 
         nvm "$@"
         return

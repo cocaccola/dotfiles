@@ -28,6 +28,11 @@ return {
                     },
                 },
             },
+            pickers = {
+                find_files = {
+                    find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
+                },
+            },
         })
         pcall(require('telescope').load_extension, 'fzf')
 
