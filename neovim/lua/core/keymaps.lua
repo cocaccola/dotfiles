@@ -23,6 +23,9 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- securely delete using the black hole register
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
+-- delete and paste over using select or visual mode
+vim.keymap.set("x", "<leader>p", [["_dP]])
+
 vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { silent = true })
 
 -- quick fix list
@@ -49,3 +52,6 @@ vim.keymap.set("n", "<leader>ml", vim.cmd.marks, { silent = true })
 -- command line mode editing
 vim.cmd('cnoremap <C-h> <Left>')
 vim.cmd('cnoremap <C-l> <Right>')
+
+-- new scratch buffer
+vim.keymap.set("n", "<leader>n", vim.cmd.enew, { silent = true })
