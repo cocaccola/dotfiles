@@ -52,8 +52,8 @@ return {
         vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
         vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = '[F]ind by [G]rep' })
 
-        vim.keymap.set('n', '<leader>dg', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
-        vim.keymap.set('n', '<leader>ds', builtin.lsp_document_symbols, { desc = '[D]ocument [S]ymbols' })
+        vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]how [D]iagnostics' })
+        vim.keymap.set('n', '<leader>ss', builtin.lsp_document_symbols, { desc = 'Document (S)[S]ymbols' })
         vim.keymap.set('n', '<leader>ws', builtin.lsp_workspace_symbols, { desc = '[W]orkspace [S]ymbols' })
         vim.keymap.set('n', '<leader>fr', builtin.lsp_references, { desc = '[F]ind [R]eferences' })
         vim.keymap.set('n', '<leader>fi', builtin.lsp_implementations, { desc = '[F]ind [I]mplementations' })

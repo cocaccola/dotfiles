@@ -21,7 +21,7 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- securely delete using the black hole register
-vim.keymap.set({ "n", "v" }, "<leader>x", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { silent = true })
 
@@ -32,7 +32,7 @@ vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- close current buffer
-vim.keymap.set("n", "<leader>bd", vim.cmd.bdelete, { silent = true })
+vim.keymap.set("n", "<leader>cc", vim.cmd.bdelete, { silent = true })
 
 -- register keymaps
 -- tend to start with leader r
