@@ -40,7 +40,8 @@ brew install \
     cowsay \
     gh \
     lolcat \
-    zellij
+    zellij \
+    neofetch
 
 # vscode & neovim deps
 brew install ripgrep
