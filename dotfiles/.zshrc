@@ -378,6 +378,7 @@ alias zjka='zellij kill-all-sessions'
 alias zja='zellij attach'
 alias zjr='zellij run'
 alias zje='zellij edit'
+alias ddev='cd ~/dev'
 
 
 # Others
@@ -543,7 +544,30 @@ function v () {
         nvim .
         return
     fi
+
+    local current_dir=$(pwd)
+
+    if [ -d "$1" ]; then
+        cd $(dirname $1)
+        nvim .
+        cd $current_dir
+        return
+    fi
+
+    cd $(dirname $1)
     nvim $1
+    cd $current_dir
+}
+
+function dev () {
+    # change between repos in ~/dev
+
+    local selected
+    selected=$(\
+        fd -t d -d 1 -H -x echo {/} \; . ~/dev \
+        | gum filter --limit=1 --indicator=">")
+
+    cd ~/dev/$selected
 }
 
 function nvmld () {
@@ -859,7 +883,7 @@ function gacpr () {
         return
     fi
     gacp "$1"
-    gh pr create --draft --fill
+    gh pr create --draft --title "$1"
 }
 
 function rdy () {
