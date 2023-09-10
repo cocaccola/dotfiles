@@ -265,14 +265,22 @@ setopt prompt_subst
 
 # put everything together with kube-ps1
 # could reduce this using brew --prefix
+#       󰀱 󰚑 󰂹 󰅏 󰆚 󰼁 󰚌 󰈸   󱓞 󱓟  
+# original: ✘ ✔
+
+# custom kube-ps1 icons don't work, likely something wrong upstream
+# just a test...
+export KUBE_PS1_PREFIX=""
+export KUBE_PS1_SUFFIX=""
+export KUBE_PS1_SYMBOL_ENABLE="false"
 if [[ -a /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh ]]; then
     source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-    export PROMPT=$'\n''$(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}✔.%F{red}✘ %v)%f'$'\n'$PS1
+    export PROMPT=$'\n''󰀱 $(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}󱓞.%F{red} %v)%f'$'\n'$PS1
 elif [[ -a /usr/local/opt/kube-ps1/share/kube-ps1.sh ]]; then
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-    export PROMPT=$'\n''$(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}✔.%F{red}✘ %v)%f'$'\n'$PS1
+    export PROMPT=$'\n''󰀱 $(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}󱓞.%F{red} %v)%f'$'\n'$PS1
 else
-   export PROMPT='%(?.%F{49}✔.%F{red}✘ %v)%f%(2V. ${vcs_info_msg_0_}.) '$PS1
+   export PROMPT='%(?.%F{49}󱓞.%F{red} %v)%f%(2V. ${vcs_info_msg_0_}.) '$PS1
 fi
 
 
@@ -555,7 +563,7 @@ function v () {
     fi
 
     cd $(dirname $1)
-    nvim $1
+    nvim $(basename $1)
     cd $current_dir
 }
 
