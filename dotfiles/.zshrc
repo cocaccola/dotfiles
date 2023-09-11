@@ -380,6 +380,7 @@ alias zja='zellij attach'
 alias zjr='zellij run'
 alias zje='zellij edit'
 alias ddev='cd ~/dev'
+alias ghpr='gh pr create --draft --title'
 
 
 # Others
