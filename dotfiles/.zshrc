@@ -1,3 +1,4 @@
+# we will no longer check the below to save cpu cycles, we will leave this as a note
 # dependencies
 # we will check these after homebrew's path is setup
 # for pbcopy you will need something that replicates its functionality on non macOS systems
@@ -5,12 +6,13 @@
 # https://www.techtronic.us/pbcopy-pbpaste-for-wsl/
 # https://lloydrochester.com/post/unix/wsl-pbcopy-pbpaste/
 # https://garywoodfine.com/use-pbcopy-on-ubuntu/
-dependencies=(bat fd tree pbcopy gum)
+#
+## dependencies=(bat fd tree pbcopy gum)
 
 # psvar indexes
 # 1 - exit status
 # 2 - vcs_info_wrapper
-# 3 - apple logo toggle
+# 3 - logo
 
 # General Behaviors
 setopt autocd
@@ -54,14 +56,17 @@ function get_exit_status () {
 }
 precmd_functions+=(get_exit_status)
 
-# just for fun, display an apple logo if on macOS
-function is_apple () {
+# just for fun, display fun logos
+function logo () {
     if [[ $(uname) == "Darwin" ]]; then
-        # the value of psvar is not directly used in the prompt
-        psvar[3]=
+        psvar[3]=
+    elif [[ $(uname) == "Linux" ]]; then
+        psvar[3]=󰌽
+    else
+        psvar[3]=󰮯
     fi
 }
-precmd_functions+=(is_apple)
+precmd_functions+=(logo)
 
 # this doesn't display on the line I want
 #export RPROMPT='%(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'
@@ -77,14 +82,6 @@ fi
 
 if [[ -d /usr/local/go/bin ]]; then
     export PATH=$PATH:/usr/local/go/bin
-fi
-
-if [[ -a /usr/local/opt/gnu-sed/libexec/gnubin ]]; then
-    export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-fi
-
-if [[ -a /usr/local/opt/make/libexec/gnubin ]]; then
-    export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 fi
 
 if [[ -d $HOME/.pyenv/bin ]]; then
@@ -125,9 +122,12 @@ setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
 alias d='dirs -v'
 for index ({1..9}) alias "$index"="cd -${index}"; unset index
 
-# homebrew on macOS arm
+# homebrew on macOS arm64
 if [[ $(uname) == "Darwin" ]] && [[ $(uname -m) == "arm64" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
+# homebrew on Linux x86_64
+elif [[ $(uname) == "Linux" ]] && [[ $(uname -m) == "x86_64" ]]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 export HOMEBREW_NO_ANALYTICS=1
@@ -151,29 +151,15 @@ if type brew &>/dev/null; then
   export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
 
-if command -v exa >&-; then
-    export PROMPT='%(3V. .)%F{49}%~ %F{253}%#%f '
-else
-    export PROMPT='%(3V. .)%F{49}%~ %F{253}%#%f '
-fi
+export PROMPT='%3v %F{49}%~ %F{253}%#%f '
 
 # check dependencies now that homebrew's path is loaded
-for dep in ${dependencies[@]}; do
-    if ! command -v $dep >&-; then
-        echo ".zshrc requires $dep to be installed" >&2
-    fi
-done
-
-
-# nvm / node.js
-[[ -d "$HOME/.nvm" ]] || mkdir $HOME/.nvm
-export NVM_DIR="$HOME/.nvm"
-
-# This loads nvm
-[[ -s "$(brew --prefix nvm)/nvm.sh" ]] && source $(brew --prefix nvm)/nvm.sh
-
-# This loads nvm bash_completion
-[[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ]] && source $(brew --prefix nvm)/etc/bash_completion.d/nvm
+# disabling this for now
+#for dep in ${dependencies[@]}; do
+#    if ! command -v $dep >&-; then
+#        echo ".zshrc requires $dep to be installed" >&2
+#    fi
+#done
 
 
 zmodload zsh/complist
@@ -276,14 +262,19 @@ setopt prompt_subst
 
 # put everything together with kube-ps1
 # could reduce this using brew --prefix
-if [[ -a /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh ]]; then
-    source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-    export PROMPT=$'\n''$(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}✔.%F{red}✘ %v)%f'$'\n'$PS1
-elif [[ -a /usr/local/opt/kube-ps1/share/kube-ps1.sh ]]; then
-    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-    export PROMPT=$'\n''$(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}✔.%F{red}✘ %v)%f'$'\n'$PS1
+#       󰀱 󰚑 󰂹 󰅏 󰆚 󰼁 󰚌 󰈸   󱓞 󱓟  
+# original: ✘ ✔
+
+# custom kube-ps1 icons don't work, likely something wrong upstream
+export KUBE_PS1_PREFIX=""
+export KUBE_PS1_SUFFIX=""
+export KUBE_PS1_SYMBOL_ENABLE="false"
+
+if [[ -a $(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh ]]; then
+    source "$(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh"
+    export PROMPT=$'\n''󰀱 $(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}󱓞.%F{red} %v)%f'$'\n'$PS1
 else
-   export PROMPT='%(?.%F{49}✔.%F{red}✘ %v)%f%(2V. ${vcs_info_msg_0_}.) '$PS1
+   export PROMPT='%(?.%F{49}󱓞.%F{red} %v)%f%(2V. ${vcs_info_msg_0_}.) '$PS1
 fi
 
 
@@ -331,12 +322,14 @@ fi
 
 
 # Aliases
+alias wh='which'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias vi='nvim'
 alias less='less -R'
 alias g='git'
+alias grv='git remote -v'
 alias gw='git worktree'
 alias gwrf='git worktree remove -f'
 alias gwp='git worktree prune'
@@ -364,6 +357,9 @@ alias gstl='git stash list'
 alias gstp='git stash pop'
 alias k='kubectl'
 alias kg='kubectl get'
+alias ka='kubectl apply -f'
+alias kdel='kubectl delete'
+alias kdelf='kubectl delete -f'
 alias kd='kubectl describe'
 alias kc='kubectx'
 alias kn='kubens'
@@ -375,7 +371,8 @@ alias agh='ag --hidden'
 alias agy='ag --yaml'
 alias agtf="ag -G '.*\.(hcl|tf|tfvars)'"
 alias agmd='ag --md'
-alias zj='zellij'
+alias zj='zellij attach --create the-one-session-to-rule-them-all'
+alias zlj='zellij'
 alias zjs='zellij -s'
 alias zjls='zellij list-sessions'
 alias zjk='zellij kill-session'
@@ -383,6 +380,7 @@ alias zjka='zellij kill-all-sessions'
 alias zja='zellij attach'
 alias zjr='zellij run'
 alias zje='zellij edit'
+alias ddev='cd ~/dev'
 
 
 # Others
@@ -428,6 +426,11 @@ export GPG_TTY=$(tty)
 
 # Macchiato theme
 # https://github.com/catppuccin/fzf
+#
+# original theme, edited for transparency below
+#--color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796
+#--color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
+#--color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
 
 # bat themeing
 # see https://github.com/catppuccin/bat#adding-the-themes
@@ -451,7 +454,7 @@ if command -v exa >&-; then
 --bind 'ctrl-v:execute(code {+})'
 --bind 'alt-up:preview-page-up'
 --bind 'alt-down:preview-page-down'
---color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796
+--color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
 --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
 --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
 "
@@ -472,7 +475,7 @@ else
 --bind 'ctrl-v:execute(code {+})'
 --bind 'alt-up:preview-page-up'
 --bind 'alt-down:preview-page-down'
---color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796
+--color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
 --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
 --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
 "
@@ -541,8 +544,59 @@ function _change_to_bare () {
 function v () {
     if [ -z "$1" ]; then
         nvim .
+        return
     fi
-    nvim $1
+
+    local current_dir=$(pwd)
+
+    if [ -d "$1" ]; then
+        cd $(dirname $1)
+        nvim .
+        cd $current_dir
+        return
+    fi
+
+    cd $(dirname $1)
+    nvim $(basename $1)
+    cd $current_dir
+}
+
+function dev () {
+    # change between repos in ~/dev
+
+    local selected
+    selected=$(\
+        fd -t d -d 1 -H -x echo {/} \; . ~/dev \
+        | gum filter --limit=1 --indicator=">")
+
+    cd ~/dev/$selected
+}
+
+function nvmld () {
+    # nvmld - load nvm
+
+    # nvm / node.js
+    [[ -d "$HOME/.nvm" ]] || mkdir $HOME/.nvm
+    export NVM_DIR="$HOME/.nvm"
+
+    # This loads nvm
+    [[ -s "$(brew --prefix nvm)/nvm.sh" ]] && source $(brew --prefix nvm)/nvm.sh
+
+    # This loads nvm bash_completion
+    [[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ]] && source $(brew --prefix nvm)/etc/bash_completion.d/nvm
+}
+
+function nvm () {
+    # this function is a wrapper for nvm that lazy loads nvm
+    # loading nvm is slow
+
+    if [ -z "$NVM_DIR" ]; then
+        nvmld
+
+        nvm "$@"
+        return
+    fi
+    nvm "$@"
 }
 
 function clean_branches () {
@@ -614,7 +668,6 @@ function gwcln () {
 function gwco () {
     # gwco - checkout branch using worktrees
     local branch
-    local selected
 
     _change_to_bare
 
@@ -627,7 +680,7 @@ function gwco () {
         | gum filter --limit=1 --indicator=">" \
         | awk '{ if($1 ~ /[+*]/) { print $2 } else { print $1 } }')
 
-    if [ -z "$selected"]; then
+    if [ -z "$branch" ]; then
         echo "nothing selected" >&2
         return
     fi
@@ -832,7 +885,7 @@ function gacpr () {
         return
     fi
     gacp "$1"
-    gh pr create --draft --fill
+    gh pr create --draft --title "$1"
 }
 
 function rdy () {
@@ -854,13 +907,19 @@ function gham () {
     gh pr merge --auto --squash
 }
 
-function gof () {
-    # gof - git one off
+function ghdam () {
+    # ghdam - github disable auto merge
+    # disables auto merge on a pr
+    gh pr merge --disable-auto
+}
+
+function woof () {
+    # woof - wonderful one off
     if [ -z "$1" ]; then
         echo "commit message needed"
         return
     fi
-    gaspr "$1"
+    gacpr "$1"
     rdy
     gham
 }

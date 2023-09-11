@@ -40,11 +40,15 @@ brew install \
     cowsay \
     gh \
     lolcat \
-    zellij
+    zellij \
+    neofetch
 
-# vscode deps
+# vscode & neovim deps
 brew install ripgrep
 
 # fonts
 brew tap homebrew/cask-fonts
 brew install font-fira-code-nerd-font
+
+# make dev directory for git repos
+mkdir ~/dev

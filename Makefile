@@ -2,9 +2,13 @@ SHELL=/bin/bash
 .ONESHELL:
 
 dotfiles: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij
+dotfiles_linux: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme_linux zellij
 
 gitconfig:
 	@cp -v dotfiles/.gitconfig ~
+
+only_zshrc:
+	@cp -v dotfiles/.zshrc ~
 
 zshrc: gitconfig bat_theme zsh_syntax_highlighting glamor_theme
 	@cp -v dotfiles/.zshrc ~
@@ -16,8 +20,9 @@ vimrc: vim_theme
 	@cp -v dotfiles/.vimrc ~
 
 neovim:
-	@mkdir -p ~/.config/nvim/ 2>&- || true
-	@cp -v dotfiles/init.vim ~/.config/nvim/init.vim
+	@test -d ~/.config/nvim && rm -rf ~/.config/nvim
+	@mkdir -p ~/.config/nvim
+	@cp -vr neovim/* ~/.config/nvim/
 
 zellij:
 	@mkdir -p ~/.config/zellij 2>&- || true
@@ -36,9 +41,38 @@ bat_theme:
 	@bat cache --build
 	@rm -rf bat
 
+k9s_theme_linux:
+	@K9S_CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config}/k9s" \
+		git clone https://github.com/catppuccin/k9s.git "${K9S_CONFIG_PATH}/skins/catppuccin" --depth 1 \
+		&& cp "${K9S_CONFIG_PATH}/skins/catppuccin/dist/frappe.yml" "${K9S_CONFIG_PATH}/skin.yml"
+
 k9s_theme:
 	@git clone https://github.com/catppuccin/k9s.git ~/Library/Application\ Support/k9s/skins/catppuccin --depth 1
 	@cp -v ~/Library/Application\ Support/k9s/skins/catppuccin/dist/macchiato.yml ~/Library/Application\ Support/k9s/skin.yml
+
+	@# from https://github.com/derailed/k9s/blob/master/skins/transparent.yml
+	@yq -i ' \
+	  .k9s.body.bgColor = "default" | \
+	  .k9s.prompt.bgColor = "default" | \
+	  .k9s.info.sectionColor = "default" | \
+	  .k9s.dialog.bgColor = "default" | \
+	  .k9s.dialog.labelFgColor = "default" | \
+	  .k9s.dialog.fieldFgColor = "default" | \
+	  .k9s.frame.title.bgColor = "default" | \
+	  .k9s.frame.title.counterColor = "default" | \
+	  .k9s.frame.menu.fgColor = "default" | \
+	  .k9s.views.charts.bgColor = "default" | \
+	  .k9s.views.table.bgColor = "default" | \
+	  .k9s.views.table.header.fgColor = "default" | \
+	  .k9s.views.table.header.bgColor = "default" | \
+	  .k9s.views.xray.bgColor = "default" | \
+	  .k9s.views.logs.bgColor = "default" | \
+	  .k9s.views.logs.indicator.bgColor = "default" | \
+	  .k9s.views.logs.indicator.toggleOnColor = "default" | \
+	  .k9s.views.logs.indicator.toggleOffColor = "default" | \
+	  .k9s.views.yaml.colonColor = "default" | \
+	  .k9s.views.yaml.valueColor = "default" \
+	' ~/Library/Application\ Support/k9s/skin.yml
 
 glamor_theme:
 	@mkdir -p ~/.config/glamour/catppuccin
@@ -92,4 +126,4 @@ clean:
 	@rm -rf zsh-syntax-highlighting
 
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc k9s_theme_linux
