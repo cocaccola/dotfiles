@@ -371,7 +371,6 @@ alias agh='ag --hidden'
 alias agy='ag --yaml'
 alias agtf="ag -G '.*\.(hcl|tf|tfvars)'"
 alias agmd='ag --md'
-alias zj='zellij attach --create the-one-session-to-rule-them-all'
 alias zlj='zellij'
 alias zjs='zellij -s'
 alias zjls='zellij list-sessions'
@@ -541,6 +540,13 @@ function _change_to_bare () {
 }
 
 # Functions
+function zj () {
+    local current_dir=$(pwd)
+    cd
+    zellij attach --create the-one-session-to-rule-them-all
+    cd $current_dir
+}
+
 function v () {
     if [ -z "$1" ]; then
         nvim .
