@@ -924,11 +924,6 @@ function woof () {
     gham
 }
 
-function migrate_to_worktrees () {
-    remote=$(git remote -v | awk '/\(fetch\)/ { print $2 }')
-    echo 'WARNING!!!! This will remove all contents in the current directory!'
-}
-
 function kpn () {
     # kpn - Kubernetes Pods on Node
     kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=$1
