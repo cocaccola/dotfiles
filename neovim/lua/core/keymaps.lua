@@ -35,23 +35,23 @@ vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- close current buffer
-vim.keymap.set("n", "<leader>cc", vim.cmd.bdelete, { silent = true })
+vim.keymap.set("n", "<leader>cc", vim.cmd.bdelete, { silent = true, desc = "[C]lose [C]urrent buffer" })
 
 -- register keymaps
 -- tend to start with leader r
 
 -- list
-vim.keymap.set("n", "<leader>rl", vim.cmd.registers, { silent = true })
+vim.keymap.set("n", "<leader>rl", vim.cmd.registers, { silent = true, desc = "[R]emap [L]ist" })
 
 -- mark keymaps
 -- tend to start with leader m
 
 -- list marks
-vim.keymap.set("n", "<leader>ml", vim.cmd.marks, { silent = true })
+vim.keymap.set("n", "<leader>ml", vim.cmd.marks, { silent = true, desc = "[M]ark [L]ist" })
 
 -- command line mode editing
 vim.cmd('cnoremap <C-h> <Left>')
 vim.cmd('cnoremap <C-l> <Right>')
 
 -- new scratch buffer
-vim.keymap.set("n", "<leader>n", vim.cmd.enew, { silent = true })
+vim.keymap.set("n", "<leader>n", vim.cmd.enew, { silent = true, desc = "[N]ew empty buffer" })

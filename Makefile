@@ -2,6 +2,7 @@ SHELL=/bin/bash
 .ONESHELL:
 
 dotfiles: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij
+dotfiles_linux: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme_linux zellij
 
 gitconfig:
 	@cp -v dotfiles/.gitconfig ~
@@ -39,6 +40,11 @@ bat_theme:
 	@cp -v bat/*.tmTheme "$(shell bat --config-dir)/themes"
 	@bat cache --build
 	@rm -rf bat
+
+k9s_theme_linux:
+	@K9S_CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config}/k9s" \
+		git clone https://github.com/catppuccin/k9s.git "${K9S_CONFIG_PATH}/skins/catppuccin" --depth 1 \
+		&& cp "${K9S_CONFIG_PATH}/skins/catppuccin/dist/frappe.yml" "${K9S_CONFIG_PATH}/skin.yml"
 
 k9s_theme:
 	@git clone https://github.com/catppuccin/k9s.git ~/Library/Application\ Support/k9s/skins/catppuccin --depth 1
@@ -120,4 +126,4 @@ clean:
 	@rm -rf zsh-syntax-highlighting
 
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc k9s_theme_linux

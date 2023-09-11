@@ -1,3 +1,4 @@
+# we will no longer check the below to save cpu cycles, we will leave this as a note
 # dependencies
 # we will check these after homebrew's path is setup
 # for pbcopy you will need something that replicates its functionality on non macOS systems
@@ -5,12 +6,13 @@
 # https://www.techtronic.us/pbcopy-pbpaste-for-wsl/
 # https://lloydrochester.com/post/unix/wsl-pbcopy-pbpaste/
 # https://garywoodfine.com/use-pbcopy-on-ubuntu/
-dependencies=(bat fd tree pbcopy gum)
+#
+## dependencies=(bat fd tree pbcopy gum)
 
 # psvar indexes
 # 1 - exit status
 # 2 - vcs_info_wrapper
-# 3 - apple logo toggle
+# 3 - logo
 
 # General Behaviors
 setopt autocd
@@ -54,14 +56,17 @@ function get_exit_status () {
 }
 precmd_functions+=(get_exit_status)
 
-# just for fun, display an apple logo if on macOS
-function is_apple () {
+# just for fun, display fun logos
+function logo () {
     if [[ $(uname) == "Darwin" ]]; then
-        # the value of psvar is not directly used in the prompt
-        psvar[3]=
+        psvar[3]=
+    elif [[ $(uname) == "Linux" ]]; then
+        psvar[3]=󰌽
+    else
+        psvar[3]=󰮯
     fi
 }
-precmd_functions+=(is_apple)
+precmd_functions+=(logo)
 
 # this doesn't display on the line I want
 #export RPROMPT='%(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'
@@ -77,14 +82,6 @@ fi
 
 if [[ -d /usr/local/go/bin ]]; then
     export PATH=$PATH:/usr/local/go/bin
-fi
-
-if [[ -a /usr/local/opt/gnu-sed/libexec/gnubin ]]; then
-    export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-fi
-
-if [[ -a /usr/local/opt/make/libexec/gnubin ]]; then
-    export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 fi
 
 if [[ -d $HOME/.pyenv/bin ]]; then
@@ -125,9 +122,12 @@ setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
 alias d='dirs -v'
 for index ({1..9}) alias "$index"="cd -${index}"; unset index
 
-# homebrew on macOS arm
+# homebrew on macOS arm64
 if [[ $(uname) == "Darwin" ]] && [[ $(uname -m) == "arm64" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
+# homebrew on Linux x86_64
+elif [[ $(uname) == "Linux" ]] && [[ $(uname -m) == "x86_64" ]]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 export HOMEBREW_NO_ANALYTICS=1
@@ -151,18 +151,15 @@ if type brew &>/dev/null; then
   export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
 
-if command -v exa >&-; then
-    export PROMPT='%(3V. .)%F{49}%~ %F{253}%#%f '
-else
-    export PROMPT='%(3V. .)%F{49}%~ %F{253}%#%f '
-fi
+export PROMPT='%3v %F{49}%~ %F{253}%#%f '
 
 # check dependencies now that homebrew's path is loaded
-for dep in ${dependencies[@]}; do
-    if ! command -v $dep >&-; then
-        echo ".zshrc requires $dep to be installed" >&2
-    fi
-done
+# disabling this for now
+#for dep in ${dependencies[@]}; do
+#    if ! command -v $dep >&-; then
+#        echo ".zshrc requires $dep to be installed" >&2
+#    fi
+#done
 
 
 zmodload zsh/complist
@@ -269,15 +266,12 @@ setopt prompt_subst
 # original: ✘ ✔
 
 # custom kube-ps1 icons don't work, likely something wrong upstream
-# just a test...
 export KUBE_PS1_PREFIX=""
 export KUBE_PS1_SUFFIX=""
 export KUBE_PS1_SYMBOL_ENABLE="false"
-if [[ -a /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh ]]; then
-    source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-    export PROMPT=$'\n''󰀱 $(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}󱓞.%F{red} %v)%f'$'\n'$PS1
-elif [[ -a /usr/local/opt/kube-ps1/share/kube-ps1.sh ]]; then
-    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+
+if [[ -a $(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh ]]; then
+    source "$(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh"
     export PROMPT=$'\n''󰀱 $(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}󱓞.%F{red} %v)%f'$'\n'$PS1
 else
    export PROMPT='%(?.%F{49}󱓞.%F{red} %v)%f%(2V. ${vcs_info_msg_0_}.) '$PS1
@@ -928,6 +922,11 @@ function woof () {
     gacpr "$1"
     rdy
     gham
+}
+
+function migrate_to_worktrees () {
+    remote=$(git remote -v | awk '/\(fetch\)/ { print $2 }')
+    echo 'WARNING!!!! This will remove all contents in the current directory!'
 }
 
 function kpn () {

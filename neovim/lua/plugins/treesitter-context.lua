@@ -5,6 +5,6 @@ return {
 
         vim.keymap.set("n", "[c", function()
             require("treesitter-context").go_to_context()
-        end, { silent = true })
+        end, { silent = true, desc = "Go to above context" })
     end,
 }
