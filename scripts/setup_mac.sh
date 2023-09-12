@@ -9,7 +9,7 @@ fi
 brew update \
     && brew install \
         bat \
-        exa \
+        eza \
         fd \
         fzf \
         tree \

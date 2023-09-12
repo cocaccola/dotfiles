@@ -303,17 +303,17 @@ else
     echo "You are not on macOS or Linux, please check .zshrc for ls color support" >&2
 fi
 
-# exa
+# eza
 # assumes installation of https://github.com/ryanoasis/nerd-fonts
-# overwrite ls aliases if exa is installed
-if command -v exa >&-; then
-    alias ls='exa -F --icons'
+# overwrite ls aliases if eza is installed
+if command -v eza >&-; then
+    alias ls='eza -F --icons'
     alias ll='ls --long --header --binary --group --links  --git'
     alias la='ls --long --header --binary --all --group  --links --git'
     alias laa='ls --long --header --binary --all --all --group  --links --git'
     alias l.='ls --long --header --binary --group --list-dirs --links --git .*'
     alias l1='ls --oneline'
-    alias tree='exa --icons --tree'
+    alias tree='eza --icons --tree'
 fi
 
 
@@ -437,13 +437,13 @@ export GPG_TTY=$(tty)
 
 export BAT_THEME="Catppuccin-macchiato"
 
-if command -v exa >&-; then
+if command -v eza >&-; then
     export FZF_DEFAULT_OPTS="
 -m
 --height 80%
 --layout=reverse
 --preview-window=right,70%:hidden
---preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (exa --icons --tree --color=always {} | less)) || echo {} 2> /dev/null | head -200'
+--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (eza --icons --tree --color=always {} | less)) || echo {} 2> /dev/null | head -200'
 --prompt='🔎 '
 --pointer='▶'
 --marker='⚑'
@@ -502,9 +502,9 @@ function _fzf_comprun() {
     local command=$1
     shift
 
-    if command -v exa >&-; then
+    if command -v eza >&-; then
         case "$command" in
-            cd)           fzf "$@" --preview 'exa --icons --tree --color=always {} | head -200' ;;
+            cd)           fzf "$@" --preview 'eza --icons --tree --color=always {} | head -200' ;;
             code|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
             export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
             ssh)          fzf --preview 'dig {}'                   "$@" ;;
