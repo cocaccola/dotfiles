@@ -38,7 +38,7 @@ return {
         lsp.setup()
 
         local cmp = require('cmp')
-        local cmp_action = require('lsp-zero').cmp_action()
+        -- local cmp_action = require('lsp-zero').cmp_action()
         cmp.setup({
             mapping = {
                 -- super tab, this might be bugged
