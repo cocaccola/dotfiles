@@ -43,6 +43,9 @@ setopt histsavenodups
 alias history='fc -li -100 -1'
 alias h='history'
 
+# neovim as man pager
+export MANPAGER='nvim +Man!'
+
 # Base Prompts
 function get_exit_status () {
     # https://tldp.org/LDP/abs/html/exitcodes.html

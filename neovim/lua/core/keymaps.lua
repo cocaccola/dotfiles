@@ -37,6 +37,12 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 -- close current buffer
 vim.keymap.set("n", "<leader>cc", vim.cmd.bdelete, { silent = true, desc = "[C]lose [C]urrent buffer" })
 
+-- close current window
+vim.keymap.set("n", "<leader>cw", "<c-w>c", { silent = true, desc = "[C]lose [W]indow" })
+
+-- fullscreen current window
+vim.keymap.set("n", "<leader>mw", "<c-w>o", { silent = true, desc = "[M]aximize [W]indow" })
+
 -- register keymaps
 -- tend to start with leader r
 
@@ -55,3 +61,34 @@ vim.cmd('cnoremap <C-l> <Right>')
 
 -- new scratch buffer
 vim.keymap.set("n", "<leader>n", vim.cmd.enew, { silent = true, desc = "[N]ew empty buffer" })
+
+-- Man pages
+
+-- Notes:
+-- Table of Contents | gO
+-- https://neovim.io/doc/user/filetype.html#%3AMan
+-- https://neovim.io/doc/user/various.html#gO
+-- command in normal mode: gO (capital letter o)
+
+-- default man command
+vim.keymap.set("n", "<leader>mm", "<cmd>Man<cr>", { silent = true })
+
+ManSections = {
+    "User commands (Programs)",
+    "System calls",
+    "Library calls",
+    "Special files (devices)",
+    "File formats and configuration files",
+    "Games",
+    "Overview, conventions, and miscellaneous",
+    "System management commands",
+}
+
+for section, desc in ipairs(ManSections) do
+    vim.keymap.set("n", "<leader>m" .. section,
+        function()
+            return '<cmd>Man ' .. section .. ' ' .. vim.fn.expand('<cword>') .. '<cr>'
+        end,
+        { silent = true, expr = true, desc = "Man: " .. desc }
+    )
+end
