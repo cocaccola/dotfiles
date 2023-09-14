@@ -41,6 +41,9 @@ return {
         -- local cmp_action = require('lsp-zero').cmp_action()
         cmp.setup({
             mapping = {
+                -- attempt to disable tab for cmp
+                ['<Tab>'] = vim.NIL,
+                ['<S-Tab>'] = vim.NIL,
                 -- super tab, this might be bugged
                 -- ['<Tab>'] = cmp_action.luasnip_supertab(),
                 -- ['<S-Tab>'] = cmp_action.luasnip_shift_supertab(),
