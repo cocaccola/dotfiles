@@ -26,10 +26,15 @@ vim.o.scrolloff = 8
 vim.o.signcolumn = 'yes'
 
 -- https://neovim.io/doc/user/options.html#'tabstop'
-vim.o.tabstop = 4
+-- by default, tab characters will be displayed natively if present
+vim.o.tabstop = 8
+
+-- we will use, by default, 4 spaces when pressing the tab key
+-- we use ftplugin to configure per filetype settings
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
+
 vim.o.smartindent = true
 
 vim.o.updatetime = 50
