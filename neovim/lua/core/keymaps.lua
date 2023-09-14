@@ -38,10 +38,10 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>cc", vim.cmd.bdelete, { silent = true, desc = "[C]lose [C]urrent buffer" })
 
 -- close current window
-vim.keymap.set("n", "<leader>cw", "<c-w>c", { silent = true, desc = "[C]lose [W]indow" })
+vim.keymap.set("n", "<leader>wc", "<c-w>c", { silent = true, desc = "Close Current Window" })
 
 -- fullscreen current window
-vim.keymap.set("n", "<leader>mw", "<c-w>o", { silent = true, desc = "[M]aximize [W]indow" })
+vim.keymap.set("n", "<leader>wo", "<c-w>o", { silent = true, desc = "Fullscreen Current Window" })
 
 -- register keymaps
 -- tend to start with leader r
