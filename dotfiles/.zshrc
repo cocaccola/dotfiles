@@ -560,7 +560,7 @@ function v () {
     local current_dir=$(pwd)
 
     if [ -d "$1" ]; then
-        cd $(dirname $1)
+        cd $1
         nvim .
         cd $current_dir
         return
