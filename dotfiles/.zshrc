@@ -108,14 +108,12 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 
 # Enable Ctrl-x-e to edit command line
+bindkey -e
 export EDITOR=nvim
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
-
-# fixes issue with vscode integrated terminal ctrl keybinds not working
-bindkey -e
 
 # Directory Stacks
 # https://zsh.sourceforge.io/Intro/intro_6.html
