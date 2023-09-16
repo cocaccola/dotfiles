@@ -37,20 +37,20 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 -- close current buffer
 vim.keymap.set("n", "<leader>cc", vim.cmd.bdelete, { silent = true, desc = "[C]lose [C]urrent buffer" })
 
-
+-- window prefix
 vim.keymap.set({ "n", "t" }, "<leader>w", "<c-w>", { desc = "Window command prefix" })
 
--- close current window
--- vim.keymap.set({ "n", "t" }, "<leader>wc", "<c-w>c", { silent = true, desc = "Close Current Window" })
-
--- fullscreen current window
--- vim.keymap.set({ "n", "t" }, "<leader>wo", "<c-w>o", { silent = true, desc = "Fullscreen Current Window" })
 
 -- register keymaps
 -- tend to start with leader r
 
--- list
-vim.keymap.set("n", "<leader>rl", vim.cmd.registers, { silent = true, desc = "[R]emap [L]ist" })
+-- list registers
+-- types column guide
+--
+-- c – characterwise text
+-- l – linewise text
+-- b – blockwise text
+vim.keymap.set("n", "<leader>rl", vim.cmd.registers, { silent = true, desc = "[R]egisters [L]ist" })
 
 -- mark keymaps
 -- tend to start with leader m
