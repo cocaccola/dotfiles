@@ -155,7 +155,7 @@ keybinds clear-defaults=true {
         bind "Alt y" { Copy; }
     }
     search {
-        bind "Ctrl s" { SwitchToMode "Normal"; }
+        bind "Enter" { SwitchToMode "Normal"; }
         bind "Ctrl a" "a" { SwitchToMode "Tmux"; }
         bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
         bind "j" "Down" { ScrollDown; }
