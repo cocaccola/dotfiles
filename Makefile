@@ -5,7 +5,11 @@ dotfiles: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij
 dotfiles_linux: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme_linux zellij default_c_formatting
 
 gitconfig:
+	@mv -v ~/.gitconfig ~/.gitconfig.bak
 	@cp -v dotfiles/.gitconfig ~
+	@cp -v dotfiles/.gitignore_global ~
+	@nvim -O ~/.gitconfig ~/.gitconfig.bak
+	@rm ~/.gitconfig.bak
 
 only_zshrc:
 	@cp -v dotfiles/.zshrc ~
