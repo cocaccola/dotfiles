@@ -10,7 +10,11 @@ gitconfig:
 only_zshrc:
 	@cp -v dotfiles/.zshrc ~
 
-zshrc: gitconfig bat_theme zsh_syntax_highlighting glamor_theme
+starship:
+	@mkdir ~/.config 2>&- || true
+	@cp -v dotfiles/starship.toml ~/.config/starship.toml
+
+zshrc: gitconfig bat_theme zsh_syntax_highlighting glamor_theme starship
 	@cp -v dotfiles/.zshrc ~
 
 tmux_conf:
@@ -129,4 +133,4 @@ clean:
 	@rm -rf zsh-syntax-highlighting
 
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc k9s_theme_linux default_c_formatting
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc k9s_theme_linux default_c_formatting starship
