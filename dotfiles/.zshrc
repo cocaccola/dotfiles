@@ -872,7 +872,12 @@ function gdfm () {
 
 function gla () {
     # gla - Git Log by Author
-    git l --author=$1
+    gl --author=$1
+}
+
+function glar () {
+    # glar - Git Log by Author (reverse)
+    glr --author=$1
 }
 
 function gacp () {
@@ -963,6 +968,12 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # zoxide - I don't use this
 # eval "$(zoxide init zsh)"
+
+# direnv
+# run silently
+# see https://github.com/direnv/direnv/blob/master/internal/cmd/log.go#L36-L44
+export DIRENV_LOG_FORMAT=""
+eval "$(direnv hook zsh)"
 
 # need to remove other stuff from PS1 above
 eval "$(starship init zsh)"

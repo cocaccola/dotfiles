@@ -16,7 +16,8 @@ brew update \
         zoxide \
         pinentry-mac \
         gnupg \
-        starship
+        starship \
+        direnv
 
 # k8s
 brew install \
