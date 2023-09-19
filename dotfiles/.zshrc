@@ -46,30 +46,30 @@ alias h='history'
 # neovim as man pager
 export MANPAGER='nvim +Man!'
 
-# Base Prompts
-function get_exit_status () {
-    # https://tldp.org/LDP/abs/html/exitcodes.html
-    # 128 + signal number = signal
-    local exit_status=$?
-    if (( exit_status > 128 )); then
-       psvar[1]=$(kill -l $exit_status)
-    else
-       psvar[1]=$exit_status
-    fi
-}
-precmd_functions+=(get_exit_status)
+## Base Prompts
+#function get_exit_status () {
+#    # https://tldp.org/LDP/abs/html/exitcodes.html
+#    # 128 + signal number = signal
+#    local exit_status=$?
+#    if (( exit_status > 128 )); then
+#       psvar[1]=$(kill -l $exit_status)
+#    else
+#       psvar[1]=$exit_status
+#    fi
+#}
+#precmd_functions+=(get_exit_status)
 
-# just for fun, display fun logos
-function logo () {
-    if [[ $(uname) == "Darwin" ]]; then
-        psvar[3]=
-    elif [[ $(uname) == "Linux" ]]; then
-        psvar[3]=󰌽
-    else
-        psvar[3]=󰮯
-    fi
-}
-precmd_functions+=(logo)
+## just for fun, display fun logos
+#function logo () {
+#    if [[ $(uname) == "Darwin" ]]; then
+#        psvar[3]=
+#    elif [[ $(uname) == "Linux" ]]; then
+#        psvar[3]=󰌽
+#    else
+#        psvar[3]=󰮯
+#    fi
+#}
+#precmd_functions+=(logo)
 
 # this doesn't display on the line I want
 #export RPROMPT='%(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'
@@ -152,7 +152,7 @@ if type brew &>/dev/null; then
   export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
 
-export PROMPT='%3v %F{49}%~ %F{253}%#%f '
+# export PROMPT='%3v %F{49}%~ %F{253}%#%f '
 
 # check dependencies now that homebrew's path is loaded
 # disabling this for now
@@ -239,44 +239,44 @@ unsetopt completealiases
 
 # Prompt enhancements
 
-# git info in prompt
-autoload -Uz vcs_info
-
-# vcs_info wrapper to fix space padding when not in a git repo and vcs_info_msg_0_ is empty
-function vcs_info_wrapper () {
-    vcs_info
-    if [[ -z "$vcs_info_msg_0_" ]]; then
-        psvar[2]=""
-    else
-        psvar[2]="yes"
-    fi
-}
-
-precmd_functions+=(vcs_info_wrapper)
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' unstagedstr '*'
-zstyle ':vcs_info:*' stagedstr '+'
-zstyle ':vcs_info:git:*' formats       'λ %{%F{49}%}%b%{%f%}%{%F{red}%}%u%c%{%f%}'
-zstyle ':vcs_info:git:*' actionformats 'λ %{%F{49}%}%b%{%f%}|%{%F{red}%}%a%u%c%{%f%}'
-
-setopt prompt_subst
+## git info in prompt
+#autoload -Uz vcs_info
+#
+## vcs_info wrapper to fix space padding when not in a git repo and vcs_info_msg_0_ is empty
+#function vcs_info_wrapper () {
+#    vcs_info
+#    if [[ -z "$vcs_info_msg_0_" ]]; then
+#        psvar[2]=""
+#    else
+#        psvar[2]="yes"
+#    fi
+#}
+#
+#precmd_functions+=(vcs_info_wrapper)
+#zstyle ':vcs_info:*' check-for-changes true
+#zstyle ':vcs_info:*' unstagedstr '*'
+#zstyle ':vcs_info:*' stagedstr '+'
+#zstyle ':vcs_info:git:*' formats       'λ %{%F{49}%}%b%{%f%}%{%F{red}%}%u%c%{%f%}'
+#zstyle ':vcs_info:git:*' actionformats 'λ %{%F{49}%}%b%{%f%}|%{%F{red}%}%a%u%c%{%f%}'
+#
+#setopt prompt_subst
 
 # put everything together with kube-ps1
 # could reduce this using brew --prefix
 #       󰀱 󰚑 󰂹 󰅏 󰆚 󰼁 󰚌 󰈸   󱓞 󱓟  
 # original: ✘ ✔
 
-# custom kube-ps1 icons don't work, likely something wrong upstream
-export KUBE_PS1_PREFIX=""
-export KUBE_PS1_SUFFIX=""
-export KUBE_PS1_SYMBOL_ENABLE="false"
-
-if [[ -a $(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh ]]; then
-    source "$(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh"
-    export PROMPT=$'\n''󰀱 $(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}󱓞.%F{red} %v)%f'$'\n'$PS1
-else
-   export PROMPT='%(?.%F{49}󱓞.%F{red} %v)%f%(2V. ${vcs_info_msg_0_}.) '$PS1
-fi
+## custom kube-ps1 icons don't work, likely something wrong upstream
+#export KUBE_PS1_PREFIX=""
+#export KUBE_PS1_SUFFIX=""
+#export KUBE_PS1_SYMBOL_ENABLE="false"
+#
+#if [[ -a $(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh ]]; then
+#    source "$(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh"
+#    export PROMPT=$'\n''󰀱 $(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}󱓞.%F{red} %v)%f'$'\n'$PS1
+#else
+#   export PROMPT='%(?.%F{49}󱓞.%F{red} %v)%f%(2V. ${vcs_info_msg_0_}.) '$PS1
+#fi
 
 
 # Commands Color Support
@@ -342,7 +342,7 @@ alias ga='git add'
 alias gaa='git add -A'
 alias gb='git branch'
 alias gco='git checkout'
-alias gcln='git clone' # migrating to worktrees
+alias gtcln='git clone' # use gcln (below) instead
 alias gc='git commit'
 alias gcm='git commit -m'
 alias gca='git commit -am'
@@ -645,8 +645,8 @@ function add_reviewers () {
     echo "to do"
 }
 
-function gwcln () {
-    # gwcln - clone a bare repo and setup main branch with git worktrees
+function gcln () {
+    # gcln - clone a bare repo and setup main branch with git worktrees
     # based on ideas from https://morgan.cugerone.com/blog/workarounds-to-git-worktree-using-bare-repository-and-cannot-fetch-remote-branches/
 
     local repo_dir=${${1##*/}%.git}
@@ -661,7 +661,7 @@ function gwcln () {
     git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 
     # get all branches from origin
-    # use git fetch origin (gfo) to update the bare repo
+    # use git fetch origin to update the bare repo
     git fetch origin
 
     local branch_name
@@ -961,8 +961,11 @@ fi
 source ~/.zsh/catppuccin/catppuccin_macchiato-zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# zoxide
-eval "$(zoxide init zsh)"
+# zoxide - I don't use this
+# eval "$(zoxide init zsh)"
+
+# need to remove other stuff from PS1 above
+eval "$(starship init zsh)"
 
 # motd
 moo

@@ -15,7 +15,8 @@ brew update \
         tree \
         zoxide \
         pinentry-mac \
-        gnupg
+        gnupg \
+        starship
 
 # k8s
 brew install \
@@ -34,7 +35,6 @@ brew install \
     terragrunt \
     the_silver_searcher \
     ipcalc \
-    dog \
     git-delta \
     gum \
     cowsay \
