@@ -1,5 +1,3 @@
-# Theme: https://github.com/catppuccin/starship/blob/main/starship.toml
-# Sets user-defined palette
 palette = "catppuccin_macchiato"
 add_newline = true
 format = """
@@ -17,8 +15,6 @@ $username\
 $hostname\
 $directory\
 $character"""
-
-# notes, some interesting ideas: https://starship.rs/presets/tokyo-night.html
 
 [git_branch]
 symbol = '󱁕 '
@@ -75,7 +71,6 @@ Macos = " "
 Linux = "󰌽 "
 Unknown = "󰮯 "
 
-
 [directory]
 format = '[$path]($style)[$read_only]($read_only_style) '
 truncation_length = 0
@@ -92,6 +87,7 @@ success_symbol = "[❯](green)"
 error_symbol = "[❯](red)"
 disabled = false
 
+# Theme: https://github.com/catppuccin/starship/blob/main/starship.toml
 # palette tables should be last in the config ⚓️
 [palettes.catppuccin_macchiato]
 rosewater = "#f4dbd6"
