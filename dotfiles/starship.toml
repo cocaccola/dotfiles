@@ -1,5 +1,8 @@
+#       󰀱 󰚑 󰂹 󰅏 󰆚 󰼁 󰚌 󰈸   󱓞 󱓟  
+
 palette = "catppuccin_macchiato"
 add_newline = true
+command_timeout = 1000
 format = """
 $kubernetes\
 $git_branch\
@@ -21,12 +24,16 @@ symbol = '󱁕 '
 format = '[$symbol$branch(:$remote_branch)]($style)'
 disabled = false
 
-# I'll figure this out later
 [git_commit]
-disabled = true
+format = '[󰼁 $hash$tag]($style)'
+only_detached = true
+tag_disabled = false
+tag_symbol = ' 󰓹 '
+tag_max_candidates = 0
+disabled = false
 
 [git_state]
-format = ' [$state( $progress_current/$progress_total)]($style) '
+format = '[$state($progress_current/$progress_total)]($style) '
 disabled = false
 
 [git_status]
