@@ -59,20 +59,21 @@ if [[ -d $HOME/.pyenv/bin ]]; then
     export PATH=$PATH:$HOME/.pyenv/bin
 fi
 
-# GKE
-
-# The next line updates PATH for the Google Cloud SDK.
-if [[ -f $HOME/google-cloud-sdk/path.zsh.inc ]]; then
-    source $HOME/google-cloud-sdk/path.zsh.inc
-fi
-
-# The next line enables shell command completion for gcloud.
-if [[ -f $HOME/google-cloud-sdk/completion.zsh.inc ]]; then
-    source $HOME/google-cloud-sdk/completion.zsh.inc
-fi
-
-# https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+# keep for example purposes
+# # GKE
+#
+# # The next line updates PATH for the Google Cloud SDK.
+# if [[ -f $HOME/google-cloud-sdk/path.zsh.inc ]]; then
+#     source $HOME/google-cloud-sdk/path.zsh.inc
+# fi
+#
+# # The next line enables shell command completion for gcloud.
+# if [[ -f $HOME/google-cloud-sdk/completion.zsh.inc ]]; then
+#     source $HOME/google-cloud-sdk/completion.zsh.inc
+# fi
+#
+# # https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+# export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 
 # Enable Ctrl-x-e to edit command line
@@ -197,9 +198,9 @@ unsetopt completealiases
 # Commands Color Support
 # This was lifted from Ubuntu on wsl2 and modified
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-fi
+# if [ -x /usr/bin/dircolors ]; then
+#     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+# fi
 
 # Setup OS specific aliases
 # left here as note for what the below eza aliases do
@@ -223,26 +224,31 @@ fi
 # eza
 # assumes installation of https://github.com/ryanoasis/nerd-fonts
 # overwrite ls aliases if eza is installed
-if command -v eza >&-; then
-    alias ls='eza -F --icons'
-    alias ll='ls --long --header --binary --group --links  --git'
-    alias la='ls --long --header --binary --all --group  --links --git'
-    alias laa='ls --long --header --binary --all --all --group  --links --git'
-    alias l.='ls --long --header --binary --group --list-dirs --links --git .*'
-    alias l1='ls --oneline'
-    alias tree='eza --icons --tree'
-fi
+# if command -v eza >&-; then
+alias ls='eza -F --icons'
+alias ll='ls --long --header --binary --group --links  --git'
+alias la='ls --long --header --binary --all --group  --links --git'
+alias laa='ls --long --header --binary --all --all --group  --links --git'
+alias l.='ls --long --header --binary --group --list-dirs --links --git .*'
+alias l1='ls --oneline'
+alias tree='eza --icons --tree'
+# fi
 
 
 # Aliases
 alias wh='which'
+alias less='less -R'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+
 alias vi='nvim'
 alias vim='nvim'
 alias vh="fc -l -n -50 -1 | nvim -c 'set filetype=zsh' -"
-alias less='less -R'
+
+alias ddev='cd ~/dev'
+alias ghpr='gh pr create --draft --title'
+
 alias g='git'
 alias grv='git remote -v'
 alias gw='git worktree'
@@ -270,6 +276,7 @@ alias gst='git stash'
 alias gstm='git stash -m'
 alias gstl='git stash list'
 alias gstp='git stash pop'
+
 alias k='kubectl'
 alias kg='kubectl get'
 alias ka='kubectl apply -f'
@@ -278,14 +285,18 @@ alias kdelf='kubectl delete -f'
 alias kd='kubectl describe'
 alias kc='kubectx'
 alias kn='kubens'
+
 alias tf='terraform'
 alias tg='terragrunt'
+
 alias p='pulumi'
 alias pup='pulumi up'
+
 alias agh='ag --hidden --ignore .git'
 alias agy='ag --yaml'
 alias agtf="ag -G '.*\.(hcl|tf|tfvars)'"
 alias agmd='ag --md'
+
 alias zlj='zellij'
 alias zjs='zellij -s'
 alias zjls='zellij list-sessions'
@@ -294,14 +305,12 @@ alias zjka='zellij kill-all-sessions'
 alias zja='zellij attach'
 alias zjr='zellij run'
 alias zje='zellij edit'
-alias ddev='cd ~/dev'
-alias ghpr='gh pr create --draft --title'
 
 
 # Others
 
 # pyenv
-if command -v pyenv >&- || test -d $HOME/.pyenv/bin; then
+if command -v pyenv >&- && test -d $HOME/.pyenv/bin; then
     eval "$(pyenv init -)"
 fi
 
@@ -352,8 +361,8 @@ export GPG_TTY=$(tty)
 
 export BAT_THEME="Catppuccin-macchiato"
 
-if command -v eza >&-; then
-    export FZF_DEFAULT_OPTS="
+# if command -v eza >&-; then
+export FZF_DEFAULT_OPTS="
 -m
 --height 80%
 --layout=reverse
@@ -373,28 +382,28 @@ if command -v eza >&-; then
 --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
 --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
 "
-else
-    export FZF_DEFAULT_OPTS="
--m
---height 80%
---layout=reverse
---preview-window=right,70%:hidden
---preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
---prompt='🔎 '
---pointer='▶'
---marker='⚑'
---bind '?:toggle-preview'
---bind 'ctrl-a:select-all'
---bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
---bind 'ctrl-e:execute(echo {+} | xargs -o nvim)'
---bind 'ctrl-v:execute(nvim {+})'
---bind 'alt-up:preview-page-up'
---bind 'alt-down:preview-page-down'
---color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
---color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
---color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
-"
-fi
+# else
+#     export FZF_DEFAULT_OPTS="
+# -m
+# --height 80%
+# --layout=reverse
+# --preview-window=right,70%:hidden
+# --preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
+# --prompt='🔎 '
+# --pointer='▶'
+# --marker='⚑'
+# --bind '?:toggle-preview'
+# --bind 'ctrl-a:select-all'
+# --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
+# --bind 'ctrl-e:execute(echo {+} | xargs -o nvim)'
+# --bind 'ctrl-v:execute(nvim {+})'
+# --bind 'alt-up:preview-page-up'
+# --bind 'alt-down:preview-page-down'
+# --color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
+# --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
+# --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
+# "
+# fi
 
 # default is **
 export FZF_COMPLETION_TRIGGER="'"
@@ -417,23 +426,23 @@ function _fzf_comprun() {
     local command=$1
     shift
 
-    if command -v eza >&-; then
-        case "$command" in
-            cd)           fzf "$@" --preview 'eza --icons --tree --color=always {} | head -200' ;;
-            v|vi|vim|nvim|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
-            export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
-            ssh)          fzf --preview 'dig {}'                   "$@" ;;
-            *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
-        esac
-    else
-        case "$command" in
-            cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
-            v|vi|vim|nvim|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
-            export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
-            ssh)          fzf --preview 'dig {}'                   "$@" ;;
-            *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
-        esac
-    fi
+    # if command -v eza >&-; then
+    case "$command" in
+        cd)           fzf "$@" --preview 'eza --icons --tree --color=always {} | head -200' ;;
+        v|vi|vim|nvim|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
+        export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+        ssh)          fzf --preview 'dig {}'                   "$@" ;;
+        *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
+    esac
+    # else
+    #     case "$command" in
+    #         cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+    #         v|vi|vim|nvim|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
+    #         export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+    #         ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    #         *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
+    #     esac
+    # fi
 }
 
 # Helper Functions
