@@ -6,13 +6,7 @@
 # https://www.techtronic.us/pbcopy-pbpaste-for-wsl/
 # https://lloydrochester.com/post/unix/wsl-pbcopy-pbpaste/
 # https://garywoodfine.com/use-pbcopy-on-ubuntu/
-#
-## dependencies=(bat fd tree pbcopy gum)
 
-# psvar indexes
-# 1 - exit status
-# 2 - vcs_info_wrapper
-# 3 - logo
 
 # General Behaviors
 setopt autocd
@@ -47,33 +41,6 @@ alias h='history'
 # neovim as man pager
 export MANPAGER='nvim +Man!'
 
-## Base Prompts
-#function get_exit_status () {
-#    # https://tldp.org/LDP/abs/html/exitcodes.html
-#    # 128 + signal number = signal
-#    local exit_status=$?
-#    if (( exit_status > 128 )); then
-#       psvar[1]=$(kill -l $exit_status)
-#    else
-#       psvar[1]=$exit_status
-#    fi
-#}
-#precmd_functions+=(get_exit_status)
-
-## just for fun, display fun logos
-#function logo () {
-#    if [[ $(uname) == "Darwin" ]]; then
-#        psvar[3]=
-#    elif [[ $(uname) == "Linux" ]]; then
-#        psvar[3]=󰌽
-#    else
-#        psvar[3]=󰮯
-#    fi
-#}
-#precmd_functions+=(logo)
-
-# this doesn't display on the line I want
-#export RPROMPT='%(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'
 
 # Path addons
 if [[ -d $HOME/go/bin ]]; then
@@ -154,16 +121,6 @@ if type brew &>/dev/null; then
   export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
 
-# export PROMPT='%3v %F{49}%~ %F{253}%#%f '
-
-# check dependencies now that homebrew's path is loaded
-# disabling this for now
-#for dep in ${dependencies[@]}; do
-#    if ! command -v $dep >&-; then
-#        echo ".zshrc requires $dep to be installed" >&2
-#    fi
-#done
-
 
 zmodload zsh/complist
 autoload -Uz compinit promptinit
@@ -236,50 +193,6 @@ setopt nomenucomplete
 setopt autoparamslash
 unsetopt completealiases
 
-#not sure if I like this one
-#setopt correctall
-
-# Prompt enhancements
-
-## git info in prompt
-#autoload -Uz vcs_info
-#
-## vcs_info wrapper to fix space padding when not in a git repo and vcs_info_msg_0_ is empty
-#function vcs_info_wrapper () {
-#    vcs_info
-#    if [[ -z "$vcs_info_msg_0_" ]]; then
-#        psvar[2]=""
-#    else
-#        psvar[2]="yes"
-#    fi
-#}
-#
-#precmd_functions+=(vcs_info_wrapper)
-#zstyle ':vcs_info:*' check-for-changes true
-#zstyle ':vcs_info:*' unstagedstr '*'
-#zstyle ':vcs_info:*' stagedstr '+'
-#zstyle ':vcs_info:git:*' formats       'λ %{%F{49}%}%b%{%f%}%{%F{red}%}%u%c%{%f%}'
-#zstyle ':vcs_info:git:*' actionformats 'λ %{%F{49}%}%b%{%f%}|%{%F{red}%}%a%u%c%{%f%}'
-#
-#setopt prompt_subst
-
-# put everything together with kube-ps1
-# could reduce this using brew --prefix
-#       󰀱 󰚑 󰂹 󰅏 󰆚 󰼁 󰚌 󰈸   󱓞 󱓟  
-# original: ✘ ✔
-
-## custom kube-ps1 icons don't work, likely something wrong upstream
-#export KUBE_PS1_PREFIX=""
-#export KUBE_PS1_SUFFIX=""
-#export KUBE_PS1_SYMBOL_ENABLE="false"
-#
-#if [[ -a $(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh ]]; then
-#    source "$(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh"
-#    export PROMPT=$'\n''󰀱 $(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}󱓞.%F{red} %v)%f'$'\n'$PS1
-#else
-#   export PROMPT='%(?.%F{49}󱓞.%F{red} %v)%f%(2V. ${vcs_info_msg_0_}.) '$PS1
-#fi
-
 
 # Commands Color Support
 # This was lifted from Ubuntu on wsl2 and modified
@@ -289,22 +202,23 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # Setup OS specific aliases
-if [[ $(uname) == "Linux" ]]; then
-    alias ls='ls -F --color=auto'
-    alias ll='ls -l'
-    alias la='ls -la'
-    alias l.='ls -ld .*'
-    alias l1='ls -1'
-elif [[ $(uname) == "Darwin" ]]; then
-    alias ls='ls -GF'
-    alias ll='ls -l'
-    alias la='ls -la'
-    alias l.='ls -ld .*'
-    alias l1='ls -1'
-#    alias grep='grep --colour=always'
-else
-    echo "You are not on macOS or Linux, please check .zshrc for ls color support" >&2
-fi
+# left here as note for what the below eza aliases do
+# if [[ $(uname) == "Linux" ]]; then
+#     alias ls='ls -F --color=auto'
+#     alias ll='ls -l'
+#     alias la='ls -la'
+#     alias l.='ls -ld .*'
+#     alias l1='ls -1'
+# elif [[ $(uname) == "Darwin" ]]; then
+#     alias ls='ls -GF'
+#     alias ll='ls -l'
+#     alias la='ls -la'
+#     alias l.='ls -ld .*'
+#     alias l1='ls -1'
+# #    alias grep='grep --colour=always'
+# else
+#     echo "You are not on macOS or Linux, please check .zshrc for ls color support" >&2
+# fi
 
 # eza
 # assumes installation of https://github.com/ryanoasis/nerd-fonts
@@ -318,10 +232,6 @@ if command -v eza >&-; then
     alias l1='ls --oneline'
     alias tree='eza --icons --tree'
 fi
-
-
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 
 # Aliases
@@ -966,8 +876,6 @@ fi
 source ~/.zsh/catppuccin/catppuccin_macchiato-zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# zoxide - I don't use this
-# eval "$(zoxide init zsh)"
 
 # direnv
 # run silently
@@ -975,7 +883,7 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export DIRENV_LOG_FORMAT=""
 eval "$(direnv hook zsh)"
 
-# need to remove other stuff from PS1 above
+# prompt
 eval "$(starship init zsh)"
 
 # motd
