@@ -17,35 +17,26 @@ brew update \
         pinentry-mac \
         gnupg \
         starship \
-        direnv
-
-# k8s
-brew install \
-    kube-ps1 \
-    kubectx \
-    kubernetes-cli \
-    k9s \
-    stern
-
-# tools
-brew install \
-    neovim \
-    jq \
-    yq \
-    terraform \
-    terragrunt \
-    the_silver_searcher \
-    ipcalc \
-    git-delta \
-    gum \
-    cowsay \
-    gh \
-    lolcat \
-    zellij \
-    neofetch
-
-# vscode & neovim deps
-brew install ripgrep
+        direnv \
+        kubectx \
+        kubernetes-cli \
+        k9s \
+        stern \
+        neovim \
+        ripgrep \
+        jq \
+        yq \
+        terraform \
+        terragrunt \
+        the_silver_searcher \
+        ipcalc \
+        git-delta \
+        gum \
+        cowsay \
+        gh \
+        lolcat \
+        zellij \
+        neofetch
 
 # fonts
 brew tap homebrew/cask-fonts

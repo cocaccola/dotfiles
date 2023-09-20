@@ -39,7 +39,7 @@ zellij:
 	@mkdir -p ~/.config/zellij 2>&- || true
 	@cp -v dotfiles/zellij.kdl ~/.config/zellij/config.kdl
 
-macOS_vscode_keyfix:
+macOS_keyfix:
 	@./vscode/macos-keyfix.sh
 
 terminal_theme:
@@ -137,4 +137,4 @@ clean:
 	@rm -rf zsh-syntax-highlighting
 
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_vscode_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc k9s_theme_linux default_c_formatting starship
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc k9s_theme_linux default_c_formatting starship

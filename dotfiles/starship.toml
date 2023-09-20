@@ -81,7 +81,6 @@ read_only = ''
 disabled = false
 
 [character]
-# Note the use of Catppuccin color 'maroon'
 format = '$symbol '
 success_symbol = "[❯](green)"
 error_symbol = "[❯](red)"

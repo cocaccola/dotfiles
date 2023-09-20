@@ -40,7 +40,7 @@ setopt histsavenodups
 
 # fc docs
 # https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html
-alias history='fc -li -100 -1'
+alias history='fc -li -10000 -1'
 alias h='history'
 
 # neovim as man pager
@@ -110,6 +110,7 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 # Enable Ctrl-x-e to edit command line
 bindkey -e
 export EDITOR=nvim
+zstyle :zle:edit-command-line editor nvim -c 'set filetype=zsh'
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
@@ -328,6 +329,8 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias vi='nvim'
+alias vim='nvim'
+alias vh="fc -l -n -50 -1 | nvim -c 'set filetype=zsh' -"
 alias less='less -R'
 alias g='git'
 alias grv='git remote -v'
@@ -368,7 +371,7 @@ alias tf='terraform'
 alias tg='terragrunt'
 alias p='pulumi'
 alias pup='pulumi up'
-alias agh='ag --hidden'
+alias agh='ag --hidden --ignore .git'
 alias agy='ag --yaml'
 alias agtf="ag -G '.*\.(hcl|tf|tfvars)'"
 alias agmd='ag --md'
@@ -422,8 +425,8 @@ export GPG_TTY=$(tty)
 #--bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
 # Open the selected entries in vim with 'CTRL-E'
 #--bind 'ctrl-e:execute(echo {+} | xargs -o vim)'
-#Open the selected entries in vscode with 'CTRL-V'
-#--bind 'ctrl-v:execute(code {+})'
+#Open the selected entries in neovim with 'CTRL-V'
+#--bind 'ctrl-v:execute(nvim {+})'
 
 # Macchiato theme
 # https://github.com/catppuccin/fzf
@@ -451,8 +454,8 @@ if command -v eza >&-; then
 --bind '?:toggle-preview'
 --bind 'ctrl-a:select-all'
 --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
---bind 'ctrl-e:execute(echo {+} | xargs -o vim)'
---bind 'ctrl-v:execute(code {+})'
+--bind 'ctrl-e:execute(echo {+} | xargs -o nvim)'
+--bind 'ctrl-v:execute(nvim {+})'
 --bind 'alt-up:preview-page-up'
 --bind 'alt-down:preview-page-down'
 --color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
@@ -472,8 +475,8 @@ else
 --bind '?:toggle-preview'
 --bind 'ctrl-a:select-all'
 --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
---bind 'ctrl-e:execute(echo {+} | xargs -o vim)'
---bind 'ctrl-v:execute(code {+})'
+--bind 'ctrl-e:execute(echo {+} | xargs -o nvim)'
+--bind 'ctrl-v:execute(nvim {+})'
 --bind 'alt-up:preview-page-up'
 --bind 'alt-down:preview-page-down'
 --color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
@@ -506,7 +509,7 @@ function _fzf_comprun() {
     if command -v eza >&-; then
         case "$command" in
             cd)           fzf "$@" --preview 'eza --icons --tree --color=always {} | head -200' ;;
-            code|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
+            v|vi|vim|nvim|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
             export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
             ssh)          fzf --preview 'dig {}'                   "$@" ;;
             *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
@@ -514,7 +517,7 @@ function _fzf_comprun() {
     else
         case "$command" in
             cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
-            code|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
+            v|vi|vim|nvim|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
             export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
             ssh)          fzf --preview 'dig {}'                   "$@" ;;
             *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
@@ -772,10 +775,6 @@ function gws () {
     fi
 
     cd $selected
-
-    if [[ "$TERM_PROGRAM" == "vscode" ]]; then
-        code -a $selected
-    fi
 }
 
 function gwfo () {
