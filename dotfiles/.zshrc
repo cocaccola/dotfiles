@@ -55,10 +55,6 @@ if [[ -d /usr/local/go/bin ]]; then
     export PATH=$PATH:/usr/local/go/bin
 fi
 
-if [[ -d $HOME/.pyenv/bin ]]; then
-    export PATH=$PATH:$HOME/.pyenv/bin
-fi
-
 # keep for example purposes
 # # GKE
 #
@@ -309,11 +305,6 @@ alias zje='zellij edit'
 
 # Others
 
-# pyenv
-if command -v pyenv >&- && test -d $HOME/.pyenv/bin; then
-    eval "$(pyenv init -)"
-fi
-
 # keychain
 if command -v keychain >&-; then
     eval $(keychain --quick --quiet --eval --noask --nogui --agents ssh)
@@ -503,10 +494,9 @@ function dev () {
     cd ~/dev/$selected
 }
 
-function nvmld () {
-    # nvmld - load nvm
+function nvm () {
+    # this function is a wrapper for nvm that lazy loads nvm
 
-    # nvm / node.js
     [[ -d "$HOME/.nvm" ]] || mkdir $HOME/.nvm
     export NVM_DIR="$HOME/.nvm"
 
@@ -515,19 +505,17 @@ function nvmld () {
 
     # This loads nvm bash_completion
     [[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ]] && source $(brew --prefix nvm)/etc/bash_completion.d/nvm
+
+    nvm "$@"
 }
 
-function nvm () {
-    # this function is a wrapper for nvm that lazy loads nvm
-    # loading nvm is slow
+function pyenv () {
+    # this function is a wrapper for pyenv that lazy loads pyenv
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(command pyenv init -)"
 
-    if [ -z "$NVM_DIR" ]; then
-        nvmld
-
-        nvm "$@"
-        return
-    fi
-    nvm "$@"
+    pyenv "$@"
 }
 
 function clean_branches () {
