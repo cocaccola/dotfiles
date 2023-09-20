@@ -40,6 +40,7 @@ setopt histsavenodups
 
 # fc docs
 # https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html
+# this command will show the last 10,000 entries
 alias history='fc -li -10000 -1'
 alias h='history'
 
