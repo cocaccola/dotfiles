@@ -6,13 +6,7 @@
 # https://www.techtronic.us/pbcopy-pbpaste-for-wsl/
 # https://lloydrochester.com/post/unix/wsl-pbcopy-pbpaste/
 # https://garywoodfine.com/use-pbcopy-on-ubuntu/
-#
-## dependencies=(bat fd tree pbcopy gum)
 
-# psvar indexes
-# 1 - exit status
-# 2 - vcs_info_wrapper
-# 3 - logo
 
 # General Behaviors
 setopt autocd
@@ -47,33 +41,6 @@ alias h='history'
 # neovim as man pager
 export MANPAGER='nvim +Man!'
 
-## Base Prompts
-#function get_exit_status () {
-#    # https://tldp.org/LDP/abs/html/exitcodes.html
-#    # 128 + signal number = signal
-#    local exit_status=$?
-#    if (( exit_status > 128 )); then
-#       psvar[1]=$(kill -l $exit_status)
-#    else
-#       psvar[1]=$exit_status
-#    fi
-#}
-#precmd_functions+=(get_exit_status)
-
-## just for fun, display fun logos
-#function logo () {
-#    if [[ $(uname) == "Darwin" ]]; then
-#        psvar[3]=
-#    elif [[ $(uname) == "Linux" ]]; then
-#        psvar[3]=󰌽
-#    else
-#        psvar[3]=󰮯
-#    fi
-#}
-#precmd_functions+=(logo)
-
-# this doesn't display on the line I want
-#export RPROMPT='%(?.%F{49}✔.%F{red}✘ $(get_exit_status $?))%f'
 
 # Path addons
 if [[ -d $HOME/go/bin ]]; then
@@ -88,24 +55,21 @@ if [[ -d /usr/local/go/bin ]]; then
     export PATH=$PATH:/usr/local/go/bin
 fi
 
-if [[ -d $HOME/.pyenv/bin ]]; then
-    export PATH=$PATH:$HOME/.pyenv/bin
-fi
-
-# GKE
-
-# The next line updates PATH for the Google Cloud SDK.
-if [[ -f $HOME/google-cloud-sdk/path.zsh.inc ]]; then
-    source $HOME/google-cloud-sdk/path.zsh.inc
-fi
-
-# The next line enables shell command completion for gcloud.
-if [[ -f $HOME/google-cloud-sdk/completion.zsh.inc ]]; then
-    source $HOME/google-cloud-sdk/completion.zsh.inc
-fi
-
-# https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+# keep for example purposes
+# # GKE
+#
+# # The next line updates PATH for the Google Cloud SDK.
+# if [[ -f $HOME/google-cloud-sdk/path.zsh.inc ]]; then
+#     source $HOME/google-cloud-sdk/path.zsh.inc
+# fi
+#
+# # The next line enables shell command completion for gcloud.
+# if [[ -f $HOME/google-cloud-sdk/completion.zsh.inc ]]; then
+#     source $HOME/google-cloud-sdk/completion.zsh.inc
+# fi
+#
+# # https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+# export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 
 # Enable Ctrl-x-e to edit command line
@@ -153,16 +117,6 @@ export GLAMOUR_STYLE=~/.config/glamour/catppuccin/macchiato.json
 if type brew &>/dev/null; then
   export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
-
-# export PROMPT='%3v %F{49}%~ %F{253}%#%f '
-
-# check dependencies now that homebrew's path is loaded
-# disabling this for now
-#for dep in ${dependencies[@]}; do
-#    if ! command -v $dep >&-; then
-#        echo ".zshrc requires $dep to be installed" >&2
-#    fi
-#done
 
 
 zmodload zsh/complist
@@ -236,103 +190,48 @@ setopt nomenucomplete
 setopt autoparamslash
 unsetopt completealiases
 
-#not sure if I like this one
-#setopt correctall
-
-# Prompt enhancements
-
-## git info in prompt
-#autoload -Uz vcs_info
-#
-## vcs_info wrapper to fix space padding when not in a git repo and vcs_info_msg_0_ is empty
-#function vcs_info_wrapper () {
-#    vcs_info
-#    if [[ -z "$vcs_info_msg_0_" ]]; then
-#        psvar[2]=""
-#    else
-#        psvar[2]="yes"
-#    fi
-#}
-#
-#precmd_functions+=(vcs_info_wrapper)
-#zstyle ':vcs_info:*' check-for-changes true
-#zstyle ':vcs_info:*' unstagedstr '*'
-#zstyle ':vcs_info:*' stagedstr '+'
-#zstyle ':vcs_info:git:*' formats       'λ %{%F{49}%}%b%{%f%}%{%F{red}%}%u%c%{%f%}'
-#zstyle ':vcs_info:git:*' actionformats 'λ %{%F{49}%}%b%{%f%}|%{%F{red}%}%a%u%c%{%f%}'
-#
-#setopt prompt_subst
-
-# put everything together with kube-ps1
-# could reduce this using brew --prefix
-#       󰀱 󰚑 󰂹 󰅏 󰆚 󰼁 󰚌 󰈸   󱓞 󱓟  
-# original: ✘ ✔
-
-## custom kube-ps1 icons don't work, likely something wrong upstream
-#export KUBE_PS1_PREFIX=""
-#export KUBE_PS1_SUFFIX=""
-#export KUBE_PS1_SYMBOL_ENABLE="false"
-#
-#if [[ -a $(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh ]]; then
-#    source "$(brew --prefix)/opt/kube-ps1/share/kube-ps1.sh"
-#    export PROMPT=$'\n''󰀱 $(kube_ps1)%(2V. ${vcs_info_msg_0_}.) %(?.%F{49}󱓞.%F{red} %v)%f'$'\n'$PS1
-#else
-#   export PROMPT='%(?.%F{49}󱓞.%F{red} %v)%f%(2V. ${vcs_info_msg_0_}.) '$PS1
-#fi
-
-
-# Commands Color Support
-# This was lifted from Ubuntu on wsl2 and modified
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-fi
-
 # Setup OS specific aliases
-if [[ $(uname) == "Linux" ]]; then
-    alias ls='ls -F --color=auto'
-    alias ll='ls -l'
-    alias la='ls -la'
-    alias l.='ls -ld .*'
-    alias l1='ls -1'
-elif [[ $(uname) == "Darwin" ]]; then
-    alias ls='ls -GF'
-    alias ll='ls -l'
-    alias la='ls -la'
-    alias l.='ls -ld .*'
-    alias l1='ls -1'
-#    alias grep='grep --colour=always'
-else
-    echo "You are not on macOS or Linux, please check .zshrc for ls color support" >&2
-fi
-
-# eza
-# assumes installation of https://github.com/ryanoasis/nerd-fonts
-# overwrite ls aliases if eza is installed
-if command -v eza >&-; then
-    alias ls='eza -F --icons'
-    alias ll='ls --long --header --binary --group --links  --git'
-    alias la='ls --long --header --binary --all --group  --links --git'
-    alias laa='ls --long --header --binary --all --all --group  --links --git'
-    alias l.='ls --long --header --binary --group --list-dirs --links --git .*'
-    alias l1='ls --oneline'
-    alias tree='eza --icons --tree'
-fi
-
-
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
+# left here as note for what the below eza aliases do
+# if [[ $(uname) == "Linux" ]]; then
+#     alias ls='ls -F --color=auto'
+#     alias ll='ls -l'
+#     alias la='ls -la'
+#     alias l.='ls -ld .*'
+#     alias l1='ls -1'
+# elif [[ $(uname) == "Darwin" ]]; then
+#     alias ls='ls -GF'
+#     alias ll='ls -l'
+#     alias la='ls -la'
+#     alias l.='ls -ld .*'
+#     alias l1='ls -1'
+# #    alias grep='grep --colour=always'
+# else
+#     echo "You are not on macOS or Linux, please check .zshrc for ls color support" >&2
+# fi
 
 # Aliases
+# assumes installation of https://github.com/ryanoasis/nerd-fonts
+alias ls='eza -F --icons'
+alias ll='ls --long --header --binary --group --links  --git'
+alias la='ls --long --header --binary --all --group  --links --git'
+alias laa='ls --long --header --binary --all --all --group  --links --git'
+alias l.='ls --long --header --binary --group --list-dirs --links --git .*'
+alias l1='ls --oneline'
+alias tree='eza --icons --tree'
+
 alias wh='which'
+alias less='less -R'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+
 alias vi='nvim'
 alias vim='nvim'
 alias vh="fc -l -n -50 -1 | nvim -c 'set filetype=zsh' -"
-alias less='less -R'
+
+alias ddev='cd ~/dev'
+alias ghpr='gh pr create --draft --title'
+
 alias g='git'
 alias grv='git remote -v'
 alias gw='git worktree'
@@ -360,6 +259,7 @@ alias gst='git stash'
 alias gstm='git stash -m'
 alias gstl='git stash list'
 alias gstp='git stash pop'
+
 alias k='kubectl'
 alias kg='kubectl get'
 alias ka='kubectl apply -f'
@@ -368,14 +268,18 @@ alias kdelf='kubectl delete -f'
 alias kd='kubectl describe'
 alias kc='kubectx'
 alias kn='kubens'
+
 alias tf='terraform'
 alias tg='terragrunt'
+
 alias p='pulumi'
 alias pup='pulumi up'
+
 alias agh='ag --hidden --ignore .git'
 alias agy='ag --yaml'
 alias agtf="ag -G '.*\.(hcl|tf|tfvars)'"
 alias agmd='ag --md'
+
 alias zlj='zellij'
 alias zjs='zellij -s'
 alias zjls='zellij list-sessions'
@@ -384,16 +288,9 @@ alias zjka='zellij kill-all-sessions'
 alias zja='zellij attach'
 alias zjr='zellij run'
 alias zje='zellij edit'
-alias ddev='cd ~/dev'
-alias ghpr='gh pr create --draft --title'
 
 
 # Others
-
-# pyenv
-if command -v pyenv >&- || test -d $HOME/.pyenv/bin; then
-    eval "$(pyenv init -)"
-fi
 
 # keychain
 if command -v keychain >&-; then
@@ -442,8 +339,7 @@ export GPG_TTY=$(tty)
 
 export BAT_THEME="Catppuccin-macchiato"
 
-if command -v eza >&-; then
-    export FZF_DEFAULT_OPTS="
+export FZF_DEFAULT_OPTS="
 -m
 --height 80%
 --layout=reverse
@@ -463,28 +359,6 @@ if command -v eza >&-; then
 --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
 --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
 "
-else
-    export FZF_DEFAULT_OPTS="
--m
---height 80%
---layout=reverse
---preview-window=right,70%:hidden
---preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
---prompt='🔎 '
---pointer='▶'
---marker='⚑'
---bind '?:toggle-preview'
---bind 'ctrl-a:select-all'
---bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
---bind 'ctrl-e:execute(echo {+} | xargs -o nvim)'
---bind 'ctrl-v:execute(nvim {+})'
---bind 'alt-up:preview-page-up'
---bind 'alt-down:preview-page-down'
---color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
---color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
---color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
-"
-fi
 
 # default is **
 export FZF_COMPLETION_TRIGGER="'"
@@ -507,23 +381,13 @@ function _fzf_comprun() {
     local command=$1
     shift
 
-    if command -v eza >&-; then
-        case "$command" in
-            cd)           fzf "$@" --preview 'eza --icons --tree --color=always {} | head -200' ;;
-            v|vi|vim|nvim|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
-            export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
-            ssh)          fzf --preview 'dig {}'                   "$@" ;;
-            *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
-        esac
-    else
-        case "$command" in
-            cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
-            v|vi|vim|nvim|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
-            export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
-            ssh)          fzf --preview 'dig {}'                   "$@" ;;
-            *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
-        esac
-    fi
+    case "$command" in
+        cd)           fzf "$@" --preview 'eza --icons --tree --color=always {} | head -200' ;;
+        v|vi|vim|nvim|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
+        export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+        ssh)          fzf --preview 'dig {}'                   "$@" ;;
+        *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
+    esac
 }
 
 # Helper Functions
@@ -584,10 +448,9 @@ function dev () {
     cd ~/dev/$selected
 }
 
-function nvmld () {
-    # nvmld - load nvm
+function nvm () {
+    # this function is a wrapper for nvm that lazy loads nvm
 
-    # nvm / node.js
     [[ -d "$HOME/.nvm" ]] || mkdir $HOME/.nvm
     export NVM_DIR="$HOME/.nvm"
 
@@ -596,19 +459,17 @@ function nvmld () {
 
     # This loads nvm bash_completion
     [[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ]] && source $(brew --prefix nvm)/etc/bash_completion.d/nvm
+
+    nvm "$@"
 }
 
-function nvm () {
-    # this function is a wrapper for nvm that lazy loads nvm
-    # loading nvm is slow
+function pyenv () {
+    # this function is a wrapper for pyenv that lazy loads pyenv
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(command pyenv init -)"
 
-    if [ -z "$NVM_DIR" ]; then
-        nvmld
-
-        nvm "$@"
-        return
-    fi
-    nvm "$@"
+    pyenv "$@"
 }
 
 function clean_branches () {
@@ -966,8 +827,6 @@ fi
 source ~/.zsh/catppuccin/catppuccin_macchiato-zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# zoxide - I don't use this
-# eval "$(zoxide init zsh)"
 
 # direnv
 # run silently
@@ -975,7 +834,7 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export DIRENV_LOG_FORMAT=""
 eval "$(direnv hook zsh)"
 
-# need to remove other stuff from PS1 above
+# prompt
 eval "$(starship init zsh)"
 
 # motd
