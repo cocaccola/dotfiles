@@ -190,14 +190,6 @@ setopt nomenucomplete
 setopt autoparamslash
 unsetopt completealiases
 
-
-# Commands Color Support
-# This was lifted from Ubuntu on wsl2 and modified
-# enable color support of ls and also add handy aliases
-# if [ -x /usr/bin/dircolors ]; then
-#     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-# fi
-
 # Setup OS specific aliases
 # left here as note for what the below eza aliases do
 # if [[ $(uname) == "Linux" ]]; then
@@ -217,10 +209,8 @@ unsetopt completealiases
 #     echo "You are not on macOS or Linux, please check .zshrc for ls color support" >&2
 # fi
 
-# eza
+# Aliases
 # assumes installation of https://github.com/ryanoasis/nerd-fonts
-# overwrite ls aliases if eza is installed
-# if command -v eza >&-; then
 alias ls='eza -F --icons'
 alias ll='ls --long --header --binary --group --links  --git'
 alias la='ls --long --header --binary --all --group  --links --git'
@@ -228,10 +218,7 @@ alias laa='ls --long --header --binary --all --all --group  --links --git'
 alias l.='ls --long --header --binary --group --list-dirs --links --git .*'
 alias l1='ls --oneline'
 alias tree='eza --icons --tree'
-# fi
 
-
-# Aliases
 alias wh='which'
 alias less='less -R'
 alias grep='grep --color=auto'
@@ -352,7 +339,6 @@ export GPG_TTY=$(tty)
 
 export BAT_THEME="Catppuccin-macchiato"
 
-# if command -v eza >&-; then
 export FZF_DEFAULT_OPTS="
 -m
 --height 80%
@@ -373,28 +359,6 @@ export FZF_DEFAULT_OPTS="
 --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
 --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
 "
-# else
-#     export FZF_DEFAULT_OPTS="
-# -m
-# --height 80%
-# --layout=reverse
-# --preview-window=right,70%:hidden
-# --preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
-# --prompt='🔎 '
-# --pointer='▶'
-# --marker='⚑'
-# --bind '?:toggle-preview'
-# --bind 'ctrl-a:select-all'
-# --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
-# --bind 'ctrl-e:execute(echo {+} | xargs -o nvim)'
-# --bind 'ctrl-v:execute(nvim {+})'
-# --bind 'alt-up:preview-page-up'
-# --bind 'alt-down:preview-page-down'
-# --color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
-# --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
-# --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
-# "
-# fi
 
 # default is **
 export FZF_COMPLETION_TRIGGER="'"
@@ -417,7 +381,6 @@ function _fzf_comprun() {
     local command=$1
     shift
 
-    # if command -v eza >&-; then
     case "$command" in
         cd)           fzf "$@" --preview 'eza --icons --tree --color=always {} | head -200' ;;
         v|vi|vim|nvim|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
@@ -425,15 +388,6 @@ function _fzf_comprun() {
         ssh)          fzf --preview 'dig {}'                   "$@" ;;
         *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
     esac
-    # else
-    #     case "$command" in
-    #         cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
-    #         v|vi|vim|nvim|open)    fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
-    #         export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
-    #         ssh)          fzf --preview 'dig {}'                   "$@" ;;
-    #         *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
-    #     esac
-    # fi
 }
 
 # Helper Functions
