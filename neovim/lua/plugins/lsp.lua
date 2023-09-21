@@ -25,6 +25,8 @@ return {
             -- see https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/lsp.md#enable-format-on-save
             lsp.buffer_autoformat()
 
+            vim.keymap.set('n', '<leader>st', '<cmd>lua vim.lsp.buf.document_symbol()<cr>',
+                { buffer = true, desc = "[S]ymbol [T]able of Contents" })
             vim.keymap.set('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>',
                 { buffer = true, desc = "[R]e [N]ame using lsp" })
             vim.keymap.set({ 'n', 'x' }, '<leader>fm', '<cmd>lua vim.lsp.buf.format({async = true})<cr>',
