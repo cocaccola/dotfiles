@@ -17,7 +17,7 @@ $os\
 $username\
 $hostname\
 $directory\
-$sudo \
+$sudo\
 $character"""
 
 [kubernetes]
@@ -80,7 +80,7 @@ Linux = "󰌽 "
 Unknown = "󰮯 "
 
 [directory]
-format = '[$path]($style)[$read_only]($read_only_style)'
+format = '[$path]($style)[$read_only]($read_only_style) '
 truncation_length = 0
 truncate_to_repo = false
 # Catppuccin 'lavender'
@@ -90,7 +90,7 @@ disabled = false
 
 [sudo]
 format = '$symbol($style)'
-symbol = ' 󱕴'
+symbol = '󱕴 '
 disabled = false
 
 [character]
