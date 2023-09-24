@@ -17,7 +17,13 @@ $os\
 $username\
 $hostname\
 $directory\
+$sudo \
 $character"""
+
+[kubernetes]
+symbol = '󰀱 '
+format = '[$symbol$context(:$namespace)]($style) '
+disabled = false
 
 [git_branch]
 symbol = '󱁕 '
@@ -38,11 +44,6 @@ disabled = false
 
 [git_status]
 format = '[$all_status$ahead_behind]($style) '
-disabled = false
-
-[kubernetes]
-symbol = '󰀱 '
-format = '[$symbol$context(:$namespace)]($style) '
 disabled = false
 
 [aws]
@@ -74,17 +75,22 @@ format = "[$symbol]($style)"
 disabled = false
 
 [os.symbols]
-Macos = " "
+Macos = "󱨎 "
 Linux = "󰌽 "
 Unknown = "󰮯 "
 
 [directory]
-format = '[$path]($style)[$read_only]($read_only_style) '
+format = '[$path]($style)[$read_only]($read_only_style)'
 truncation_length = 0
 truncate_to_repo = false
 # Catppuccin 'lavender'
 style = "bold lavender"
 read_only = ''
+disabled = false
+
+[sudo]
+format = '$symbol($style)'
+symbol = ' 󱕴'
 disabled = false
 
 [character]
