@@ -39,7 +39,7 @@ tag_max_candidates = 0
 disabled = false
 
 [git_state]
-format = '[$state($progress_current/$progress_total)]($style) '
+format = ' [$state($progress_current/$progress_total)]($style)'
 disabled = false
 
 [git_status]
