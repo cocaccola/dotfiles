@@ -43,6 +43,9 @@ vim.keymap.set({ "n", "t" }, "<leader>w", "<c-w>", { desc = "Window command pref
 
 -- register keymaps
 -- tend to start with leader r
+--
+-- a note about registers, you can use :wsh and :rsh to sync registers between nvim processes
+-- see https://neovim.io/doc/user/starting.html#%3Arshada
 
 -- list registers
 -- types column guide
@@ -64,6 +67,10 @@ vim.cmd('cnoremap <C-l> <Right>')
 
 -- new scratch buffer
 vim.keymap.set("n", "<leader>n", vim.cmd.enew, { silent = true, desc = "[N]ew empty buffer" })
+
+-- set filetype to zsh
+vim.keymap.set("n", "<leader>sh", "<cmd>set filetype=zsh<cr>",
+    { silent = true, desc = "Set filetype to shell (z[S][H])" })
 
 -- Man pages
 
