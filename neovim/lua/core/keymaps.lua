@@ -40,6 +40,9 @@ vim.keymap.set("n", "<leader>cc", vim.cmd.bdelete, { silent = true, desc = "[C]l
 -- window prefix
 vim.keymap.set({ "n", "t" }, "<leader>w", "<c-w>", { desc = "Window command prefix" })
 
+-- macro keymaps
+vim.keymap.set("x", "<leader>ms", ":'<,'>normal @", { desc = "[M]acro over [S]election" })
+
 
 -- register keymaps
 -- tend to start with leader r
