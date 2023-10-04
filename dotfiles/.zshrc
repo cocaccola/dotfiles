@@ -650,6 +650,32 @@ function gwfo () {
     cd $current_dir
 }
 
+function gwub () {
+    # gwub - git worktree update branch
+    # update current worktree branch
+    local current_dir=$(pwd)
+
+    _change_to_bare
+    git fetch origin
+
+    local branch_name
+    _primary_branch branch_name
+
+    cd $(git worktree list \
+        | awk '/\['"$branch_name"'\]/ {print $1}')
+
+    # if there are any changes git checkout will fail
+    git diff HEAD --quiet --exit-code
+    if [ $? -ne 0 ]; then
+        echo "!!!! Stashing Changes on $branch_name !!!!"
+        git stash -m 'stashed from gwub'
+    fi
+    git pull
+
+    cd $current_dir
+    git merge $branch_name
+}
+
 function gmp () {
     # gmp - Git checkout Main/Master & Pull
 
@@ -660,7 +686,7 @@ function gmp () {
         git stash -m 'stashed from gmp'
     fi
 
-    {git co main  || git co master} &> /dev/null
+    {git co main || git co master} &> /dev/null
     git pull
     echo -e "\nHEAD: $(git rev-parse --verify HEAD | sed s/\n//g)"
 }
