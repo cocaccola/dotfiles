@@ -268,6 +268,7 @@ alias kdelf='kubectl delete -f'
 alias kd='kubectl describe'
 alias kc='kubectx'
 alias kn='kubens'
+alias k9='k9s'
 
 alias tf='terraform'
 alias tg='terragrunt'
