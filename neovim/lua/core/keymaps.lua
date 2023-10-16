@@ -41,7 +41,8 @@ vim.keymap.set("n", "<leader>cc", vim.cmd.bdelete, { silent = true, desc = "[C]l
 vim.keymap.set({ "n", "t" }, "<leader>w", "<c-w>", { desc = "Window command prefix" })
 
 -- macro keymaps
-vim.keymap.set("x", "<leader>ms", ":'<,'>normal @", { desc = "[M]acro over [S]election" })
+-- if in visual line mode, it will auto insert mark ranges '<,'>
+vim.keymap.set("x", "<leader>ms", ":normal @", { desc = "[M]acro over [S]election" })
 
 
 -- register keymaps
