@@ -608,6 +608,7 @@ function gwr () {
     fi
 
     git worktree remove $wt_path
+    git branch -D $selected
 }
 
 function gwcob () {
@@ -647,6 +648,18 @@ function gwfo () {
 
     _change_to_bare
     git fetch origin
+
+    local branch_name
+    _primary_branch branch_name
+
+    cd $branch_name
+    git diff HEAD --quiet --exit-code
+    if [ $? -ne 0 ]; then
+        echo "!!!! Stashing Changes on $branch_name !!!!"
+        git stash -m "stashed on $branch_name from gwfo"
+    fi
+
+    git merge origin/$branch_name
 
     cd $current_dir
 }
