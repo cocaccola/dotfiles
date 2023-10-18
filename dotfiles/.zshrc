@@ -541,16 +541,10 @@ function gcln () {
 
 function gwco () {
     # gwco - checkout branch using worktrees
-    local branch
 
     _change_to_bare
 
-    if [ -n "$1" ]; then
-        git worktree add $1
-        cd $1
-        return
-    fi
-    branch=$(git branch \
+    local _branch=$(git branch -a \
         | gum filter --limit=1 --indicator=">" \
         | awk '{ if($1 ~ /[+*]/) { print $2 } else { print $1 } }')
 
@@ -559,13 +553,22 @@ function gwco () {
         return
     fi
 
+    local tracking=true
+    local branch=$_branch
+    local upstream_branch
+    if echo $_branch | grep -q 'remotes/origin'; then
+        tracking=false
+        branch=${_branch#remotes/origin/}
+        upstream_branch=$branch
+    fi
+
     if [ -d $branch ]; then
         echo "branch is already checked out" >&2
         return
     fi
 
-    git worktree add $branch
-    git branch --set-upstream-to=origin/$branch $branch
+    git worktree add $branch $upstream_branch
+    [[ $tracking == "true" ]] && git branch --set-upstream-to=origin/$branch $branch
     cd $branch
 }
 
