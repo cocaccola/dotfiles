@@ -550,7 +550,7 @@ function gwco () {
         | gum filter --limit=1 --indicator=">" \
         | awk '{ if($1 ~ /[+*]/) { print $2 } else { print $1 } }')
 
-    if [ -z "$branch" ]; then
+    if [ -z "$_branch" ]; then
         echo "nothing selected" >&2
         return
     fi
