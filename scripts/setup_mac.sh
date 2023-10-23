@@ -36,7 +36,9 @@ brew update \
         gh \
         lolcat \
         zellij \
-        neofetch
+        neofetch \
+        entr \
+        glow
 
 # fonts
 brew tap homebrew/cask-fonts

@@ -229,6 +229,8 @@ alias vi='nvim'
 alias vim='nvim'
 alias vh="fc -l -n -50 -1 | nvim -c 'set filetype=zsh' -"
 
+alias glow='glow -s $GLAMOUR_STYLE'
+
 alias ddev='cd ~/dev'
 alias ghpr='gh pr create --draft --title'
 
