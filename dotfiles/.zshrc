@@ -211,11 +211,11 @@ unsetopt completealiases
 
 # Aliases
 # assumes installation of https://github.com/ryanoasis/nerd-fonts
-alias ls='eza -F --icons'
-alias ll='ls --long --header --binary --group --links  --git'
-alias la='ls --long --header --binary --all --group  --links --git'
-alias laa='ls --long --header --binary --all --all --group  --links --git'
-alias l.='ls --long --header --binary --group --list-dirs --links --git .*'
+alias ls='eza -F --icons=auto'
+alias ll='ls --long --header --binary --smart-group --links --git'
+alias la='ls --long --header --binary --all --smart-group --links --git'
+alias laa='ls --long --header --binary --all --all --group --links --git'
+alias l.='ls --long --header --binary --smart-group --list-dirs --links --git .*'
 alias l1='ls --oneline'
 alias tree='eza --icons --tree'
 
