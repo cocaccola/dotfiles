@@ -421,6 +421,11 @@ function zj () {
 }
 
 function v () {
+    if [ -z "$NVM_BIN" ]; then
+        # a lot of Language Servers rely on node
+        nvm &> /dev/null
+    fi
+
     if [ -z "$1" ]; then
         nvim .
         return
