@@ -4,6 +4,12 @@
 #include <linux/cred.h>
 #include <linux/uidgid.h>
 
+tracepoint:syscalls:sys_enter_exec*
+{
+        printf("%d %s: ", pid, str(args->filename));
+        join(args->argv);
+}
+
 tracepoint:syscalls:sys_enter_unlinkat
 /strcontains(str(args->pathname), "/path/to/file")/
 {
