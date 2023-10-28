@@ -211,11 +211,11 @@ unsetopt completealiases
 
 # Aliases
 # assumes installation of https://github.com/ryanoasis/nerd-fonts
-alias ls='eza -F --icons'
-alias ll='ls --long --header --binary --group --links  --git'
-alias la='ls --long --header --binary --all --group  --links --git'
-alias laa='ls --long --header --binary --all --all --group  --links --git'
-alias l.='ls --long --header --binary --group --list-dirs --links --git .*'
+alias ls='eza -F --icons=auto'
+alias ll='ls --long --header --binary --smart-group --links --git'
+alias la='ls --long --header --binary --all --smart-group --links --git'
+alias laa='ls --long --header --binary --all --all --group --links --git'
+alias l.='ls --long --header --binary --smart-group --list-dirs --links --git .*'
 alias l1='ls --oneline'
 alias tree='eza --icons --tree'
 
@@ -228,6 +228,8 @@ alias egrep='egrep --color=auto'
 alias vi='nvim'
 alias vim='nvim'
 alias vh="fc -l -n -50 -1 | nvim -c 'set filetype=zsh' -"
+
+alias glow='glow -s $GLAMOUR_STYLE'
 
 alias ddev='cd ~/dev'
 alias ghpr='gh pr create --draft --title'
@@ -419,6 +421,11 @@ function zj () {
 }
 
 function v () {
+    if [ -z "$NVM_BIN" ]; then
+        # a lot of Language Servers rely on node
+        nvm &> /dev/null
+    fi
+
     if [ -z "$1" ]; then
         nvim .
         return
@@ -541,22 +548,25 @@ function gcln () {
 
 function gwco () {
     # gwco - checkout branch using worktrees
-    local branch
 
     _change_to_bare
 
-    if [ -n "$1" ]; then
-        git worktree add $1
-        cd $1
-        return
-    fi
-    branch=$(git branch \
+    local _branch=$(git branch -a \
         | gum filter --limit=1 --indicator=">" \
         | awk '{ if($1 ~ /[+*]/) { print $2 } else { print $1 } }')
 
-    if [ -z "$branch" ]; then
+    if [ -z "$_branch" ]; then
         echo "nothing selected" >&2
         return
+    fi
+
+    local tracking=true
+    local branch=$_branch
+    local upstream_branch
+    if echo $_branch | grep -q 'remotes/origin'; then
+        tracking=false
+        branch=${_branch#remotes/origin/}
+        upstream_branch=$branch
     fi
 
     if [ -d $branch ]; then
@@ -564,8 +574,8 @@ function gwco () {
         return
     fi
 
-    git worktree add $branch
-    git branch --set-upstream-to=origin/$branch $branch
+    git worktree add $branch $upstream_branch
+    [[ $tracking == "true" ]] && git branch --set-upstream-to=origin/$branch $branch
     cd $branch
 }
 
@@ -608,6 +618,7 @@ function gwr () {
     fi
 
     git worktree remove $wt_path
+    git branch -D $selected
 }
 
 function gwcob () {
@@ -647,6 +658,18 @@ function gwfo () {
 
     _change_to_bare
     git fetch origin
+
+    local branch_name
+    _primary_branch branch_name
+
+    cd $branch_name
+    git diff HEAD --quiet --exit-code
+    if [ $? -ne 0 ]; then
+        echo "!!!! Stashing Changes on $branch_name !!!!"
+        git stash -m "stashed on $branch_name from gwfo"
+    fi
+
+    git merge origin/$branch_name
 
     cd $current_dir
 }

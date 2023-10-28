@@ -1,0 +1,37 @@
+#!/usr/bin/env bpftrace
+
+#include <linux/sched.h>
+#include <linux/cred.h>
+#include <linux/uidgid.h>
+
+tracepoint:syscalls:sys_enter_exec*
+{
+        printf("%d %s: ", pid, str(args->filename));
+        join(args->argv);
+}
+
+tracepoint:syscalls:sys_enter_unlinkat
+/strcontains(str(args->pathname), "/path/to/file")/
+{
+        @pathname[tid] = args->pathname;
+}
+
+tracepoint:syscalls:sys_exit_unlinkat
+/@pathname[tid]/
+{
+        $ret = args->ret >= 0 ? args->ret : - args->ret;
+        printf("PPID: %d\nPUID: %d\nPCOMM: %s\nPID: %d\nUID: %d\nCOMM: %s\nEXIT: %s\nPATH: %s\n\n",
+                curtask->parent->pid,
+                curtask->parent->real_cred->uid.val,
+                curtask->parent->comm,
+                pid,
+                uid,
+                comm,
+                strerror($ret),
+                str(@pathname[tid]));
+        delete(@pathname[tid]);
+}
+END
+{
+        clear(@pathname);
+}
