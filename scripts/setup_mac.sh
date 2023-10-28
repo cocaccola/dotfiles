@@ -38,7 +38,8 @@ brew update \
         zellij \
         neofetch \
         entr \
-        glow
+        glow \
+        gotestsum
 
 # fonts
 brew tap homebrew/cask-fonts
