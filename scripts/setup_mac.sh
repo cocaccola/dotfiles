@@ -28,7 +28,6 @@ brew update \
         yq \
         terraform \
         terragrunt \
-        the_silver_searcher \
         ipcalc \
         git-delta \
         gum \

@@ -1,6 +1,3 @@
-# we will no longer check the below to save cpu cycles, we will leave this as a note
-# dependencies
-# we will check these after homebrew's path is setup
 # for pbcopy you will need something that replicates its functionality on non macOS systems
 # see the following for ideas:
 # https://www.techtronic.us/pbcopy-pbpaste-for-wsl/
@@ -286,10 +283,7 @@ alias tg='terragrunt'
 alias p='pulumi'
 alias pup='pulumi up'
 
-alias agh='ag --hidden --ignore .git'
-alias agy='ag --yaml'
-alias agtf="ag -G '.*\.(hcl|tf|tfvars)'"
-alias agmd='ag --md'
+alias rgh='rg -uuu'
 
 alias zlj='zellij'
 alias zjs='zellij -s'
