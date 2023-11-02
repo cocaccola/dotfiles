@@ -7,6 +7,14 @@
 # https://lloydrochester.com/post/unix/wsl-pbcopy-pbpaste/
 # https://garywoodfine.com/use-pbcopy-on-ubuntu/
 
+# Catppuccin Colors
+# https://github.com/catppuccin/catppuccin#-palette
+
+# gum theme
+export GUM_FILTER_INDICATOR_FOREGROUND="#f5bde6"
+export GUM_FILTER_CURSOR_TEXT_FOREGROUND="#f5bde6"
+export GUM_FILTER_MATCH_FOREGROUND="#e78284"
+export GUM_CHOOSE_CURSOR_FOREGROUND="#f5bde6"
 
 # General Behaviors
 setopt autocd
