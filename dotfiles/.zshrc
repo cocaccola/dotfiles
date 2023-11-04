@@ -398,13 +398,13 @@ function _fzf_comprun() {
 # Helper Functions
 function _primary_branch () {
     # _primary_branch fetches the primary branch name
-    local __primary_branch_ret_val=$1
+    local primary_branch_ret_val=$1
 
     #determine main branch
-    if git rev-parse --abbrev-ref master &> /dev/null; then
-        eval $__primary_branch_ret_val="master"
+    if git rev-parse --abbrev-ref main &> /dev/null; then
+        eval $primary_branch_ret_val="main"
     else
-        eval $__primary_branch_ret_val="main"
+        eval $primary_branch_ret_val="master"
     fi
 }
 

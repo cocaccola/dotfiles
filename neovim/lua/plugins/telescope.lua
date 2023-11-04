@@ -30,10 +30,9 @@ return {
             },
             pickers = {
                 buffers = {
-                    ignore_current_buffer = false,
+                    ignore_current_buffer = true,
                     sort_lastused = true,
-                    -- there's also
-                    -- sort_mru
+                    sort_mru = true,
                 },
                 current_buffer_fuzzy_find = {
 
