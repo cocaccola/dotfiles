@@ -40,6 +40,10 @@ return {
                 find_files = {
                     find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
                 },
+                planets = {
+                    show_pluto = true,
+                    show_moon = true,
+                },
             },
         })
         pcall(require('telescope').load_extension, 'fzf')
@@ -69,5 +73,8 @@ return {
         vim.keymap.set('n', '<leader>ft', builtin.filetypes, { desc = '[F]ile [T]ypes' })
         vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
         vim.keymap.set('n', '<leader>jl', builtin.jumplist, { desc = '[J]ump [L]ist' })
+        vim.keymap.set('n', '<leader>sm', builtin.marks, { desc = '[S]earch [M]arks' })
+
+        vim.keymap.set('n', '<leader>tp', builtin.planets, { desc = '[T]elescope [P]lanets' })
     end,
 }

@@ -65,6 +65,9 @@ vim.keymap.set("n", "<leader>rl", vim.cmd.registers, { silent = true, desc = "[R
 -- list marks
 vim.keymap.set("n", "<leader>ml", vim.cmd.marks, { silent = true, desc = "[M]ark [L]ist" })
 
+local global_marks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+vim.keymap.set("n", "<leader>gm", "<cmd>marks " .. global_marks .. "<cr>", { silent = true, desc = "[G]lobal [M]arks" })
+
 -- command line mode editing
 vim.cmd('cnoremap <C-h> <Left>')
 vim.cmd('cnoremap <C-l> <Right>')
