@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 .ONESHELL:
 
-dotfiles: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij default_c_formatting
+dotfiles: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij default_c_formatting wezterm
 dotfiles_linux: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme_linux zellij default_c_formatting
 
 gitconfig:
@@ -17,6 +17,9 @@ only_zshrc:
 starship:
 	@mkdir ~/.config 2>&- || true
 	@cp -v dotfiles/starship.toml ~/.config/starship.toml
+
+wezterm:
+	@cp -v wezterm/wezterm.lua ~/.wezterm.lua
 
 zshrc: gitconfig bat_theme zsh_syntax_highlighting glamor_theme starship
 	@cp -v dotfiles/.zshrc ~
@@ -137,4 +140,4 @@ clean:
 	@rm -rf zsh-syntax-highlighting
 
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc k9s_theme_linux default_c_formatting starship
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc k9s_theme_linux default_c_formatting starship wezterm
