@@ -44,5 +44,7 @@ brew update \
 brew tap homebrew/cask-fonts
 brew install font-fira-code-nerd-font
 
+brew install --cask wezterm
+
 # make dev directory for git repos
 mkdir ~/dev
