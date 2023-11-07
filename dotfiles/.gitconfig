@@ -18,7 +18,6 @@
 [delta]
     features = Catppuccin-macchiato
     navigate = true
-    side-by-side = true
     hyperlinks = true
     wrap-max-lines = unlimited
 
