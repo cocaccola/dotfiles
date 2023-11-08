@@ -25,6 +25,8 @@ keybinds clear-defaults=true {
         bind "m" { SwitchToMode "Move"; }
         bind "g" { SwitchToMode "Locked"; }
 
+        bind ";" { EditScrollback; SwitchToMode "Normal"; }
+
         bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
         bind "c" { NewTab; SwitchToMode "Normal"; }
         bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
