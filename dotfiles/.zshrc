@@ -268,6 +268,7 @@ alias gst='git stash'
 alias gstm='git stash -m'
 alias gstl='git stash list'
 alias gstp='git stash pop'
+alias gmc='nvim $(git diff --name-only --diff-filter=U --relative)'
 
 alias k='kubectl'
 alias kg='kubectl get'
