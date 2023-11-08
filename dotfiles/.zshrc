@@ -259,7 +259,8 @@ alias gcm='git commit -m'
 alias gca='git commit -am'
 alias gd='DELTA_FEATURES=+side-by-side git diff'
 alias gdi='git diff'
-alias gdc='git diff --cached'
+alias gdc='DELTA_FEATURES=+side-by-side git diff --cached'
+alias gdci='git diff --cached'
 alias gpl='git pull'
 alias gsha='git rev-parse --verify HEAD'
 alias gl="git log --pretty='format:%C(yellow)%h | %ad%Cred%d | %Creset%s%Cblue [%cn]' --decorate --date=iso --graph"
@@ -296,6 +297,7 @@ alias zjka='zellij kill-all-sessions'
 alias zja='zellij attach'
 alias zjr='zellij run'
 alias zje='zellij edit'
+alias zjda='zellij delete-all-sessions'
 
 
 # Others
