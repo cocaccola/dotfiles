@@ -247,7 +247,7 @@ alias gwrf='git worktree remove -f'
 alias gwp='git worktree prune'
 alias gwl='git worktree list'
 alias gf='git fetch'
-alias gfo='git fetch origin'
+# alias gfo='git fetch origin'
 alias gs='git status'
 alias ga='git add'
 alias gaa='git add -A'
@@ -505,26 +505,6 @@ function clean_branches () {
     git stash pop
 }
 
-function add_reviewers () {
-    # add_reviewers - add reviewers to a pr
-    # the default reviewers should be sourced from a user supplied zshrc snippet
-    # if [ -z "$DEFAULT_REVIEWERS" ]; then
-    #     echo "default reviewers is missing" >&2
-    #     return
-    # fi
-    # selection=$(\
-    #     gum choose \
-    #         --limit=1 \
-    #         --selected="default" \
-    #         "default" "custom")
-
-    # if [[ $selection == "default" ]]; then
-
-    #     return
-    # fi
-    echo "to do"
-}
-
 function gcln () {
     # gcln - clone a bare repo and setup main branch with git worktrees
     # based on ideas from https://morgan.cugerone.com/blog/workarounds-to-git-worktree-using-bare-repository-and-cannot-fetch-remote-branches/
@@ -628,8 +608,8 @@ function gwr () {
     git branch -D $selected
 }
 
-function gwcob () {
-    # gwcob - Git CheckOut Branch (worktrees)
+function gcob () {
+    # gcob - Git CheckOut Branch (worktrees)
     _change_to_bare
 
     local __branch_suffix="unnamed-$RANDOM"
@@ -658,8 +638,8 @@ function gws () {
     cd $selected
 }
 
-function gwfo () {
-    # gwfo - git worktree fetch origin
+function gfo () {
+    # gfo - git fetch origin
     # update worktree branches
     local current_dir=$(pwd)
 
@@ -673,7 +653,7 @@ function gwfo () {
     git diff HEAD --quiet --exit-code
     if [ $? -ne 0 ]; then
         echo "!!!! Stashing Changes on $branch_name !!!!"
-        git stash -m "stashed on $branch_name from gwfo"
+        git stash -m "stashed on $branch_name"
     fi
 
     git merge origin/$branch_name
@@ -681,46 +661,52 @@ function gwfo () {
     cd $current_dir
 }
 
-function gwub () {
-    # gwub - git worktree update branch
-    # update current worktree branch
-    local current_dir=$(pwd)
+function gub () {
+    # gub - git update branch
 
-    _change_to_bare
-    git fetch origin
+    # update current worktree branch
+    # local current_dir=$(pwd)
+    #
+    # _change_to_bare
+    # git fetch origin
+    #
+    # local branch_name
+    # _primary_branch branch_name
+    #
+    # cd $(git worktree list \
+    #     | awk '/\['"$branch_name"'\]/ {print $1}')
+    #
+    # # if there are any changes git checkout will fail
+    # git diff HEAD --quiet --exit-code
+    # if [ $? -ne 0 ]; then
+    #     echo "!!!! Stashing Changes on $branch_name !!!!"
+    #     git stash -m 'stashed from gwub'
+    # fi
+    # # git pull
+    # git merge origin/$branch_name
+
+    # cd $current_dir
 
     local branch_name
     _primary_branch branch_name
-
-    cd $(git worktree list \
-        | awk '/\['"$branch_name"'\]/ {print $1}')
-
-    # if there are any changes git checkout will fail
-    git diff HEAD --quiet --exit-code
-    if [ $? -ne 0 ]; then
-        echo "!!!! Stashing Changes on $branch_name !!!!"
-        git stash -m 'stashed from gwub'
-    fi
-    git pull
-
-    cd $current_dir
+    gfo
     git merge $branch_name
 }
 
-function gmp () {
-    # gmp - Git checkout Main/Master & Pull
-
-    # if there are any changes git checkout will fail
-    git diff HEAD --quiet --exit-code
-    if [ $? -ne 0 ]; then
-        echo "!!!! Stashing Changes !!!!"
-        git stash -m 'stashed from gmp'
-    fi
-
-    {git co main || git co master} &> /dev/null
-    git pull
-    echo -e "\nHEAD: $(git rev-parse --verify HEAD | sed s/\n//g)"
-}
+# function gmp () {
+#     # gmp - Git checkout Main/Master & Pull
+#
+#     # if there are any changes git checkout will fail
+#     git diff HEAD --quiet --exit-code
+#     if [ $? -ne 0 ]; then
+#         echo "!!!! Stashing Changes !!!!"
+#         git stash -m 'stashed from gmp'
+#     fi
+#
+#     {git co main || git co master} &> /dev/null
+#     git pull
+#     echo -e "\nHEAD: $(git rev-parse --verify HEAD | sed s/\n//g)"
+# }
 
 function gp () {
     # gp - Git Push
@@ -736,19 +722,19 @@ function gp () {
     fi
 }
 
-function gub () {
-    # gub - Git Update current Branch
-    local current=$(git branch --show-current)
-    git stash -m 'stashed from gub'
-    gmp
-    git checkout $current
-
-    local branch_name
-    _primary_branch branch_name
-
-    git merge $branch_name
-    git stash pop
-}
+# function gub () {
+#     # gub - Git Update current Branch
+#     local current=$(git branch --show-current)
+#     git stash -m 'stashed from gub'
+#     gmp
+#     git checkout $current
+#
+#     local branch_name
+#     _primary_branch branch_name
+#
+#     git merge $branch_name
+#     git stash pop
+# }
 
 function grm () {
     # grm - Git Rebase current branch from Main/Master
@@ -761,15 +747,15 @@ function grm () {
     git rebase $branch_name $current
 }
 
-function gcob () {
-    # gcob - Git CheckOut Branch
-    local __branch_suffix="unnamed-$RANDOM"
-    if [ -n "$1" ]; then
-        __branch_suffix=$1
-    fi
-
-    git checkout -b caccola/$__branch_suffix
-}
+# function gcob () {
+#     # gcob - Git CheckOut Branch
+#     local __branch_suffix="unnamed-$RANDOM"
+#     if [ -n "$1" ]; then
+#         __branch_suffix=$1
+#     fi
+#
+#     git checkout -b caccola/$__branch_suffix
+# }
 
 function gdf () {
     # gdf - Git Diff Files between commits
