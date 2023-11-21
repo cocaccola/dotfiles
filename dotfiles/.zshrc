@@ -289,6 +289,9 @@ alias pup='pulumi up'
 
 alias rgh='rg -uuu'
 
+alias dltai='delta'
+alias dlta='DELTA_FEATURES=+side-by-side delta'
+
 alias zlj='zellij'
 alias zjs='zellij -s'
 alias zjls='zellij list-sessions'
