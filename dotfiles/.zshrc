@@ -138,7 +138,9 @@ zstyle ':completion:*' rehash true
 #zstyle ':completion:*' verbose yes
 zstyle ':completion:*' file-sort modification reverse
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "~/.zcompcache"
+
+# just use the default
+#zstyle ':completion:*' cache-path "~/.zcompcache"
 zstyle ':completion:*' file-list all
 
 # add completion for special dirs '.' and '..'
