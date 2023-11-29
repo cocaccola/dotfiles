@@ -369,8 +369,8 @@ export FZF_DEFAULT_OPTS="
 --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
 --bind 'ctrl-e:execute(echo {+} | xargs -o nvim)'
 --bind 'ctrl-v:execute(nvim {+})'
---bind 'alt-up:preview-page-up'
---bind 'alt-down:preview-page-down'
+--bind 'ctrl-alt-k:preview-page-up'
+--bind 'ctrl-alt-j:preview-page-down'
 --color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
 --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
 --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
@@ -618,13 +618,13 @@ function gcob () {
     # gcob - Git CheckOut Branch (worktrees)
     _change_to_bare
 
-    local __branch_suffix="unnamed-$RANDOM"
+    local branch_suffix="unnamed-$RANDOM"
     if [ -n "$1" ]; then
-        __branch_suffix=$1
+        branch_suffix=$1
     fi
 
-    git worktree add -b caccola/$__branch_suffix $__branch_suffix
-    cd $__branch_suffix
+    git worktree add -b caccola/$branch_suffix $branch_suffix
+    cd $branch_suffix
 }
 
 function gws () {
@@ -669,50 +669,11 @@ function gfo () {
 
 function gub () {
     # gub - git update branch
-
-    # update current worktree branch
-    # local current_dir=$(pwd)
-    #
-    # _change_to_bare
-    # git fetch origin
-    #
-    # local branch_name
-    # _primary_branch branch_name
-    #
-    # cd $(git worktree list \
-    #     | awk '/\['"$branch_name"'\]/ {print $1}')
-    #
-    # # if there are any changes git checkout will fail
-    # git diff HEAD --quiet --exit-code
-    # if [ $? -ne 0 ]; then
-    #     echo "!!!! Stashing Changes on $branch_name !!!!"
-    #     git stash -m 'stashed from gwub'
-    # fi
-    # # git pull
-    # git merge origin/$branch_name
-
-    # cd $current_dir
-
     local branch_name
     _primary_branch branch_name
     gfo
     git merge $branch_name
 }
-
-# function gmp () {
-#     # gmp - Git checkout Main/Master & Pull
-#
-#     # if there are any changes git checkout will fail
-#     git diff HEAD --quiet --exit-code
-#     if [ $? -ne 0 ]; then
-#         echo "!!!! Stashing Changes !!!!"
-#         git stash -m 'stashed from gmp'
-#     fi
-#
-#     {git co main || git co master} &> /dev/null
-#     git pull
-#     echo -e "\nHEAD: $(git rev-parse --verify HEAD | sed s/\n//g)"
-# }
 
 function gp () {
     # gp - Git Push
@@ -728,20 +689,6 @@ function gp () {
     fi
 }
 
-# function gub () {
-#     # gub - Git Update current Branch
-#     local current=$(git branch --show-current)
-#     git stash -m 'stashed from gub'
-#     gmp
-#     git checkout $current
-#
-#     local branch_name
-#     _primary_branch branch_name
-#
-#     git merge $branch_name
-#     git stash pop
-# }
-
 function grm () {
     # grm - Git Rebase current branch from Main/Master
     local current=$(git branch --show-current)
@@ -752,16 +699,6 @@ function grm () {
 
     git rebase $branch_name $current
 }
-
-# function gcob () {
-#     # gcob - Git CheckOut Branch
-#     local __branch_suffix="unnamed-$RANDOM"
-#     if [ -n "$1" ]; then
-#         __branch_suffix=$1
-#     fi
-#
-#     git checkout -b caccola/$__branch_suffix
-# }
 
 function gdf () {
     # gdf - Git Diff Files between commits
