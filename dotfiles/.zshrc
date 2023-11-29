@@ -138,7 +138,9 @@ zstyle ':completion:*' rehash true
 #zstyle ':completion:*' verbose yes
 zstyle ':completion:*' file-sort modification reverse
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "~/.zcompcache"
+
+# just use the default
+#zstyle ':completion:*' cache-path "~/.zcompcache"
 zstyle ':completion:*' file-list all
 
 # add completion for special dirs '.' and '..'
@@ -226,6 +228,7 @@ alias tree='eza --icons --tree'
 
 alias wh='which'
 alias b='bat'
+alias brewup='brew update && brew outdated'
 alias less='less -R'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -247,7 +250,7 @@ alias gwrf='git worktree remove -f'
 alias gwp='git worktree prune'
 alias gwl='git worktree list'
 alias gf='git fetch'
-alias gfo='git fetch origin'
+# alias gfo='git fetch origin'
 alias gs='git status'
 alias ga='git add'
 alias gaa='git add -A'
@@ -288,6 +291,9 @@ alias p='pulumi'
 alias pup='pulumi up'
 
 alias rgh='rg -uuu'
+
+alias dltai='delta'
+alias dlta='DELTA_FEATURES=+side-by-side delta'
 
 alias zlj='zellij'
 alias zjs='zellij -s'
@@ -363,8 +369,8 @@ export FZF_DEFAULT_OPTS="
 --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
 --bind 'ctrl-e:execute(echo {+} | xargs -o nvim)'
 --bind 'ctrl-v:execute(nvim {+})'
---bind 'alt-up:preview-page-up'
---bind 'alt-down:preview-page-down'
+--bind 'ctrl-alt-k:preview-page-up'
+--bind 'ctrl-alt-j:preview-page-down'
 --color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
 --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
 --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
@@ -505,26 +511,6 @@ function clean_branches () {
     git stash pop
 }
 
-function add_reviewers () {
-    # add_reviewers - add reviewers to a pr
-    # the default reviewers should be sourced from a user supplied zshrc snippet
-    # if [ -z "$DEFAULT_REVIEWERS" ]; then
-    #     echo "default reviewers is missing" >&2
-    #     return
-    # fi
-    # selection=$(\
-    #     gum choose \
-    #         --limit=1 \
-    #         --selected="default" \
-    #         "default" "custom")
-
-    # if [[ $selection == "default" ]]; then
-
-    #     return
-    # fi
-    echo "to do"
-}
-
 function gcln () {
     # gcln - clone a bare repo and setup main branch with git worktrees
     # based on ideas from https://morgan.cugerone.com/blog/workarounds-to-git-worktree-using-bare-repository-and-cannot-fetch-remote-branches/
@@ -628,17 +614,17 @@ function gwr () {
     git branch -D $selected
 }
 
-function gwcob () {
-    # gwcob - Git CheckOut Branch (worktrees)
+function gcob () {
+    # gcob - Git CheckOut Branch (worktrees)
     _change_to_bare
 
-    local __branch_suffix="unnamed-$RANDOM"
+    local branch_suffix="unnamed-$RANDOM"
     if [ -n "$1" ]; then
-        __branch_suffix=$1
+        branch_suffix=$1
     fi
 
-    git worktree add -b caccola/$__branch_suffix $__branch_suffix
-    cd $__branch_suffix
+    git worktree add -b caccola/$branch_suffix $branch_suffix
+    cd $branch_suffix
 }
 
 function gws () {
@@ -658,8 +644,8 @@ function gws () {
     cd $selected
 }
 
-function gwfo () {
-    # gwfo - git worktree fetch origin
+function gfo () {
+    # gfo - git fetch origin
     # update worktree branches
     local current_dir=$(pwd)
 
@@ -673,7 +659,7 @@ function gwfo () {
     git diff HEAD --quiet --exit-code
     if [ $? -ne 0 ]; then
         echo "!!!! Stashing Changes on $branch_name !!!!"
-        git stash -m "stashed on $branch_name from gwfo"
+        git stash -m "stashed on $branch_name"
     fi
 
     git merge origin/$branch_name
@@ -681,45 +667,12 @@ function gwfo () {
     cd $current_dir
 }
 
-function gwub () {
-    # gwub - git worktree update branch
-    # update current worktree branch
-    local current_dir=$(pwd)
-
-    _change_to_bare
-    git fetch origin
-
+function gub () {
+    # gub - git update branch
     local branch_name
     _primary_branch branch_name
-
-    cd $(git worktree list \
-        | awk '/\['"$branch_name"'\]/ {print $1}')
-
-    # if there are any changes git checkout will fail
-    git diff HEAD --quiet --exit-code
-    if [ $? -ne 0 ]; then
-        echo "!!!! Stashing Changes on $branch_name !!!!"
-        git stash -m 'stashed from gwub'
-    fi
-    git pull
-
-    cd $current_dir
+    gfo
     git merge $branch_name
-}
-
-function gmp () {
-    # gmp - Git checkout Main/Master & Pull
-
-    # if there are any changes git checkout will fail
-    git diff HEAD --quiet --exit-code
-    if [ $? -ne 0 ]; then
-        echo "!!!! Stashing Changes !!!!"
-        git stash -m 'stashed from gmp'
-    fi
-
-    {git co main || git co master} &> /dev/null
-    git pull
-    echo -e "\nHEAD: $(git rev-parse --verify HEAD | sed s/\n//g)"
 }
 
 function gp () {
@@ -736,20 +689,6 @@ function gp () {
     fi
 }
 
-function gub () {
-    # gub - Git Update current Branch
-    local current=$(git branch --show-current)
-    git stash -m 'stashed from gub'
-    gmp
-    git checkout $current
-
-    local branch_name
-    _primary_branch branch_name
-
-    git merge $branch_name
-    git stash pop
-}
-
 function grm () {
     # grm - Git Rebase current branch from Main/Master
     local current=$(git branch --show-current)
@@ -759,16 +698,6 @@ function grm () {
     _primary_branch branch_name
 
     git rebase $branch_name $current
-}
-
-function gcob () {
-    # gcob - Git CheckOut Branch
-    local __branch_suffix="unnamed-$RANDOM"
-    if [ -n "$1" ]; then
-        __branch_suffix=$1
-    fi
-
-    git checkout -b caccola/$__branch_suffix
 }
 
 function gdf () {
