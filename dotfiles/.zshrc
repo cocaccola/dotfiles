@@ -632,16 +632,18 @@ function gws () {
     local selected
 
     selected=$(git worktree list \
-        | awk '{ if ($NF !~ /\(bare\)/) print $0 }' \
-        | gum filter --limit=1 --indicator=">" \
-        | awk '{print $1}')
+        | awk '{ if ($NF !~ /\(bare\)/) { gsub(/[\[\]]/, "", $NF); print $NF } }' \
+        | gum filter --limit=1 --indicator=">")
 
     if [ -z "$selected" ]; then
         echo "nothing selected" >&2
         return
     fi
 
-    cd $selected
+    selected_dir=$(git worktree list \
+        | awk -v selected=$selected '{ s = "\\["selected"\\]"; if ($NF ~ s) print $1}')
+
+    cd $selected_dir
 }
 
 function gfo () {
