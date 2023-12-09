@@ -34,9 +34,6 @@ return {
                     sort_lastused = true,
                     sort_mru = true,
                 },
-                current_buffer_fuzzy_find = {
-
-                },
                 find_files = {
                     find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
                 },

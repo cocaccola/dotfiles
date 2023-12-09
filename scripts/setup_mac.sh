@@ -38,7 +38,8 @@ brew update \
         neofetch \
         entr \
         glow \
-        gotestsum
+        gotestsum \
+        dive
 
 # fonts
 brew tap homebrew/cask-fonts
