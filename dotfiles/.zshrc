@@ -632,7 +632,17 @@ function gws () {
     local selected
 
     selected=$(git worktree list \
-        | awk '{ if ($NF !~ /\(bare\)/) { gsub(/[\[\]]/, "", $NF); print $NF } }' \
+        | awk '
+            {
+                if ($0 !~ /\((bare|detached HEAD)\)/) {
+                    gsub(/[\[\]]/, "", $NF)
+                    print $NF
+                }
+                if ($0 ~ /\(detached HEAD\)/) {
+                    len = split($1, path, "/")
+                    print path[len]" detached @"$2
+                }
+            }' \
         | gum filter --limit=1 --indicator=">")
 
     if [ -z "$selected" ]; then
@@ -640,8 +650,13 @@ function gws () {
         return
     fi
 
-    selected_dir=$(git worktree list \
-        | awk -v selected=$selected '{ s = "\\["selected"\\]"; if ($NF ~ s) print $1}')
+    if [[ "$selected" =~ 'detached @' ]]; then
+        selected_dir=$(git worktree list \
+            | awk -v selected=$(echo $selected | tr " " "-") 'BEGIN { sub(/.*@/, "", selected) } $2 ~ selected { print $1 }')
+    else
+        selected_dir=$(git worktree list \
+            | awk -v selected=$selected '{ s = "\\["selected"\\]"; if ($NF ~ s) print $1 }')
+    fi
 
     cd $selected_dir
 }
