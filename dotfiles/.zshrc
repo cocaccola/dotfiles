@@ -801,6 +801,16 @@ function woof () {
     gham
 }
 
+function zz () {
+    zellij run \
+        --in-place \
+        --close-on-exit \
+        --name "Select Tab" \
+        -- \
+        zellij action go-to-tab-name \
+        "$(zellij action query-tab-names | gum filter --limit=1 --indicator=">")"
+}
+
 function kpn () {
     # kpn - Kubernetes Pods on Node
     kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=$1
