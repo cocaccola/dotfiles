@@ -243,6 +243,10 @@ alias glow='glow -s $GLAMOUR_STYLE'
 alias ddev='cd ~/dev'
 alias ghpr='gh pr create --draft --title'
 
+# trying out a few draft aliases
+alias nrdy='gh pr ready --undo'
+alias draft='gh pr ready --undo'
+
 alias g='git'
 alias grv='git remote -v'
 alias gw='git worktree'
@@ -467,6 +471,7 @@ function dev () {
         | gum filter --limit=1 --indicator=">")
 
     cd ~/dev/$selected
+    gws
 }
 
 function nvm () {
