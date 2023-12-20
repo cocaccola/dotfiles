@@ -636,6 +636,11 @@ function gws () {
     # gws - git worktree switch
     local selected
 
+    local is_bare=$(git rev-parse --is-bare-repository 2>&-)
+    if [[ $? != 0 ]] || [[ "$is_bare" != "true" ]]; then
+        return
+    fi
+
     selected=$(git worktree list \
         | awk '
             {
