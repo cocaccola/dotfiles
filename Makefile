@@ -66,7 +66,7 @@ k9s_theme_linux:
 
 k9s_theme:
 	@git clone https://github.com/catppuccin/k9s.git ~/Library/Application\ Support/k9s/skins/catppuccin --depth 1
-	@cp -v ~/Library/Application\ Support/k9s/skins/catppuccin/dist/macchiato.yml ~/Library/Application\ Support/k9s/skin.yml
+	@cp -v ~/Library/Application\ Support/k9s/skins/catppuccin/dist/macchiato.yml ~/Library/Application\ Support/k9s/skins/catppuccin.yaml
 
 	@# from https://github.com/derailed/k9s/blob/master/skins/transparent.yml
 	@yq -i ' \
@@ -90,7 +90,10 @@ k9s_theme:
 	  .k9s.views.logs.indicator.toggleOffColor = "default" | \
 	  .k9s.views.yaml.colonColor = "default" | \
 	  .k9s.views.yaml.valueColor = "default" \
-	' ~/Library/Application\ Support/k9s/skin.yml
+	' ~/Library/Application\ Support/k9s/skins/catppuccin.yaml
+
+	@yq -i '.k9s.ui.skin = "catppuccin"' ~/Library/Application\ Support/k9s/config.yaml
+	@rm -rf ~/Library/Application\ Support/k9s/skins/catppuccin
 
 glamor_theme:
 	@mkdir -p ~/.config/glamour/catppuccin

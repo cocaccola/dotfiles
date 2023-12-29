@@ -443,23 +443,23 @@ function v () {
         nvm &> /dev/null
     fi
 
-    if [ -z "$1" ]; then
+    if [ -z "$@" ]; then
         nvim .
         return
     fi
 
     local current_dir=$(pwd)
 
-    if [ -d "$1" ]; then
-        cd $1
+    if [ -d "$@" ]; then
+        cd "$@"
         nvim .
-        cd $current_dir
+        cd "$current_dir"
         return
     fi
 
-    cd $(dirname $1)
-    nvim $(basename $1)
-    cd $current_dir
+    cd "$(dirname "$@")"
+    nvim "$(basename "$@")"
+    cd "$current_dir"
 }
 
 function dev () {
