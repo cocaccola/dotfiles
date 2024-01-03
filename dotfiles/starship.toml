@@ -88,15 +88,6 @@ style = "bold lavender"
 read_only = ''
 disabled = false
 
-[direnv]
-format = '[$loaded$allowed]($style) '
-allowed_msg = ''
-denied_msg = '󰉘 '
-loaded_msg = '󱥾 '
-unloaded_msg = ''
-symbol = ''
-disabled = false
-
 [sudo]
 format = '$symbol($style)'
 symbol = '󱕴 '
