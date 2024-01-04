@@ -443,23 +443,23 @@ function v () {
         nvm &> /dev/null
     fi
 
-    if [ -z "$1" ]; then
+    if [ -z "$@" ]; then
         nvim .
         return
     fi
 
     local current_dir=$(pwd)
 
-    if [ -d "$1" ]; then
-        cd $1
+    if [ -d "$@" ]; then
+        cd "$@"
         nvim .
-        cd $current_dir
+        cd "$current_dir"
         return
     fi
 
-    cd $(dirname $1)
-    nvim $(basename $1)
-    cd $current_dir
+    cd "$(dirname "$@")"
+    nvim "$(basename "$@")"
+    cd "$current_dir"
 }
 
 function dev () {
@@ -636,8 +636,9 @@ function gws () {
     # gws - git worktree switch
     local selected
 
-    local is_bare=$(git rev-parse --is-bare-repository 2>&-)
-    if [[ $? != 0 ]] || [[ "$is_bare" != "true" ]]; then
+    # determine if we are in a repo with worktrees
+    git worktree list &> /dev/null
+    if [[ $? != 0 ]]; then
         return
     fi
 
@@ -653,7 +654,7 @@ function gws () {
                     print path[len]" detached @"$2
                 }
             }' \
-        | gum filter --limit=1 --indicator=">")
+        | gum filter --limit=1 --select-if-one --indicator=">")
 
     if [ -z "$selected" ]; then
         echo "nothing selected" >&2

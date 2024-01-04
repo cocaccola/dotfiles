@@ -93,6 +93,14 @@ format = '$symbol($style)'
 symbol = '󱕴 '
 disabled = false
 
+[shlvl]
+format = '[$symbol$shlvl]($style)'
+repeat = true
+symbol = '❯'
+repeat_offset = 1
+threshold = 0
+disabled = false
+
 [character]
 format = '$symbol '
 success_symbol = "[❯](green)"
