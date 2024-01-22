@@ -61,7 +61,7 @@ return {
 
         vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]how [D]iagnostics' })
         vim.keymap.set('n', '<leader>ss', builtin.lsp_document_symbols, { desc = '[S]earch [S]ymbols' })
-        vim.keymap.set('n', '<leader>ws', builtin.lsp_workspace_symbols, { desc = '[W]orkspace [S]ymbols' })
+        vim.keymap.set('n', '<leader>sw', builtin.lsp_workspace_symbols, { desc = '[S]ymbols in [W]orkspace' })
         vim.keymap.set('n', '<leader>fr', builtin.lsp_references, { desc = '[F]ind [R]eferences' })
         vim.keymap.set('n', '<leader>fi', builtin.lsp_implementations, { desc = '[F]ind [I]mplementations' })
         vim.keymap.set('n', '<leader>fd', builtin.lsp_definitions, { desc = '[F]ind [D]definitions' })
