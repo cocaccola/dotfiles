@@ -295,6 +295,7 @@ alias tg='terragrunt'
 alias p='pulumi'
 alias pup='pulumi up'
 
+alias rg='rg --smart-case'
 alias rgh='rg -uuu'
 
 alias dltai='delta'
