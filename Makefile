@@ -63,7 +63,7 @@ bat_theme:
 
 k9s_theme_linux:
 	@git clone https://github.com/catppuccin/k9s.git ~/.config/k9s/skins/catppuccin --depth 1
-	@cp -v ~/.config/k9s/skins/catppuccin/dist/catppuccin-macchiato-transparent.yaml ~/.config/k9s/skins/catppuccin.yml
+	@cp -v ~/.config/k9s/skins/catppuccin/dist/catppuccin-macchiato-transparent.yaml ~/.config/k9s/skins/catppuccin.yaml
 	@yq -i '.k9s.ui.skin = "catppuccin"' ~/.config/k9s/config.yaml
 	@rm -rf ~/.config/k9s/skins/catppuccin
 
