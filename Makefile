@@ -1,8 +1,8 @@
 SHELL=/bin/bash
 .ONESHELL:
 
-dotfiles: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij default_c_formatting wezterm bin
-dotfiles_linux: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme_linux zellij default_c_formatting bin
+dotfiles:       gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij default_c_formatting wezterm bin
+dotfiles_linux: gitconfig zshrc tmux_conf vimrc neovim k9s_theme_linux zellij default_c_formatting bin
 
 bin:
 	@mkdir ~/bin 2>&- || true
@@ -25,7 +25,9 @@ starship:
 wezterm:
 	@cp -v wezterm/wezterm.lua ~/.wezterm.lua
 
+
 zshrc: gitconfig bat_theme zsh_syntax_highlighting glamor_theme starship
+	@mkdir ~/.zsh/user 2>&- || true
 	@cp -v dotfiles/.zshrc ~
 
 tmux_conf:
@@ -60,9 +62,10 @@ bat_theme:
 	@rm -rf bat
 
 k9s_theme_linux:
-	@K9S_CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config}/k9s" \
-		git clone https://github.com/catppuccin/k9s.git "${K9S_CONFIG_PATH}/skins/catppuccin" --depth 1 \
-		&& cp "${K9S_CONFIG_PATH}/skins/catppuccin/dist/frappe.yml" "${K9S_CONFIG_PATH}/skin.yml"
+	@git clone https://github.com/catppuccin/k9s.git ~/.config/k9s/skins/catppuccin --depth 1
+	@cp -v ~/.config/k9s/skins/catppuccin/dist/catppuccin-macchiato-transparent.yaml ~/.config/k9s/skins/catppuccin.yml
+	@yq -i '.k9s.ui.skin = "catppuccin"' ~/.config/k9s/config.yaml
+	@rm -rf ~/.config/k9s/skins/catppuccin
 
 k9s_theme:
 	@git clone https://github.com/catppuccin/k9s.git ~/Library/Application\ Support/k9s/skins/catppuccin --depth 1

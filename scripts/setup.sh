@@ -5,9 +5,35 @@ if ! command -v brew >&-; then
     exit 1
 fi
 
+brew update
+
+if [[ "$(uname)" == "Linux" ]]; then
+    ulimit -n $(ulimit -Hn)
+    brew install zsh
+    echo $(which zsh) | sudo tee -a /etc/shells
+    sudo chsh -s $(which zsh) caccola
+
+    # install pbcopy shim for wsl
+    # https://www.techtronic.us/pbcopy-pbpaste-for-wsl/
+    sudo > /usr/local/bin/pbcopy <<EOF
+#!/bin/bash
+# pbcopy for wsl
+tee <&0 | clip.exe
+exit 0
+EOF
+
+    sudo chmod +x /usr/local/bin/pbcopy
+fi
+
+if [[ "$(uname)" == "Darwin" ]]; then
+ brew install pinentry-mac
+# fonts, casks only work on macOS
+brew tap homebrew/cask-fonts
+brew install font-fira-code-nerd-font
+fi
+
 # required packages
-brew update \
-    && brew install \
+brew install \
         bat \
         eza \
         fd \
@@ -39,13 +65,11 @@ brew update \
         entr \
         glow \
         gotestsum \
-        dive
+        dive \
+        nvm
 
-# fonts
-brew tap homebrew/cask-fonts
-brew install font-fira-code-nerd-font
 
-brew install --cask wezterm
+#brew install --cask wezterm
 
 # make dev directory for git repos
-mkdir ~/dev
+#mkdir ~/dev
