@@ -9,7 +9,7 @@ brew update
 
 if [[ "$(uname)" == "Linux" ]]; then
     ulimit -n $(ulimit -Hn)
-    brew install zsh
+    brew install zsh keychain
     echo $(which zsh) | sudo tee -a /etc/shells
     sudo chsh -s $(which zsh) caccola
 
@@ -26,10 +26,10 @@ EOF
 fi
 
 if [[ "$(uname)" == "Darwin" ]]; then
- brew install pinentry-mac
-# fonts, casks only work on macOS
-brew tap homebrew/cask-fonts
-brew install font-fira-code-nerd-font
+    brew install pinentry-mac
+    # fonts, casks only work on macOS
+    brew tap homebrew/cask-fonts
+    brew install font-fira-code-nerd-font
 fi
 
 # required packages
