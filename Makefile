@@ -8,6 +8,10 @@ bin:
 	@mkdir ~/bin 2>&- || true
 	@cp -rv bin/ ~/bin
 
+delta_theme:
+	@mkdir -p ~/.config/delta 2>&- || true
+	@curl -fsSL https://raw.githubusercontent.com/Anomalocaridid/delta/main/themes/macchiato.gitconfig -o ~/.config/delta/macchiato.gitconfig
+
 gitconfig:
 	@mv -v ~/.gitconfig ~/.gitconfig.bak
 	@cp -v dotfiles/.gitconfig ~
