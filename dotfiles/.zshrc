@@ -311,6 +311,9 @@ alias zjr='zellij run'
 alias zje='zellij edit'
 alias zjda='zellij delete-all-sessions'
 
+# wsl2
+alias exp='explorer.exe'
+
 
 # Others
 
