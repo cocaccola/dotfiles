@@ -634,6 +634,13 @@ function gcob () {
     cd $branch_suffix
 }
 
+function gnub () {
+    # gnub - git new updated branch
+    # create a new branch from an updated primary branch
+    gfo
+    gcob "$1"
+}
+
 function gws () {
     # gws - git worktree switch
     local selected
