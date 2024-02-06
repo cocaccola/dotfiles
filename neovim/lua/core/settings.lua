@@ -53,3 +53,20 @@ vim.g.netrw_liststyle = 0
 
 vim.o.spelllang = 'en_us'
 vim.o.spell = true
+
+-- clipboard
+-- can also use: vim.loop.os_uname().sysname
+if (jit.os == "Linux" and os.getenv("WSL_DISTRO_NAME") ~= nil) then
+    vim.g.clipboard = {
+        name = 'WslClipboard',
+        copy = {
+            ['+'] = 'clip.exe',
+            ['*'] = 'clip.exe',
+        },
+        paste = {
+            ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+            ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        },
+        cache_enabled = false
+    }
+end

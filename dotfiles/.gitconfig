@@ -15,11 +15,15 @@
 [interactive]
     diffFilter = delta --color-only
 
+[include]
+    path = ~/.config/delta/macchiato.gitconfig
+
 [delta]
-    features = Catppuccin-macchiato
+    features = catppuccin-macchiato
     navigate = true
     hyperlinks = true
     wrap-max-lines = unlimited
+
 
 [merge]
     conflictstyle = diff3

@@ -1,12 +1,16 @@
 SHELL=/bin/bash
 .ONESHELL:
 
-dotfiles: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij default_c_formatting wezterm bin
-dotfiles_linux: gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme_linux zellij default_c_formatting bin
+dotfiles:       gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij default_c_formatting wezterm bin
+dotfiles_linux: gitconfig zshrc tmux_conf vimrc neovim k9s_theme_linux zellij default_c_formatting bin
 
 bin:
 	@mkdir ~/bin 2>&- || true
 	@cp -rv bin/ ~/bin
+
+delta_theme:
+	@mkdir -p ~/.config/delta 2>&- || true
+	@curl -fsSL https://raw.githubusercontent.com/Anomalocaridid/delta/main/themes/macchiato.gitconfig -o ~/.config/delta/macchiato.gitconfig
 
 gitconfig:
 	@mv -v ~/.gitconfig ~/.gitconfig.bak
@@ -25,7 +29,9 @@ starship:
 wezterm:
 	@cp -v wezterm/wezterm.lua ~/.wezterm.lua
 
+
 zshrc: gitconfig bat_theme zsh_syntax_highlighting glamor_theme starship
+	@mkdir ~/.zsh/user 2>&- || true
 	@cp -v dotfiles/.zshrc ~
 
 tmux_conf:
@@ -60,9 +66,10 @@ bat_theme:
 	@rm -rf bat
 
 k9s_theme_linux:
-	@K9S_CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config}/k9s" \
-		git clone https://github.com/catppuccin/k9s.git "${K9S_CONFIG_PATH}/skins/catppuccin" --depth 1 \
-		&& cp "${K9S_CONFIG_PATH}/skins/catppuccin/dist/frappe.yml" "${K9S_CONFIG_PATH}/skin.yml"
+	@git clone https://github.com/catppuccin/k9s.git ~/.config/k9s/skins/catppuccin --depth 1
+	@cp -v ~/.config/k9s/skins/catppuccin/dist/catppuccin-macchiato-transparent.yaml ~/.config/k9s/skins/catppuccin.yaml
+	@yq -i '.k9s.ui.skin = "catppuccin"' ~/.config/k9s/config.yaml
+	@rm -rf ~/.config/k9s/skins/catppuccin
 
 k9s_theme:
 	@git clone https://github.com/catppuccin/k9s.git ~/Library/Application\ Support/k9s/skins/catppuccin --depth 1
@@ -147,4 +154,7 @@ clean:
 	@rm -rf zsh-syntax-highlighting
 
 
-.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_keyfix bat_theme clean zsh_plugin_dir zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc k9s_theme_linux default_c_formatting starship wezterm bin
+.PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_keyfix bat_theme clean zsh_plugin_dir
+.PHONY:	zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache
+.PHONY:	k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc k9s_theme_linux default_c_formatting
+.PHONY:	starship wezterm bin delta_theme
