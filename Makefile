@@ -1,12 +1,15 @@
 SHELL=/bin/bash
 .ONESHELL:
 
-dotfiles:       gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij default_c_formatting wezterm bin
-dotfiles_linux: gitconfig zshrc tmux_conf vimrc neovim k9s_theme_linux zellij default_c_formatting bin
+dotfiles:       gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij default_c_formatting wezterm bin gh_config
+dotfiles_linux: gitconfig zshrc tmux_conf vimrc neovim k9s_theme_linux zellij default_c_formatting bin gh_config
 
 bin:
 	@mkdir ~/bin 2>&- || true
 	@cp -rv bin/ ~/bin
+
+gh_config:
+	@gh config set editor nvim
 
 delta_theme:
 	@mkdir -p ~/.config/delta 2>&- || true
@@ -157,4 +160,4 @@ clean:
 .PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_keyfix bat_theme clean zsh_plugin_dir
 .PHONY:	zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache
 .PHONY:	k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc k9s_theme_linux default_c_formatting
-.PHONY:	starship wezterm bin delta_theme
+.PHONY:	starship wezterm bin delta_theme gh_config
