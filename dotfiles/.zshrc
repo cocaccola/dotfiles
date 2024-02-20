@@ -839,6 +839,18 @@ function kpn () {
     kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=$1
 }
 
+function cronfmt () {
+    echo ' ┌───────────── minute (0–59)'
+    echo ' │ ┌───────────── hour (0–23)'
+    echo ' │ │ ┌───────────── day of the month (1–31)'
+    echo ' │ │ │ ┌───────────── month (1–12)'
+    echo ' │ │ │ │ ┌───────────── day of the week (0–6) (Sunday to Saturday;'
+    echo ' │ │ │ │ │                                   7 is also Sunday on some systems)'
+    echo ' │ │ │ │ │'
+    echo ' │ │ │ │ │'
+    echo ' * * * * * <command to execute>'
+}
+
 function asn () {
     # asn - asn lookup
     whois -h whois.cymru.com " -v $1"
