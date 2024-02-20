@@ -26,13 +26,17 @@
 
 
 [merge]
-    conflictstyle = diff3
+    ; conflictstyle = diff3
+    conflictstyle = zdiff3
+
 
 [diff]
     colorMoved = default
+    algorithm = histogram
 
 [push]
     default = simple
+    autoSetupRemote = true
 
 [alias]
     l = log --pretty=format:\"%C(yellow)%h | %ad%Cred%d | %Creset%s%Cblue\\ [%cn]\" --decorate --date=iso --graph

@@ -716,17 +716,24 @@ function gub () {
 }
 
 function gp () {
+    # This can probably be replaced with the gitconfig setting:
+    # push.autoSetupRemote = true
     # gp - Git Push
     # if there is no upstream branch we will set that up automatically
-    local branch=$(git branch --show-current)
-    local upstream_branch=$(git ls-remote --heads origin $branch)
-    if [[ -z $upstream_branch ]]; then
-        # there is no upstream branch yet
-        git push -u origin $branch
-    else
-        # there is an upstream branch
-        git push
-    fi
+    #
+    # We will try out the new setting
+    # If successful we will want to replace gp to be an alias to git push
+    git push
+
+    # local branch=$(git branch --show-current)
+    # local upstream_branch=$(git ls-remote --heads origin $branch)
+    # if [[ -z $upstream_branch ]]; then
+    #     # there is no upstream branch yet
+    #     git push -u origin $branch
+    # else
+    #     # there is an upstream branch
+    #     git push
+    # fi
 }
 
 function grm () {
@@ -775,7 +782,9 @@ function gacp () {
     fi
     git add -A
     git commit -am "$1"
-    gp
+    # gp
+    # we will try out the new gitconfig setting that should handle this
+    git push
 }
 
 function gacpr () {
