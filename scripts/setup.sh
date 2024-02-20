@@ -66,7 +66,8 @@ brew install \
         glow \
         gotestsum \
         dive \
-        nvm
+        nvm \
+        pandoc
 
 
 #brew install --cask wezterm
