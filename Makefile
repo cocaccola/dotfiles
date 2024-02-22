@@ -36,6 +36,7 @@ wezterm:
 zshrc: gitconfig bat_theme zsh_syntax_highlighting glamor_theme starship
 	@mkdir ~/.zsh/user 2>&- || true
 	@cp -v dotfiles/.zshrc ~
+	@$(brew --prefix)/opt/fzf/install
 
 tmux_conf:
 	@cp -v dotfiles/.tmux.conf ~
