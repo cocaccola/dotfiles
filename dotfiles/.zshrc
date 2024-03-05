@@ -264,6 +264,7 @@ alias gtcln='git clone' # use gcln (below) instead
 alias gc='git commit'
 alias gcm='git commit -m'
 alias gca='git commit -am'
+alias gp='git push'
 alias gd='DELTA_FEATURES=+side-by-side git diff'
 alias gdi='git diff'
 alias gdc='DELTA_FEATURES=+side-by-side git diff --cached'
@@ -445,7 +446,7 @@ function zj () {
 function v () {
     if [ -z "$NVM_BIN" ]; then
         # a lot of Language Servers rely on node
-        nvm &> /dev/null
+        nvm use default &> /dev/null
     fi
 
     if [ -z "$@" ]; then
@@ -715,26 +716,27 @@ function gub () {
     git merge $branch_name
 }
 
-function gp () {
-    # This can probably be replaced with the gitconfig setting:
-    # push.autoSetupRemote = true
-    # gp - Git Push
-    # if there is no upstream branch we will set that up automatically
-    #
-    # We will try out the new setting
-    # If successful we will want to replace gp to be an alias to git push
-    git push
-
-    # local branch=$(git branch --show-current)
-    # local upstream_branch=$(git ls-remote --heads origin $branch)
-    # if [[ -z $upstream_branch ]]; then
-    #     # there is no upstream branch yet
-    #     git push -u origin $branch
-    # else
-    #     # there is an upstream branch
-    #     git push
-    # fi
-}
+# I've aliased this above
+# function gp () {
+#     # This can probably be replaced with the gitconfig setting:
+#     # push.autoSetupRemote = true
+#     # gp - Git Push
+#     # if there is no upstream branch we will set that up automatically
+#     #
+#     # We will try out the new setting
+#     # If successful we will want to replace gp to be an alias to git push
+#     git push
+#
+#     # local branch=$(git branch --show-current)
+#     # local upstream_branch=$(git ls-remote --heads origin $branch)
+#     # if [[ -z $upstream_branch ]]; then
+#     #     # there is no upstream branch yet
+#     #     git push -u origin $branch
+#     # else
+#     #     # there is an upstream branch
+#     #     git push
+#     # fi
+# }
 
 function grm () {
     # grm - Git Rebase current branch from Main/Master
