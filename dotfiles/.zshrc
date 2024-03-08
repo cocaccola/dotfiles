@@ -761,8 +761,6 @@ function gacp () {
     fi
     git add -A
     git commit -am "$1"
-    # gp
-    # we will try out the new gitconfig setting that should handle this
     git push
 }
 
