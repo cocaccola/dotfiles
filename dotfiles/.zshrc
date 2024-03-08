@@ -254,7 +254,6 @@ alias gwrf='git worktree remove -f'
 alias gwp='git worktree prune'
 alias gwl='git worktree list'
 alias gf='git fetch'
-# alias gfo='git fetch origin'
 alias gs='git status'
 alias ga='git add'
 alias gaa='git add -A'
@@ -264,6 +263,7 @@ alias gtcln='git clone' # use gcln (below) instead
 alias gc='git commit'
 alias gcm='git commit -m'
 alias gca='git commit -am'
+alias gp='git push'
 alias gd='DELTA_FEATURES=+side-by-side git diff'
 alias gdi='git diff'
 alias gdc='DELTA_FEATURES=+side-by-side git diff --cached'
@@ -445,7 +445,7 @@ function zj () {
 function v () {
     if [ -z "$NVM_BIN" ]; then
         # a lot of Language Servers rely on node
-        nvm &> /dev/null
+        nvm use default &> /dev/null
     fi
 
     if [ -z "$@" ]; then
@@ -715,20 +715,6 @@ function gub () {
     git merge $branch_name
 }
 
-function gp () {
-    # gp - Git Push
-    # if there is no upstream branch we will set that up automatically
-    local branch=$(git branch --show-current)
-    local upstream_branch=$(git ls-remote --heads origin $branch)
-    if [[ -z $upstream_branch ]]; then
-        # there is no upstream branch yet
-        git push -u origin $branch
-    else
-        # there is an upstream branch
-        git push
-    fi
-}
-
 function grm () {
     # grm - Git Rebase current branch from Main/Master
     local current=$(git branch --show-current)
@@ -775,7 +761,7 @@ function gacp () {
     fi
     git add -A
     git commit -am "$1"
-    gp
+    git push
 }
 
 function gacpr () {
@@ -837,6 +823,18 @@ function zz () {
 function kpn () {
     # kpn - Kubernetes Pods on Node
     kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=$1
+}
+
+function cronfmt () {
+    echo ' ┌───────────── minute (0–59)'
+    echo ' │ ┌───────────── hour (0–23)'
+    echo ' │ │ ┌───────────── day of the month (1–31)'
+    echo ' │ │ │ ┌───────────── month (1–12)'
+    echo ' │ │ │ │ ┌───────────── day of the week (0–6) (Sunday to Saturday;'
+    echo ' │ │ │ │ │                                   7 is also Sunday on some systems)'
+    echo ' │ │ │ │ │'
+    echo ' │ │ │ │ │'
+    echo ' * * * * * <command to execute>'
 }
 
 function asn () {
