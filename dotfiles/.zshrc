@@ -254,7 +254,6 @@ alias gwrf='git worktree remove -f'
 alias gwp='git worktree prune'
 alias gwl='git worktree list'
 alias gf='git fetch'
-# alias gfo='git fetch origin'
 alias gs='git status'
 alias ga='git add'
 alias gaa='git add -A'
@@ -715,28 +714,6 @@ function gub () {
     gfo
     git merge $branch_name
 }
-
-# I've aliased this above
-# function gp () {
-#     # This can probably be replaced with the gitconfig setting:
-#     # push.autoSetupRemote = true
-#     # gp - Git Push
-#     # if there is no upstream branch we will set that up automatically
-#     #
-#     # We will try out the new setting
-#     # If successful we will want to replace gp to be an alias to git push
-#     git push
-#
-#     # local branch=$(git branch --show-current)
-#     # local upstream_branch=$(git ls-remote --heads origin $branch)
-#     # if [[ -z $upstream_branch ]]; then
-#     #     # there is no upstream branch yet
-#     #     git push -u origin $branch
-#     # else
-#     #     # there is an upstream branch
-#     #     git push
-#     # fi
-# }
 
 function grm () {
     # grm - Git Rebase current branch from Main/Master
