@@ -54,6 +54,9 @@ vim.g.netrw_liststyle = 0
 vim.o.spelllang = 'en_us'
 vim.o.spell = true
 
+-- vim tries to do the correct thing, but for certain files this causes issues
+vim.o.nofixeol = true
+
 -- clipboard
 -- can also use: vim.loop.os_uname().sysname
 if (jit.os == "Linux" and os.getenv("WSL_DISTRO_NAME") ~= nil) then
