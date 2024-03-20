@@ -327,12 +327,18 @@ fi
 export GPG_TTY=$(tty)
 
 
+# Testing new version
+# https://github.com/junegunn/fzf/releases/tag/0.48.0
+# Set up fzf key bindings and fuzzy completion
+eval "$(fzf --zsh)"
+
+# original, delete after testing
 # fzf
 # install with:
 # brew install fzf
 # $(brew --prefix)/opt/fzf/install
 # see https://github.com/junegunn/fzf#using-homebrew
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # https://github.com/junegunn/fzf#key-bindings-for-command-line
 # CTRL-T - Paste the selected files and directories onto the command-line
