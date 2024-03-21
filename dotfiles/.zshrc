@@ -257,6 +257,7 @@ alias gf='git fetch'
 alias gs='git status'
 alias ga='git add'
 alias gaa='git add -A'
+alias gr='git restore'
 alias gb='git branch'
 alias gco='git checkout'
 alias gtcln='git clone' # use gcln (below) instead
