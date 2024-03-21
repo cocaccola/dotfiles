@@ -55,7 +55,7 @@ vim.o.spelllang = 'en_us'
 vim.o.spell = true
 
 -- vim tries to do the correct thing, but for certain files this causes issues
-vim.o.nofixeol = true
+vim.o.fixeol = false
 
 -- clipboard
 -- can also use: vim.loop.os_uname().sysname
