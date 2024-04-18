@@ -590,6 +590,14 @@ function gwco () {
     cd $branch
 }
 
+function gdm () {
+    # gdm - git diff main / master
+    local primary
+    _primary_branch primary
+
+    git diff $primary
+}
+
 function gwr () {
     # gwr - git worktree remove
     local worktrees
