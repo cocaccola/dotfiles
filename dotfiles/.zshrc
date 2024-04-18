@@ -295,6 +295,7 @@ alias tg='terragrunt'
 
 alias p='pulumi'
 alias pup='pulumi up'
+alias pw='pulumi whoami -v'
 
 alias rg='rg --smart-case'
 alias rgh='rg -uuu'
@@ -587,6 +588,14 @@ function gwco () {
     git worktree add $branch $upstream_branch
     [[ $tracking == "true" ]] && git branch --set-upstream-to=origin/$branch $branch
     cd $branch
+}
+
+function gdm () {
+    # gdm - git diff main / master
+    local primary
+    _primary_branch primary
+
+    git diff $primary
 }
 
 function gwr () {
