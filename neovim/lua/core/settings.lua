@@ -23,10 +23,6 @@ vim.o.wrap = false
 
 vim.o.scrolloff = 8
 
--- trying out auto
--- vim.o.signcolumn = 'yes'
-vim.o.signcolumn = 'auto'
-
 -- https://neovim.io/doc/user/options.html#'tabstop'
 -- by default, tab characters will be displayed natively if present
 vim.o.tabstop = 8
