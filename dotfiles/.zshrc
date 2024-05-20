@@ -446,7 +446,7 @@ function _change_to_bare () {
 function zj () {
     local current_dir=$(pwd)
     cd
-    zellij attach --create the-one-session-to-rule-them-all
+    zellij attach --create main-session
     cd $current_dir
 }
 
