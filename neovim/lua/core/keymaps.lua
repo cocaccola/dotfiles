@@ -79,6 +79,12 @@ vim.keymap.set("n", "<leader>n", vim.cmd.enew, { silent = true, desc = "[N]ew em
 vim.keymap.set("n", "<leader>sh", "<cmd>set filetype=zsh<cr>",
     { silent = true, desc = "Set filetype to shell (z[S][H])" })
 
+-- vim split easy resize
+vim.keymap.set("n", "<M-,>", "<c-w>5<")
+vim.keymap.set("n", "<M-.>", "<c-w>5>")
+vim.keymap.set("n", "<M-t>", "<C-W>+")
+vim.keymap.set("n", "<M-s>", "<C-W>-")
+
 -- Man pages
 
 -- Notes:

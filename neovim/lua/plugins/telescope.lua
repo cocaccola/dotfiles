@@ -1,3 +1,7 @@
+-- TODO: look at the following
+-- Author's setup: https://github.com/tjdevries/config.nvim/blob/master/lua/custom/telescope.lua
+-- Updated kickstart: https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
+-- docs: https://github.com/nvim-telescope/telescope.nvim
 return {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
