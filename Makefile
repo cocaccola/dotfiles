@@ -13,7 +13,7 @@ gh_config:
 
 delta_theme:
 	@mkdir -p ~/.config/delta 2>&- || true
-	@curl -fsSL https://raw.githubusercontent.com/Anomalocaridid/delta/main/themes/macchiato.gitconfig -o ~/.config/delta/macchiato.gitconfig
+	@curl -fsSL https://raw.githubusercontent.com/catppuccin/delta/main/catppuccin.gitconfig -o ~/.config/delta/catppuccin.gitconfig
 
 gitconfig:
 	@mv -v ~/.gitconfig ~/.gitconfig.bak
