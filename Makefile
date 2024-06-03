@@ -54,6 +54,7 @@ neovim:
 
 zellij:
 	@mkdir -p ~/.config/zellij 2>&- || true
+	@mkdir -p ~/.config/zellij/layouts 2>&- || true
 	@cp -v dotfiles/zellij.kdl ~/.config/zellij/config.kdl
 
 macOS_keyfix:
