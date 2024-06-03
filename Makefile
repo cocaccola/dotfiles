@@ -66,7 +66,7 @@ terminal_theme:
 bat_theme:
 	@git clone https://github.com/catppuccin/bat.git
 	@mkdir -p "$(shell bat --config-dir)/themes"
-	@cp -v bat/*.tmTheme "$(shell bat --config-dir)/themes"
+	@cp -v bat/themes/*.tmTheme "$(shell bat --config-dir)/themes"
 	@bat cache --build
 	@rm -rf bat
 
