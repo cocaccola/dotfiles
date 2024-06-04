@@ -56,6 +56,7 @@ zellij:
 	@mkdir -p ~/.config/zellij 2>&- || true
 	@mkdir -p ~/.config/zellij/layouts 2>&- || true
 	@cp -v dotfiles/zellij.kdl ~/.config/zellij/config.kdl
+	@cp -vr dotfiles/zellij-layouts/* ~/.config/zellij/layouts
 
 macOS_keyfix:
 	@./vscode/macos-keyfix.sh
