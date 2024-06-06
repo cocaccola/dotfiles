@@ -11,5 +11,16 @@ return {
         vim.keymap.set("n", "<leader>qf", function() require("trouble").open("quickfix") end, { desc = "Quick Fix" })
         vim.keymap.set("n", "<leader>xl", function() require("trouble").open("loclist") end, { desc = "loclist" })
         vim.keymap.set("n", "gR", function() require("trouble").open("lsp_references") end, { desc = "lsp references" })
+        vim.keymap.set("n", "<leader>xc", function() require("trouble").close(opts) end, { desc = "close Trouble" })
+
+        vim.keymap.set("n", "<C-j>", function()
+            require("trouble").next(opts)
+            require("trouble").jump(opts)
+        end, { desc = "Trouble next item" })
+
+        vim.keymap.set("n", "<C-k>", function()
+            require("trouble").prev(opts)
+            require("trouble").jump(opts)
+        end, { desc = "Trouble prev item" })
     end,
 }
