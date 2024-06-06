@@ -88,6 +88,12 @@ vim.keymap.set("n", "<M-s>", "<C-W>-")
 vim.keymap.set("n", "<M-=>", "<C-W>5+")
 vim.keymap.set("n", "<M-->", "<C-W>5-")
 
+-- easy split nav
+vim.keymap.set("n", "<M-j>", "<c-w><c-j>")
+vim.keymap.set("n", "<M-k>", "<c-w><c-k>")
+vim.keymap.set("n", "<M-l>", "<c-w><c-l>")
+vim.keymap.set("n", "<M-h>", "<c-w><c-h>")
+
 -- Man pages
 
 -- Notes:
