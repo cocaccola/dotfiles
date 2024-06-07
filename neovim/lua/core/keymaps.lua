@@ -69,8 +69,8 @@ local global_marks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 vim.keymap.set("n", "<leader>gm", "<cmd>marks " .. global_marks .. "<cr>", { silent = true, desc = "[G]lobal [M]arks" })
 
 -- command line mode editing
-vim.cmd('cnoremap <C-h> <Left>')
-vim.cmd('cnoremap <C-l> <Right>')
+vim.cmd('cnoremap <M-h> <Left>')
+vim.cmd('cnoremap <M-l> <Right>')
 
 -- new scratch buffer
 vim.keymap.set("n", "<leader>n", vim.cmd.enew, { silent = true, desc = "[N]ew empty buffer" })
@@ -88,11 +88,12 @@ vim.keymap.set("n", "<M-s>", "<C-W>-")
 vim.keymap.set("n", "<M-=>", "<C-W>5+")
 vim.keymap.set("n", "<M-->", "<C-W>5-")
 
--- easy split nav
-vim.keymap.set("n", "<M-j>", "<c-w><c-j>")
-vim.keymap.set("n", "<M-k>", "<c-w><c-k>")
-vim.keymap.set("n", "<M-l>", "<c-w><c-l>")
-vim.keymap.set("n", "<M-h>", "<c-w><c-h>")
+-- -- easy split nav
+vim.keymap.set("n", "<C-j>", "<c-w><c-j>")
+vim.keymap.set("n", "<C-k>", "<c-w><c-k>")
+vim.keymap.set("n", "<C-l>", "<c-w><c-l>")
+vim.keymap.set("n", "<C-h>", "<c-w><c-h>")
+
 
 -- Man pages
 
