@@ -48,7 +48,7 @@ disabled = false
 
 [aws]
 symbol = '󰅟 '
-expiration_symbol = '⛆ '
+expiration_symbol = '⛆'
 format = '[$symbol($profile )(\($region\))(\[$duration\])]($style) '
 disabled = false
 
