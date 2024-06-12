@@ -13,12 +13,12 @@ return {
         vim.keymap.set("n", "gR", function() require("trouble").open("lsp_references") end, { desc = "lsp references" })
         vim.keymap.set("n", "<leader>xc", function() require("trouble").close(opts) end, { desc = "close Trouble" })
 
-        vim.keymap.set("n", "<C-.>", function()
+        vim.keymap.set("n", "<M-j>", function()
             require("trouble").next(opts)
             require("trouble").jump(opts)
         end, { desc = "Trouble next item" })
 
-        vim.keymap.set("n", "<C-,>", function()
+        vim.keymap.set("n", "<M-k>", function()
             require("trouble").prev(opts)
             require("trouble").jump(opts)
         end, { desc = "Trouble prev item" })
