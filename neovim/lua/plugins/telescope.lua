@@ -43,6 +43,9 @@ return {
                 find_files = {
                     find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
                 },
+                live_grep = {
+                    additional_args = { "--hidden" }
+                },
                 planets = {
                     show_pluto = true,
                     show_moon = true,
