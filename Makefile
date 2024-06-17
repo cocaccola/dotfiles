@@ -13,7 +13,7 @@ gh_config:
 
 delta_theme:
 	@mkdir -p ~/.config/delta 2>&- || true
-	@curl -fsSL https://raw.githubusercontent.com/Anomalocaridid/delta/main/themes/macchiato.gitconfig -o ~/.config/delta/macchiato.gitconfig
+	@curl -fsSL https://raw.githubusercontent.com/catppuccin/delta/main/catppuccin.gitconfig -o ~/.config/delta/catppuccin.gitconfig
 
 gitconfig:
 	@mv -v ~/.gitconfig ~/.gitconfig.bak
@@ -54,7 +54,9 @@ neovim:
 
 zellij:
 	@mkdir -p ~/.config/zellij 2>&- || true
+	@mkdir -p ~/.config/zellij/layouts 2>&- || true
 	@cp -v dotfiles/zellij.kdl ~/.config/zellij/config.kdl
+	@cp -vr dotfiles/zellij-layouts/* ~/.config/zellij/layouts
 
 macOS_keyfix:
 	@./vscode/macos-keyfix.sh
@@ -65,7 +67,7 @@ terminal_theme:
 bat_theme:
 	@git clone https://github.com/catppuccin/bat.git
 	@mkdir -p "$(shell bat --config-dir)/themes"
-	@cp -v bat/*.tmTheme "$(shell bat --config-dir)/themes"
+	@cp -v bat/themes/*.tmTheme "$(shell bat --config-dir)/themes"
 	@bat cache --build
 	@rm -rf bat
 

@@ -1,3 +1,7 @@
+-- TODO: look at the following
+-- Author's setup: https://github.com/tjdevries/config.nvim/blob/master/lua/custom/telescope.lua
+-- Updated kickstart: https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
+-- docs: https://github.com/nvim-telescope/telescope.nvim
 return {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
@@ -15,18 +19,20 @@ return {
                 return vim.fn.executable 'make' == 1
             end,
         },
+        { 'nvim-telescope/telescope-ui-select.nvim' },
+        { 'nvim-tree/nvim-web-devicons', enabled = true },
     },
     config = function()
         require('telescope').setup({
             defaults = {
-                mappings = {
-                    -- these were suggested by kickstart
-                    -- disable if you don't like them
-                    i = {
-                        ['<C-u>'] = false,
-                        ['<C-d>'] = false,
-                    },
-                },
+                -- mappings = {
+                --     -- these were suggested by kickstart
+                --     -- disable if you don't like them
+                --     i = {
+                --         ['<C-u>'] = false,
+                --         ['<C-d>'] = false,
+                --     },
+                -- },
             },
             pickers = {
                 buffers = {
@@ -37,13 +43,22 @@ return {
                 find_files = {
                     find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
                 },
+                live_grep = {
+                    additional_args = { "--hidden" }
+                },
                 planets = {
                     show_pluto = true,
                     show_moon = true,
                 },
             },
+            extensions = {
+                ['ui-select'] = {
+                    require('telescope.themes').get_dropdown(),
+                },
+            },
         })
         pcall(require('telescope').load_extension, 'fzf')
+        pcall(require('telescope').load_extension, 'ui-select')
 
         local builtin = require('telescope.builtin')
 
