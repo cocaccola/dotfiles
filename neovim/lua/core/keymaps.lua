@@ -69,8 +69,9 @@ local global_marks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 vim.keymap.set("n", "<leader>gm", "<cmd>marks " .. global_marks .. "<cr>", { silent = true, desc = "[G]lobal [M]arks" })
 
 -- command line mode editing
-vim.cmd('cnoremap <M-h> <Left>')
-vim.cmd('cnoremap <M-l> <Right>')
+-- use ctrl+f instead
+-- vim.cmd('cnoremap <M-h> <Left>')
+-- vim.cmd('cnoremap <M-l> <Right>')
 
 -- new scratch buffer
 vim.keymap.set("n", "<leader>n", vim.cmd.enew, { silent = true, desc = "[N]ew empty buffer" })
