@@ -16,7 +16,7 @@
     diffFilter = delta --color-only
 
 [include]
-    path = ~/.config/delta/macchiato.gitconfig
+    path = ~/.config/delta/catppuccin.gitconfig
 
 [delta]
     features = catppuccin-macchiato

@@ -29,8 +29,8 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { silent = true })
 
 -- quick fix list
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+vim.keymap.set("n", "<leader>qn", "<cmd>cnext<CR>zz", { desc = "[Q]uickfix [N]ext item" })
+vim.keymap.set("n", "<leader>qp", "<cmd>cprev<CR>zz", { desc = "[Q]uickfix [P]rev item" })
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
@@ -69,8 +69,9 @@ local global_marks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 vim.keymap.set("n", "<leader>gm", "<cmd>marks " .. global_marks .. "<cr>", { silent = true, desc = "[G]lobal [M]arks" })
 
 -- command line mode editing
-vim.cmd('cnoremap <C-h> <Left>')
-vim.cmd('cnoremap <C-l> <Right>')
+-- use ctrl+f instead
+-- vim.cmd('cnoremap <M-h> <Left>')
+-- vim.cmd('cnoremap <M-l> <Right>')
 
 -- new scratch buffer
 vim.keymap.set("n", "<leader>n", vim.cmd.enew, { silent = true, desc = "[N]ew empty buffer" })
@@ -78,6 +79,22 @@ vim.keymap.set("n", "<leader>n", vim.cmd.enew, { silent = true, desc = "[N]ew em
 -- set filetype to zsh
 vim.keymap.set("n", "<leader>sh", "<cmd>set filetype=zsh<cr>",
     { silent = true, desc = "Set filetype to shell (z[S][H])" })
+
+-- vim split easy resize
+vim.keymap.set("n", "<M-,>", "<c-w>5<")
+vim.keymap.set("n", "<M-.>", "<c-w>5>")
+vim.keymap.set("n", "<M-t>", "<C-W>+")
+vim.keymap.set("n", "<M-s>", "<C-W>-")
+-- alternative idea
+vim.keymap.set("n", "<M-=>", "<C-W>5+")
+vim.keymap.set("n", "<M-->", "<C-W>5-")
+
+-- -- easy split nav
+vim.keymap.set("n", "<C-j>", "<c-w><c-j>")
+vim.keymap.set("n", "<C-k>", "<c-w><c-k>")
+vim.keymap.set("n", "<C-l>", "<c-w><c-l>")
+vim.keymap.set("n", "<C-h>", "<c-w><c-h>")
+
 
 -- Man pages
 

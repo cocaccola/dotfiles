@@ -15,19 +15,12 @@ return {
                 return vim.fn.executable 'make' == 1
             end,
         },
+        { 'nvim-telescope/telescope-ui-select.nvim' },
+        { 'nvim-tree/nvim-web-devicons', enabled = true },
     },
     config = function()
         require('telescope').setup({
-            defaults = {
-                mappings = {
-                    -- these were suggested by kickstart
-                    -- disable if you don't like them
-                    i = {
-                        ['<C-u>'] = false,
-                        ['<C-d>'] = false,
-                    },
-                },
-            },
+            defaults = {},
             pickers = {
                 buffers = {
                     ignore_current_buffer = true,
@@ -37,13 +30,22 @@ return {
                 find_files = {
                     find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
                 },
+                live_grep = {
+                    additional_args = { "--hidden" }
+                },
                 planets = {
                     show_pluto = true,
                     show_moon = true,
                 },
             },
+            extensions = {
+                ['ui-select'] = {
+                    require('telescope.themes').get_dropdown(),
+                },
+            },
         })
         pcall(require('telescope').load_extension, 'fzf')
+        pcall(require('telescope').load_extension, 'ui-select')
 
         local builtin = require('telescope.builtin')
 
