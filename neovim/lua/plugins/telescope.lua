@@ -1,7 +1,3 @@
--- TODO: look at the following
--- Author's setup: https://github.com/tjdevries/config.nvim/blob/master/lua/custom/telescope.lua
--- Updated kickstart: https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
--- docs: https://github.com/nvim-telescope/telescope.nvim
 return {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
@@ -24,16 +20,7 @@ return {
     },
     config = function()
         require('telescope').setup({
-            defaults = {
-                -- mappings = {
-                --     -- these were suggested by kickstart
-                --     -- disable if you don't like them
-                --     i = {
-                --         ['<C-u>'] = false,
-                --         ['<C-d>'] = false,
-                --     },
-                -- },
-            },
+            defaults = {},
             pickers = {
                 buffers = {
                     ignore_current_buffer = true,
