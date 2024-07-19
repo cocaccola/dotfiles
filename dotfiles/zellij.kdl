@@ -204,7 +204,7 @@ plugins {
     compact-bar location="zellij:compact-bar"
     session-manager location="zellij:session-manager"
     welcome-screen location="zellij:session-manager" {
-        welcome_screen false
+        welcome_screen true
     }
     filepicker location="zellij:strider" {
         cwd "/"

@@ -446,7 +446,7 @@ function _change_to_bare () {
 function zj () {
     local current_dir=$(pwd)
     cd
-    zellij attach --create main-session
+    zellij -l welcome
     cd $current_dir
 }
 
