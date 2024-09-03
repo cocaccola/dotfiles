@@ -93,6 +93,20 @@ return {
         capabilities = require('cmp_nvim_lsp').default_capabilities()
       })
 
+      vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+
+      vim.diagnostic.config({
+        virtual_text = false,
+        severity_sort = true,
+        float = {
+          style = 'minimal',
+          border = 'rounded',
+          source = 'always',
+          header = '',
+          prefix = '',
+        },
+      })
+
       require('mason-lspconfig').setup({
         ensure_installed = {},
         handlers = {
