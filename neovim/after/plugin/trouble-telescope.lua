@@ -1,16 +1,18 @@
 local actions = require("telescope.actions")
-local open_with_trouble = require("trouble.sources.telescope").open
-
--- Use this to add more results without clearing the trouble list
-local add_to_trouble = require("trouble.sources.telescope").add
-
 local telescope = require("telescope")
+
+function open_qf_trouble(prompt_bufnr)
+    -- Send selected items to the quickfix list
+    actions.send_to_qflist(prompt_bufnr)
+    -- Open Trouble in quickfix mode
+    vim.cmd("Trouble qflist toggle")
+end
 
 telescope.setup({
   defaults = {
     mappings = {
-      i = { ["<c-t>"] = open_with_trouble },
-      n = { ["<c-t>"] = open_with_trouble },
+      i = { ["<c-t>"] = open_qf_trouble },
+      n = { ["<c-t>"] = open_qf_trouble },
     },
   },
 })

@@ -23,7 +23,7 @@ return {
             defaults = {},
             pickers = {
                 buffers = {
-                    ignore_current_buffer = true,
+                    ignore_current_buffer = false,
                     sort_lastused = true,
                     sort_mru = true,
                 },

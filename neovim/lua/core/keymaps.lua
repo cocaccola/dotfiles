@@ -29,8 +29,10 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { silent = true })
 
 -- quick fix list
-vim.keymap.set("n", "<leader>qn", "<cmd>cnext<CR>zz", { desc = "[Q]uickfix [N]ext item" })
-vim.keymap.set("n", "<leader>qp", "<cmd>cprev<CR>zz", { desc = "[Q]uickfix [P]rev item" })
+-- vim.keymap.set("n", "<leader>qn", "<cmd>cnext<CR>zz", { desc = "[Q]uickfix [N]ext item" })
+-- vim.keymap.set("n", "<leader>qp", "<cmd>cprev<CR>zz", { desc = "[Q]uickfix [P]rev item" })
+vim.keymap.set("n", "<M-n>", "<cmd>cnext<CR>zz", { desc = "[Q]uickfix next item" })
+vim.keymap.set("n", "<M-p>", "<cmd>cprev<CR>zz", { desc = "[Q]uickfix prev item" })
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
