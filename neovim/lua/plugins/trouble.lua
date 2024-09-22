@@ -37,12 +37,12 @@ return {
     config = function()
         local opts = {}
         require("trouble").setup(opts)
-        vim.keymap.set("n", "<M-j>", function()
+        vim.keymap.set("n", "<M-n>", function()
             require("trouble").next({})
             require("trouble").jump({})
         end, { desc = "Trouble next item" })
 
-        vim.keymap.set("n", "<M-k>", function()
+        vim.keymap.set("n", "<M-p>", function()
             require("trouble").prev({})
             require("trouble").jump({})
         end, { desc = "Trouble prev item" })
