@@ -1,0 +1,10 @@
+layout {
+    tab_template name="compact" {
+        children
+        pane size=1 borderless=true {
+            plugin location="compact-bar"
+        }
+    }
+    compact name="tab 1" cwd="/tmp" focus=true
+    compact name="tab 2" cwd="~/dev"
+}
