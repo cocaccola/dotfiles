@@ -514,19 +514,47 @@ function pyenv () {
 function clean_branches () {
     # clean_branches - cleans up local branches
 
-    local current=$(git branch --show-current)
+    _change_to_bare
 
-    local branch_name
-    _primary_branch branch_name
-    git stash -m 'stashed from clean_branches'
+    git worktree list --porcelain \
+        | awk '
+    function is_excluded(worktree_path) {
+        n = split(worktree_path, parts, "/")
+        if (parts[n] ~ /(\.bare|main|master)/) {
+            return 1
+        }
+        return 0
+    }
 
-    git checkout $branch_name
-    git fetch --prune
+    {
+        if ($0 !~ /^worktree/) {
+            getline
+        }
 
-    # might need git branch -D
-    git branch -vv | awk '/: gone]/ { if ($1 !~ /(\*|main|master)/) system("git branch -d "$1) }'
-    git checkout $current
-    git stash pop
+        if (is_excluded($NF) == 1) {
+            is_next=0
+            while (is_next == 0) {
+                getline
+                if ($0 == "") is_next=1
+            }
+            next
+        }
+
+        # this is to catch when we are at the end of the output
+        # we want to skip the below processing
+        if ($0 == "") next
+
+        worktree["path"]=$NF
+        getline
+        getline
+        sub(/refs\/heads\//, "", $NF)
+        worktree["branch"]=$NF
+
+        status = system("git worktree remove "worktree["path"])
+        if (status == 0) {
+            system("git branch -D "worktree["branch"])
+        }
+    }'
 }
 
 function gcln () {
