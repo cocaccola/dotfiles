@@ -49,6 +49,8 @@ vim.g.netrw_list_hide = [[^\./$,^\.\./$,^\.git/$,^\.git$,^\.bare/$,\.DS_Store$]]
 vim.g.netrw_hide = 1
 vim.g.netrw_liststyle = 0
 
+vim.o.signcolumn = 'yes'
+
 vim.o.spelllang = 'en_us'
 vim.o.spell = true
 
