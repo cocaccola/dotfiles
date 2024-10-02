@@ -14,7 +14,7 @@ return {
     config = function()
         local detail = false
         require("oil").setup({
-            skip_confirm_for_simple_edit = true,
+            skip_confirm_for_simple_edits = true,
             keymaps = {
                 ["<C-h>"] = false,
                 ["<C-l>"] = false,
