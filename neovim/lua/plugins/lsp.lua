@@ -17,6 +17,8 @@ return {
     event = 'InsertEnter',
     dependencies = {
       {'L3MON4D3/LuaSnip'},
+      { 'hrsh7th/cmp-buffer' },
+      { 'hrsh7th/cmp-path' },
     },
     config = function()
       local cmp = require('cmp')
@@ -24,6 +26,9 @@ return {
       cmp.setup({
         sources = {
           {name = 'nvim_lsp'},
+          {name = 'luasnip'},
+          {name = 'path', option = { trailing_slash = true }},
+          {name = 'buffer' },
         },
         mapping = cmp.mapping.preset.insert({
           ['<Tab>'] = vim.NIL,
