@@ -16,7 +16,7 @@ return {
             end,
         },
         { 'nvim-telescope/telescope-ui-select.nvim' },
-        { 'nvim-tree/nvim-web-devicons', enabled = true },
+        { 'nvim-tree/nvim-web-devicons',            enabled = true },
     },
     config = function()
         require('telescope').setup({
@@ -73,6 +73,8 @@ return {
         vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
         vim.keymap.set('n', '<leader>jl', builtin.jumplist, { desc = '[J]ump [L]ist' })
         vim.keymap.set('n', '<leader>sm', builtin.marks, { desc = '[S]earch [M]arks' })
+
+        vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = '[G]it [S]tatus' })
 
         vim.keymap.set('n', '<leader>tp', builtin.planets, { desc = '[T]elescope [P]lanets' })
     end,
