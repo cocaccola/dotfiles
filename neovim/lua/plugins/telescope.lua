@@ -61,7 +61,20 @@ return {
         vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
         vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = '[F]ind by [G]rep' })
 
-        vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]how [D]iagnostics' })
+        vim.keymap.set('n', '<leader>ad', builtin.diagnostics, { desc = 'Show [A]ll [D]iagnostics' })
+
+        vim.keymap.set('n', '<leader>sd', function()
+            builtin.diagnostics({
+                bufnr = 0,
+                severity_limit = "Error",
+            })
+        end, { desc = '[S]how [D]iagnostics (current buffer, Error and above)' })
+
+        vim.keymap.set('n', '<leader>ed', function()
+            builtin.diagnostics({ severity_limit = "Error" })
+        end, { desc = 'Show [E]rror [D]iagnostics (all buffers, Error and above)' })
+
+
         vim.keymap.set('n', '<leader>ss', builtin.lsp_document_symbols, { desc = '[S]earch [S]ymbols' })
         vim.keymap.set('n', '<leader>sw', builtin.lsp_workspace_symbols, { desc = '[S]ymbols in [W]orkspace' })
         vim.keymap.set('n', '<leader>fr', builtin.lsp_references, { desc = '[F]ind [R]eferences' })
