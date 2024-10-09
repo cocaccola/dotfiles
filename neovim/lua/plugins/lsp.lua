@@ -110,12 +110,12 @@ return {
             vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
 
             vim.diagnostic.config({
-                virtual_text = false,
+                virtual_text = true,
                 severity_sort = true,
                 float = {
                     style = 'minimal',
-                    border = 'rounded',
-                    source = 'always',
+                    border = 'none',
+                    source = true,
                     header = '',
                     prefix = '',
                 },
