@@ -109,8 +109,13 @@ return {
 
             vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
 
+            -- https://neovim.io/doc/user/diagnostic.html#diagnostic-severity
             vim.diagnostic.config({
-                virtual_text = true,
+                virtual_text = {
+                    severity = {
+                        min = vim.diagnostic.severity.INFO,
+                    },
+                },
                 severity_sort = true,
                 float = {
                     style = 'minimal',
