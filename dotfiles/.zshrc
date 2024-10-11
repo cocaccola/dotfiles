@@ -76,9 +76,21 @@ fi
 # # https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
 # export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
+# TEST: disable emacs mode
+# bindkey -e
+# enable vi mode
+# you may want to play with this setting
+# The time the shell waits, in hundredths of seconds, for another key to be pressed when reading bound multi-character sequences.
+# KEYTIMEOUT=some_number_here
+# you can also try
+# bindkey jk vi-cmd-mode
+bindkey -v
+bindkey jk vi-cmd-mode
+export KEYTIMEOUT=20
+bindkey "^H" backward-delete-char
+bindkey "^?" backward-delete-char
 
 # Enable Ctrl-x-e to edit command line
-bindkey -e
 export EDITOR=nvim
 zstyle :zle:edit-command-line editor nvim -c 'set filetype=zsh'
 autoload -U edit-command-line
