@@ -85,10 +85,14 @@ fi
 # you can also try
 # bindkey jk vi-cmd-mode
 bindkey -v
-bindkey jk vi-cmd-mode
 export KEYTIMEOUT=20
+# bindings:
+# https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html
+bindkey jk vi-cmd-mode
 bindkey "^H" backward-delete-char
 bindkey "^?" backward-delete-char
+bindkey "^P" up-history
+bindkey "^N" down-history
 
 # Enable Ctrl-x-e to edit command line
 export EDITOR=nvim
