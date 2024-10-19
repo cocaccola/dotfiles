@@ -76,14 +76,6 @@ fi
 # # https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
 # export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
-# TEST: disable emacs mode
-# bindkey -e
-# enable vi mode
-# you may want to play with this setting
-# The time the shell waits, in hundredths of seconds, for another key to be pressed when reading bound multi-character sequences.
-# KEYTIMEOUT=some_number_here
-# you can also try
-# bindkey jk vi-cmd-mode
 bindkey -v
 export KEYTIMEOUT=20
 # bindings:

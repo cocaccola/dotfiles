@@ -30,6 +30,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
     # fonts, casks only work on macOS
     brew tap homebrew/cask-fonts
     brew install font-fira-code-nerd-font
+    brew install 1password-cli
 fi
 
 # required packages
@@ -61,14 +62,13 @@ brew install \
         gh \
         lolcat \
         zellij \
-        neofetch \
         entr \
         glow \
         gotestsum \
         dive \
         nvm \
         pandoc \
-        go-task
+        go-task \
 
 
 #brew install --cask wezterm
