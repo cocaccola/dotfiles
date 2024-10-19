@@ -68,7 +68,7 @@ brew install \
         dive \
         nvm \
         pandoc \
-        go-task \
+        go-task
 
 
 #brew install --cask wezterm
