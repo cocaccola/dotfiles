@@ -76,9 +76,17 @@ fi
 # # https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
 # export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
+bindkey -v
+export KEYTIMEOUT=20
+# bindings:
+# https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html
+bindkey jk vi-cmd-mode
+bindkey "^H" backward-delete-char
+bindkey "^?" backward-delete-char
+bindkey "^P" up-history
+bindkey "^N" down-history
 
 # Enable Ctrl-x-e to edit command line
-bindkey -e
 export EDITOR=nvim
 zstyle :zle:edit-command-line editor nvim -c 'set filetype=zsh'
 autoload -U edit-command-line

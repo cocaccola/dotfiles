@@ -11,6 +11,8 @@ return {
                 "--line-number",
                 "--column",
                 "--glob=!node_modules/*",
+                "--glob=!.git",
+                "--hidden",
             },
             -- regex that will be used to match keywords.
             -- don't replace the (KEYWORDS) placeholder
