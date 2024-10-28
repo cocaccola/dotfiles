@@ -287,6 +287,10 @@ alias gstl='git stash list'
 alias gstp='git stash pop'
 alias gmc='nvim $(git diff --name-only --diff-filter=U --relative)'
 alias gubp='gub && gp'
+alias current_branch='git branch --show-current'
+
+alias ghwr='gh workflow run'
+alias ghwrc='gh workflow run -r $(git branch --show-current)'
 
 alias k='kubectl'
 alias kg='kubectl get'
