@@ -70,7 +70,8 @@ brew install \
         pandoc \
         go-task \
         ykman \
-        ghostty
+        ghostty \
+        openssh
 
 # make dev directory for git repos
 #mkdir ~/dev
