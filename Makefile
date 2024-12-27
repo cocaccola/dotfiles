@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 .ONESHELL:
 
-dotfiles:       gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij default_c_formatting wezterm bin gh_config
+dotfiles:       gitconfig zshrc tmux_conf vimrc neovim terminal_theme k9s_theme zellij default_c_formatting wezterm bin gh_config ghostty
 dotfiles_linux: gitconfig zshrc tmux_conf vimrc neovim k9s_theme_linux zellij default_c_formatting bin gh_config
 
 bin:
@@ -155,6 +155,9 @@ setup_gpg:
 rebuild_zsh_completion_cache:
 	@rm ~/.zcompdump*; compinit
 
+ghostty:
+	@cp -v dotfiles/ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config
+
 clean:
 	@rm -rf bat
 	@rm -rf zsh-syntax-highlighting
@@ -163,4 +166,4 @@ clean:
 .PHONY: dotfiles gitconfig zshrc tmuxconf vimrc neovim macOS_keyfix bat_theme clean zsh_plugin_dir
 .PHONY:	zsh_syntax_highlighting setup_mac setup_wsl terminal_theme install_mac_dev_tools rebuild_zsh_completion_cache
 .PHONY:	k9s_theme vim_theme zsh_user_config_dir setup_gpg zellij only_zshrc k9s_theme_linux default_c_formatting
-.PHONY:	starship wezterm bin delta_theme gh_config
+.PHONY:	starship wezterm bin delta_theme gh_config ghostty

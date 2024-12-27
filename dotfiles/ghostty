@@ -1,0 +1,10 @@
+theme = catppuccin-macchiato
+font-family = FiraCode Nerd Font Mono
+font-size = 14
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+shell-integration-features = no-cursor
+cursor-style = block_hollow
+macos-titlebar-proxy-icon = hidden
+scrollback-limit = 1073741824

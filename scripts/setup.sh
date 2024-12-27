@@ -69,10 +69,8 @@ brew install \
         nvm \
         pandoc \
         go-task \
-        ykman
-
-
-#brew install --cask wezterm
+        ykman \
+        ghostty
 
 # make dev directory for git repos
 #mkdir ~/dev
