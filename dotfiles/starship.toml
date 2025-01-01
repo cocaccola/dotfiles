@@ -49,7 +49,7 @@ disabled = false
 [aws]
 symbol = '󰅟 '
 expiration_symbol = '⛆'
-format = '[$symbol($profile )(\($region\)) (\[$duration\])]($style) '
+format = '[$symbol($profile )(\($region\)) (\[$duration\] )]($style)'
 disabled = false
 
 [cmd_duration]
@@ -61,7 +61,7 @@ disabled = false
 [status]
 format = '[$symbol$common_meaning$signal_name$maybe_int]($style) '
 symbol = ' '
-success_symbol = '[󱓞](bold green)'
+success_symbol = '[](bold green)'
 not_executable_symbol = 'lol '
 not_found_symbol = ' '
 sigint_symbol = '󰜺 '
