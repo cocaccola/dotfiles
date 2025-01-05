@@ -100,13 +100,13 @@ return {
                 vim.keymap.set('n', '<leader>ca', function()
                     vim.lsp.buf.code_action({
                         filter = function(action)
-                            local unwanted_actions = {
+                            local unwanted_patterns = {
                                 "Browse gopls feature documentation",
                                 "Browse amd64 assembly for",
                                 "Browse documentation for package"
                             }
 
-                            for _, pattern in ipairs(unwanted_actions) do
+                            for _, pattern in ipairs(unwanted_patterns) do
                                 if action.title:match(pattern) then
                                     return false
                                 end
