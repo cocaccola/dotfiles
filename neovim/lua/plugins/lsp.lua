@@ -97,8 +97,26 @@ return {
                     { buffer = true, desc = "[R]e [N]ame using lsp" })
                 vim.keymap.set({ 'n', 'x' }, '<leader>fm', '<cmd>lua vim.lsp.buf.format({async = true})<cr>',
                     { buffer = true, desc = "[F]or[M]at using lsp" })
-                vim.keymap.set('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>',
-                    { buffer = true, desc = "[C]ode [A]ction" })
+                vim.keymap.set('n', '<leader>ca', function()
+                    vim.lsp.buf.code_action({
+                        filter = function(action)
+                            local unwanted_actions = {
+                                "Browse gopls feature documentation",
+                                "Browse amd64 assembly for",
+                                "Browse documentation for package"
+                            }
+
+                            for _, pattern in ipairs(unwanted_actions) do
+                                if action.title:match(pattern) then
+                                    return false
+                                end
+                            end
+
+                            return true
+                        end,
+                        apply = false,
+                    })
+                end, { buffer = true, desc = "[C]ode [A]ction" })
             end
 
             lsp_zero.extend_lspconfig({
