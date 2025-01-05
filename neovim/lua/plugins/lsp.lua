@@ -103,6 +103,7 @@ return {
                             local unwanted_patterns = {
                                 "Browse gopls feature documentation",
                                 "Browse amd64 assembly for",
+                                "Browse arm64 assembly for",
                                 "Browse documentation for package"
                             }
 
