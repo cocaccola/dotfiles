@@ -16,3 +16,11 @@ autocmd('TextYankPost', {
     group = augroup('YankHighlight', { clear = true }),
     pattern = '*',
 })
+
+-- Disable spellcheck in man pages
+autocmd('FileType', {
+    pattern = "man",
+    callback = function()
+        vim.opt_local.spell = false
+    end,
+})
