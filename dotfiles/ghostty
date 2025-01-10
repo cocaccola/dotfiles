@@ -8,6 +8,7 @@ font-feature = -dlig
 font-feature = -liga
 font-size = 14
 macos-titlebar-proxy-icon = hidden
+mouse-hide-while-typing = true
 scrollback-limit = 1073741824
 shell-integration-features = no-cursor
 theme = catppuccin-macchiato
