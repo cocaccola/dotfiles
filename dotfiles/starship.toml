@@ -1,4 +1,4 @@
-#       󰀱 󰚑 󰂹 󰅏 󰆚 󰼁 󰚌 󰈸   󱓞 󱓟     󰄬  󰸞  
+#       󰀱 󰚑 󰂹 󰅏 󰆚 󰼁 󰚌 󰈸   󱓞 󱓟     󰄬  󰸞      
 
 palette = "catppuccin_macchiato"
 add_newline = true
@@ -44,6 +44,9 @@ disabled = false
 
 [git_status]
 format = '[$all_status$ahead_behind]($style) '
+ahead = ''
+behind = ''
+diverged = ''
 disabled = false
 
 [aws]
