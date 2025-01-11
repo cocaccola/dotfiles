@@ -393,7 +393,7 @@ export FZF_DEFAULT_OPTS="
 --layout=reverse
 --preview-window=right,70%:hidden
 --preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (eza --icons --tree --color=always {} | less)) || echo {} 2> /dev/null | head -200'
---prompt='🔎 '
+--prompt=''
 --pointer='▶'
 --marker='⚑'
 --bind '?:toggle-preview'

@@ -1,4 +1,5 @@
 #       󰀱 󰚑 󰂹 󰅏 󰆚 󰼁 󰚌 󰈸   󱓞 󱓟     󰄬  󰸞      
+#  󱨎 󱁆 󰀵
 
 palette = "catppuccin_macchiato"
 add_newline = true
@@ -78,7 +79,7 @@ format = "[$symbol]($style)"
 disabled = false
 
 [os.symbols]
-Macos = "󱨎 "
+Macos = " "
 Linux = "󰌽 "
 Ubuntu = "󰌽 "
 Unknown = "󰮯 "
