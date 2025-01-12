@@ -1,7 +1,7 @@
 #       󰀱 󰚑 󰂹 󰅏 󰆚 󰼁 󰚌 󰈸   󱓞 󱓟     󰄬  󰸞      
 #  󱨎 󱁆 󰀵
 
-palette = "catppuccin_macchiato"
+palette = "catppuccin_mocha"
 add_newline = true
 command_timeout = 1000
 format = """

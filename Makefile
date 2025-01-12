@@ -62,7 +62,7 @@ macOS_keyfix:
 	@./vscode/macos-keyfix.sh
 
 terminal_theme:
-	@curl -fsSL https://raw.githubusercontent.com/catppuccin/iterm/main/colors/catppuccin-macchiato.itermcolors -o ~/Desktop/catppuccin-macchiato.itermcolors
+	@curl -fsSL https://raw.githubusercontent.com/catppuccin/iterm/main/colors/catppuccin-mocha.itermcolors -o ~/Desktop/catppuccin-mocha.itermcolors
 
 bat_theme:
 	@git clone https://github.com/catppuccin/bat.git
@@ -73,44 +73,19 @@ bat_theme:
 
 k9s_theme_linux:
 	@git clone https://github.com/catppuccin/k9s.git ~/.config/k9s/skins/catppuccin --depth 1
-	@cp -v ~/.config/k9s/skins/catppuccin/dist/catppuccin-macchiato-transparent.yaml ~/.config/k9s/skins/catppuccin.yaml
+	@cp -v ~/.config/k9s/skins/catppuccin/dist/catppuccin-mocha-transparent.yaml ~/.config/k9s/skins/catppuccin.yaml
 	@yq -i '.k9s.ui.skin = "catppuccin"' ~/.config/k9s/config.yaml
 	@rm -rf ~/.config/k9s/skins/catppuccin
 
 k9s_theme:
 	@git clone https://github.com/catppuccin/k9s.git ~/Library/Application\ Support/k9s/skins/catppuccin --depth 1
-	@cp -v ~/Library/Application\ Support/k9s/skins/catppuccin/dist/macchiato.yml ~/Library/Application\ Support/k9s/skins/catppuccin.yaml
-
-	@# from https://github.com/derailed/k9s/blob/master/skins/transparent.yml
-	@yq -i ' \
-	  .k9s.body.bgColor = "default" | \
-	  .k9s.prompt.bgColor = "default" | \
-	  .k9s.info.sectionColor = "default" | \
-	  .k9s.dialog.bgColor = "default" | \
-	  .k9s.dialog.labelFgColor = "default" | \
-	  .k9s.dialog.fieldFgColor = "default" | \
-	  .k9s.frame.title.bgColor = "default" | \
-	  .k9s.frame.title.counterColor = "default" | \
-	  .k9s.frame.menu.fgColor = "default" | \
-	  .k9s.views.charts.bgColor = "default" | \
-	  .k9s.views.table.bgColor = "default" | \
-	  .k9s.views.table.header.fgColor = "default" | \
-	  .k9s.views.table.header.bgColor = "default" | \
-	  .k9s.views.xray.bgColor = "default" | \
-	  .k9s.views.logs.bgColor = "default" | \
-	  .k9s.views.logs.indicator.bgColor = "default" | \
-	  .k9s.views.logs.indicator.toggleOnColor = "default" | \
-	  .k9s.views.logs.indicator.toggleOffColor = "default" | \
-	  .k9s.views.yaml.colonColor = "default" | \
-	  .k9s.views.yaml.valueColor = "default" \
-	' ~/Library/Application\ Support/k9s/skins/catppuccin.yaml
-
+	@cp -v ~/Library/Application\ Support/k9s/skins/catppuccin/dist/catppuccin-mocha-transparent.yaml ~/Library/Application\ Support/k9s/skins/catppuccin.yaml
 	@yq -i '.k9s.ui.skin = "catppuccin"' ~/Library/Application\ Support/k9s/config.yaml
 	@rm -rf ~/Library/Application\ Support/k9s/skins/catppuccin
 
 glamor_theme:
 	@mkdir -p ~/.config/glamour/catppuccin
-	@curl -L https://github.com/catppuccin/glamour/releases/download/v1.0.0/macchiato.json -o ~/.config/glamour/catppuccin/macchiato.json
+	@curl -L https://raw.githubusercontent.com/catppuccin/glamour/refs/heads/main/themes/catppuccin-mocha.json -o ~/.config/glamour/catppuccin/mocha.json
 
 vim_theme:
 	@mkdir ~/.vim 2>&- || true
@@ -132,7 +107,7 @@ zsh_syntax_highlighting: zsh_plugin_dir
 
 	@git clone https://github.com/catppuccin/zsh-syntax-highlighting.git
 	@mkdir ~/.zsh/catppuccin 2>&- || true
-	@cp -v zsh-syntax-highlighting/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh ~/.zsh/catppuccin
+	@cp -v zsh-syntax-highlighting/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh ~/.zsh/catppuccin
 	@rm -rf zsh-syntax-highlighting
 
 setup_mac:

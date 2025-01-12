@@ -19,7 +19,7 @@
     path = ~/.config/delta/catppuccin.gitconfig
 
 [delta]
-    features = catppuccin-macchiato
+    features = catppuccin-mocha
     navigate = true
     hyperlinks = true
     wrap-max-lines = unlimited
