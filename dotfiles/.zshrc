@@ -114,7 +114,7 @@ export HOMEBREW_NO_ANALYTICS=1
 
 # Glamor theme
 # https://github.com/charmbracelet/glamour#styles
-export GLAMOUR_STYLE=~/.config/glamour/catppuccin/macchiato.json
+export GLAMOUR_STYLE=~/.config/glamour/catppuccin/mocha.json
 
 # Completions
 # https://thevaluable.dev/zsh-completion-guide-examples/
@@ -378,14 +378,16 @@ eval "$(fzf --zsh)"
 # https://github.com/catppuccin/fzf
 #
 # original theme, edited for transparency below
-#--color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796
-#--color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
-#--color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
+# --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+# --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+# --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+# --color=selected-bg:#45475a \
+# --multi"
 
 # bat themeing
 # see https://github.com/catppuccin/bat#adding-the-themes
 
-export BAT_THEME="Catppuccin-macchiato"
+export BAT_THEME="Catppuccin Mocha"
 
 export FZF_DEFAULT_OPTS="
 -m
@@ -403,9 +405,11 @@ export FZF_DEFAULT_OPTS="
 --bind 'ctrl-v:execute(nvim {+})'
 --bind 'ctrl-alt-k:preview-page-up'
 --bind 'ctrl-alt-j:preview-page-down'
---color=bg+:#363a4f,bg:-1,gutter:-1,spinner:#f4dbd6,hl:#ed8796
---color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6
---color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796
+--color=bg+:#313244,bg:-1,gutter:-1,spinner:#f5e0dc,hl:#f38ba8
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc
+--color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8
+--color=selected-bg:#45475a
+--multi
 "
 
 # default is **
@@ -917,7 +921,7 @@ else
 fi
 
 #### plugins ####
-source ~/.zsh/catppuccin/catppuccin_macchiato-zsh-syntax-highlighting.zsh
+source ~/.zsh/catppuccin/catppuccin_mocha-zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
