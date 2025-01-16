@@ -80,6 +80,8 @@ k9s_theme_linux:
 k9s_theme:
 	@git clone https://github.com/catppuccin/k9s.git ~/Library/Application\ Support/k9s/skins/catppuccin --depth 1
 	@cp -v ~/Library/Application\ Support/k9s/skins/catppuccin/dist/catppuccin-mocha-transparent.yaml ~/Library/Application\ Support/k9s/skins/catppuccin.yaml
+	# this seems like it might be a bug
+	@yq -i '.k9s.frame.crumbs.bgColor = "#eba0ac"' ~/Library/Application\ Support/k9s/skins/catppuccin.yaml
 	@yq -i '.k9s.ui.skin = "catppuccin"' ~/Library/Application\ Support/k9s/config.yaml
 	@rm -rf ~/Library/Application\ Support/k9s/skins/catppuccin
 
