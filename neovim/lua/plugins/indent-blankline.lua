@@ -7,6 +7,9 @@ return {
             indent = {
                 char = "▎",
             },
+            scope = {
+                show_end = false,
+            },
         }
     end,
 }
