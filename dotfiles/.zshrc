@@ -287,7 +287,7 @@ alias gstl='git stash list'
 alias gstp='git stash pop'
 alias gmc='nvim $(git diff --name-only --diff-filter=U --relative)'
 alias gubp='gub && gp'
-alias current_branch='git branch --show-current'
+alias branch='git branch --show-current'
 
 alias ghwr='gh workflow run'
 alias ghwrc='gh workflow run -r $(git branch --show-current)'
@@ -525,7 +525,7 @@ function pyenv () {
     # this function is a wrapper for pyenv that lazy loads pyenv
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(command pyenv init -)"
+    eval "$(command pyenv init - zsh)"
 
     pyenv "$@"
 }
