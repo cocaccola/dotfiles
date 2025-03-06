@@ -32,7 +32,7 @@ format = '[$symbol$branch(:$remote_branch)]($style)'
 disabled = false
 
 [git_commit]
-format = '[󰼁 $hash$tag]($style)'
+format = ' [󰼁 $hash$tag]($style)'
 only_detached = true
 tag_disabled = false
 tag_symbol = ' 󰓹 '
@@ -52,7 +52,7 @@ disabled = false
 
 [aws]
 symbol = '󰅟 '
-expiration_symbol = '⛆'
+expiration_symbol = '⛆ '
 format = '[$symbol($profile )(\($region\)) (\[$duration\] )]($style)'
 disabled = false
 
