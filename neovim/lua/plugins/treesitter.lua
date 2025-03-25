@@ -25,6 +25,7 @@ return {
                 "dockerfile",
                 "yaml",
                 "python",
+                "ocaml",
             },
             sync_install = false,
             auto_install = true,
@@ -33,7 +34,10 @@ return {
                 -- see: https://github.com/catppuccin/nvim#wrong-treesitter-highlights
                 additional_vim_regex_highlighting = false
             },
-            indent = { enable = true },
+            indent = {
+                enable = true,
+                disable = { "ocaml" }
+            },
         })
     end,
 }
