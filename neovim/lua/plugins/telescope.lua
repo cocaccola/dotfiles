@@ -91,5 +91,21 @@ return {
         vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = '[G]it [S]tatus' })
 
         vim.keymap.set('n', '<leader>tp', builtin.planets, { desc = '[T]elescope [P]lanets' })
+
+        -- TODO: bug fix
+        -- Remove this once the following issue is fixed:
+        -- https://github.com/nvim-telescope/telescope.nvim/issues/3436
+        vim.api.nvim_create_autocmd("User", {
+            pattern = "TelescopeFindPre",
+            callback = function()
+                vim.opt_local.winborder = "none"
+                vim.api.nvim_create_autocmd("WinLeave", {
+                    once = true,
+                    callback = function()
+                        vim.opt_local.winborder = "rounded"
+                    end,
+                })
+            end,
+        })
     end,
 }

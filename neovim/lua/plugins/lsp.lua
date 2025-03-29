@@ -169,7 +169,7 @@ return {
                 severity_sort = true,
                 float = {
                     style = 'minimal',
-                    border = 'none',
+                    border = 'rounded',
                     source = true,
                     header = '',
                     prefix = '',

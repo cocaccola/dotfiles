@@ -1,3 +1,5 @@
+vim.o.winborder = 'rounded'
+
 vim.o.hlsearch = false
 vim.o.incsearch = true
 
