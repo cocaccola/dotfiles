@@ -19,6 +19,9 @@ return {
     -- Autocompletion
     {
         'hrsh7th/nvim-cmp',
+        -- TODO: neovim 0.11 breaks winboarder
+        -- remove this once https://github.com/hrsh7th/nvim-cmp/pull/2150 is merged
+        commit = '8b0eb760b282f4b02bd9eb52ade793ff0cf6711e',
         event = 'InsertEnter',
         dependencies = {
             { 'L3MON4D3/LuaSnip' },

@@ -2,7 +2,12 @@ return {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
     dependencies = {
-        'nvim-lua/plenary.nvim',
+        {
+            'nvim-lua/plenary.nvim',
+            -- TODO: neovim 0.11 breaks winborder
+            -- remove this when https://github.com/nvim-lua/plenary.nvim/pull/649 is merged
+            commit = '7750bc895a1f06aa7a940f5aea43671a74143be0',
+        },
         -- Fuzzy Finder Algorithm which requires local dependencies to be built.
         -- Only load if `make` is available. Make sure you have the system
         -- requirements installed.
