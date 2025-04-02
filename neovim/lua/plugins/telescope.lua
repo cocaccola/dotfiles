@@ -2,12 +2,7 @@ return {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
     dependencies = {
-        {
-            'nvim-lua/plenary.nvim',
-            -- TODO: neovim 0.11 breaks winborder
-            -- remove this when https://github.com/nvim-lua/plenary.nvim/pull/649 is merged
-            commit = '7750bc895a1f06aa7a940f5aea43671a74143be0',
-        },
+        { 'nvim-lua/plenary.nvim' },
         -- Fuzzy Finder Algorithm which requires local dependencies to be built.
         -- Only load if `make` is available. Make sure you have the system
         -- requirements installed.
@@ -96,21 +91,5 @@ return {
         vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = '[G]it [S]tatus' })
 
         vim.keymap.set('n', '<leader>tp', builtin.planets, { desc = '[T]elescope [P]lanets' })
-
-        -- TODO: bug fix
-        -- Remove this once the following issue is fixed:
-        -- https://github.com/nvim-telescope/telescope.nvim/issues/3436
-        vim.api.nvim_create_autocmd("User", {
-            pattern = "TelescopeFindPre",
-            callback = function()
-                vim.opt_local.winborder = "none"
-                vim.api.nvim_create_autocmd("WinLeave", {
-                    once = true,
-                    callback = function()
-                        vim.opt_local.winborder = "rounded"
-                    end,
-                })
-            end,
-        })
     end,
 }

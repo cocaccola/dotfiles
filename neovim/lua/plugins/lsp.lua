@@ -19,9 +19,6 @@ return {
     -- Autocompletion
     {
         'hrsh7th/nvim-cmp',
-        -- TODO: neovim 0.11 breaks winborder
-        -- remove this once https://github.com/hrsh7th/nvim-cmp/pull/2150 is merged
-        commit = '8b0eb760b282f4b02bd9eb52ade793ff0cf6711e',
         event = 'InsertEnter',
         dependencies = {
             { 'L3MON4D3/LuaSnip' },
@@ -120,7 +117,7 @@ return {
                 callback = function(event)
                     local opts = { buffer = event.buf }
 
-                    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+                    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover({border = "rounded"})<cr>', opts)
                     vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
                     vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
                     vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
