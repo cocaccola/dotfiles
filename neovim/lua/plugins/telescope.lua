@@ -20,7 +20,11 @@ return {
     },
     config = function()
         require('telescope').setup({
-            defaults = {},
+            defaults = {
+                layout_strategy = 'vertical',
+                -- NOTE: Results formatting can be customized further via path_display
+                -- path_display = { "truncate" },
+            },
             pickers = {
                 buffers = {
                     ignore_current_buffer = false,
@@ -31,7 +35,11 @@ return {
                     find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
                 },
                 live_grep = {
-                    additional_args = { "--hidden" }
+                    additional_args = { "--hidden" },
+                    show_line = false,
+                },
+                lsp_references = {
+                    show_line = false,
                 },
                 planets = {
                     show_pluto = true,
