@@ -15,6 +15,12 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
+-- Edit the alternate file.
+-- Ctrl+6 is used on macOS to switch to Desktop 6
+-- Ctrl+^ is harder to type quickly
+-- "v" is an upside down ^ and is easy to press quickly
+vim.keymap.set("n", "<leader>v", "<C-^>", { desc = "Edit the alternate file" })
+
 -- move lines of code around
 -- see https://vim.fandom.com/wiki/Moving_lines_up_or_down#Mappings_to_move_lines
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
