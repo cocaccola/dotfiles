@@ -79,7 +79,7 @@ format = "[$symbol]($style)"
 disabled = false
 
 [os.symbols]
-Macos = " "
+Macos = "󱁆 "
 Linux = "󰌽 "
 Ubuntu = "󰌽 "
 Unknown = "󰮯 "
