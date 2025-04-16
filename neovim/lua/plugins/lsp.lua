@@ -26,21 +26,25 @@ return {
             { 'hrsh7th/cmp-buffer' },
             { 'hrsh7th/cmp-path' },
             { "onsails/lspkind.nvim" },
+            { "hrsh7th/cmp-nvim-lsp-signature-help" },
         },
         config = function()
             local cmp = require('cmp')
             local lspkind = require('lspkind')
 
             cmp.setup({
+                -- NOTE: still deciding on this one
+                -- preselect = cmp.PreselectMode.Item,
                 preselect = cmp.PreselectMode.None,
                 completion = {
                     completeopt = 'menu,menuone,noinsert',
                 },
                 sources = {
-                    { name = 'nvim_lsp' },
-                    { name = 'luasnip' },
-                    { name = 'path',    option = { trailing_slash = true } },
-                    { name = 'buffer' },
+                    { name = 'nvim_lsp',                priority = 1000 },
+                    { name = 'nvim_lsp_signature_help', priority = 900 },
+                    { name = 'luasnip',                 priority = 750 },
+                    { name = 'path',                    priority = 500, option = { trailing_slash = true } },
+                    { name = 'buffer',                  priority = 250 },
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<Tab>'] = vim.NIL,

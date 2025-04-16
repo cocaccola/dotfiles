@@ -1,5 +1,8 @@
 return {
     'echasnovski/mini.surround',
     version = false,
-    config = true,
+    opts = {
+        n_lines = 100,
+        search_method = 'cover_or_next',
+    },
 }
