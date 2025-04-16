@@ -1,7 +1,6 @@
 -- NOTE: this currently breaks several plugins
 -- https://github.com/nvim-lua/plenary.nvim/pull/649
 -- https://github.com/nvim-telescope/telescope.nvim/issues/3436
--- https://github.com/hrsh7th/nvim-cmp/pull/2150
 -- this has been worked around by setting the border on the call to
 -- vim.lsp.buf.hover() for 'K'
 -- https://neovim.io/doc/user/lsp.html#vim.lsp.util.open_floating_preview.Opts

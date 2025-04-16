@@ -18,78 +18,56 @@ return {
 
     -- Autocompletion
     {
-        'hrsh7th/nvim-cmp',
-        event = 'InsertEnter',
+        'saghen/blink.cmp',
         dependencies = {
-            { 'L3MON4D3/LuaSnip' },
-            { 'saadparwaiz1/cmp_luasnip' },
-            { 'hrsh7th/cmp-buffer' },
-            { 'hrsh7th/cmp-path' },
-            { "onsails/lspkind.nvim" },
-            { "hrsh7th/cmp-nvim-lsp-signature-help" },
+            'rafamadriz/friendly-snippets',
+            'L3MON4D3/LuaSnip',
         },
-        config = function()
-            local cmp = require('cmp')
-            local lspkind = require('lspkind')
 
-            cmp.setup({
-                -- NOTE: still deciding on this one
-                -- preselect = cmp.PreselectMode.Item,
-                preselect = cmp.PreselectMode.None,
-                completion = {
-                    completeopt = 'menu,menuone,noinsert',
-                },
-                sources = {
-                    { name = 'nvim_lsp',                priority = 1000 },
-                    { name = 'nvim_lsp_signature_help', priority = 900 },
-                    { name = 'luasnip',                 priority = 750 },
-                    { name = 'path',                    priority = 500, option = { trailing_slash = true } },
-                    { name = 'buffer',                  priority = 250 },
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ['<Tab>'] = vim.NIL,
-                    ['<S-Tab>'] = vim.NIL,
-                    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-                    ['<C-d>'] = cmp.mapping.scroll_docs(4),
-                    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-                    -- Jump to the next snippet placeholder
-                    ['<C-f>'] = cmp.mapping(function(fallback)
-                        local luasnip = require('luasnip')
-                        if luasnip.locally_jumpable(1) then
-                            luasnip.jump(1)
-                        else
-                            fallback()
-                        end
-                    end, { 'i', 's' }),
-                    -- Jump to the previous snippet placeholder
-                    ['<C-b>'] = cmp.mapping(function(fallback)
-                        local luasnip = require('luasnip')
-                        if luasnip.locally_jumpable(-1) then
-                            luasnip.jump(-1)
-                        else
-                            fallback()
-                        end
-                    end, { 'i', 's' }),
-                }),
-                snippet = {
-                    expand = function(args)
-                        require('luasnip').lsp_expand(args.body)
-                    end,
-                },
-                formatting = {
-                    format = lspkind.cmp_format({
-                        mode = 'symbol_text',
-                        show_labelDetails = true,
+        version = '1.*',
 
-                        -- The function below will be called before any actual modifications from lspkind
-                        -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-                        before = function(entry, vim_item)
-                            return vim_item
-                        end
-                    })
+        ---@module 'blink.cmp'
+        ---@type blink.cmp.Config
+        opts = {
+            keymap = { preset = 'enter' },
+
+            snippets = { preset = 'luasnip' },
+
+            appearance = {
+                nerd_font_variant = 'mono'
+            },
+
+            completion = {
+                documentation = {
+                    auto_show = true,
+                    auto_show_delay_ms = 100,
                 },
-            })
-        end
+                list = {
+                    selection = { preselect = true, auto_insert = true }
+                },
+                ghost_text = {
+                    enabled = true,
+                },
+                accept = { auto_brackets = { enabled = true }, },
+                menu = {
+                    draw = {
+                        columns = { { 'label', 'label_description', gap = 1 }, { 'kind_icon', gap = 1, 'kind' }, { 'source_name' } },
+                        treesitter = { 'lsp' },
+                    },
+                },
+            },
+
+            -- Default list of enabled providers defined so that you can extend it
+            -- elsewhere in your config, without redefining it, due to `opts_extend`
+            sources = {
+                default = { 'lsp', 'path', 'snippets', 'buffer' },
+            },
+
+            signature = { enabled = true },
+
+            fuzzy = { implementation = "prefer_rust_with_warning" }
+        },
+        opts_extend = { "sources.default" }
     },
 
     -- LSP
@@ -98,21 +76,11 @@ return {
         cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
         event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
-            { 'hrsh7th/cmp-nvim-lsp' },
             { 'williamboman/mason.nvim' },
             { 'williamboman/mason-lspconfig.nvim' },
         },
         config = function()
             vim.opt.signcolumn = 'yes'
-
-            -- Add cmp_nvim_lsp capabilities settings to lspconfig
-            -- This should be executed before you configure any language server
-            local lspconfig_defaults = require('lspconfig').util.default_config
-            lspconfig_defaults.capabilities = vim.tbl_deep_extend(
-                'force',
-                lspconfig_defaults.capabilities,
-                require('cmp_nvim_lsp').default_capabilities()
-            )
 
             -- lsp_attach is where you enable features that only work
             -- if there is a language server active in the file
@@ -186,7 +154,7 @@ return {
                     -- this first function is the "default handler"
                     -- it applies to every language server without a "custom handler"
                     function(server_name)
-                        require('lspconfig')[server_name].setup({})
+                        vim.lsp.enable(server_name)
                     end,
                 }
             })
