@@ -24,6 +24,9 @@ vim.o.guicursor = ''
 vim.o.cursorline = true
 vim.o.cursorlineopt = 'line'
 
+vim.o.splitright = true
+vim.o.splitbelow = true
+
 -- allows the '@' character to be used in filenames
 vim.o.isfname = vim.o.isfname .. ',@-@'
 
