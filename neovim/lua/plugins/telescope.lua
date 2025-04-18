@@ -24,6 +24,9 @@ return {
                 layout_strategy = 'vertical',
                 -- NOTE: Results formatting can be customized further via path_display
                 -- path_display = { "truncate" },
+                preview = {
+                    timeout = 500,
+                },
             },
             pickers = {
                 buffers = {
