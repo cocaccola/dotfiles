@@ -639,7 +639,7 @@ function gwr () {
     fi
 
     worktrees=$(git worktree list \
-        | awk '/\[.*\]/ { if ($NF !~ /main|master|bare|prunable/) { gsub(/[\[\]]/, "", $NF); print $NF } }')
+        | awk '/\[.*\]/ { if ($NF !~ /\[main\]|\[master\]|bare|prunable/) { gsub(/[\[\]]/, "", $NF); print $NF } }')
 
     if [ -z "$worktrees" ]; then
         echo "no worktrees to remove" >&2
