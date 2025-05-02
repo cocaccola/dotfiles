@@ -331,6 +331,10 @@ alias exp='explorer.exe'
 
 # Others
 
+# volta
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
 # homebrew ssh agent on macOS
 test -S ~/.ssh/agent && export SSH_AUTH_SOCK=$HOME/.ssh/agent
 
@@ -344,18 +348,9 @@ fi
 export GPG_TTY=$(tty)
 
 
-# Testing new version
 # https://github.com/junegunn/fzf/releases/tag/0.48.0
 # Set up fzf key bindings and fuzzy completion
 eval "$(fzf --zsh)"
-
-# original, delete after testing
-# fzf
-# install with:
-# brew install fzf
-# $(brew --prefix)/opt/fzf/install
-# see https://github.com/junegunn/fzf#using-homebrew
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # https://github.com/junegunn/fzf#key-bindings-for-command-line
 # CTRL-T - Paste the selected files and directories onto the command-line
@@ -373,16 +368,6 @@ eval "$(fzf --zsh)"
 #--bind 'ctrl-e:execute(echo {+} | xargs -o vim)'
 #Open the selected entries in neovim with 'CTRL-V'
 #--bind 'ctrl-v:execute(nvim {+})'
-
-# Macchiato theme
-# https://github.com/catppuccin/fzf
-#
-# original theme, edited for transparency below
-# --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
-# --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-# --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
-# --color=selected-bg:#45475a \
-# --multi"
 
 # bat themeing
 # see https://github.com/catppuccin/bat#adding-the-themes
@@ -470,11 +455,6 @@ function zj () {
 }
 
 function v () {
-    if [ -z "$NVM_BIN" ]; then
-        # a lot of Language Servers rely on node
-        nvm use default &> /dev/null
-    fi
-
     if [ -z "$@" ]; then
         nvim .
         return
@@ -506,20 +486,21 @@ function dev () {
     gws
 }
 
-function nvm () {
-    # this function is a wrapper for nvm that lazy loads nvm
-
-    [[ -d "$HOME/.nvm" ]] || mkdir $HOME/.nvm
-    export NVM_DIR="$HOME/.nvm"
-
-    # This loads nvm
-    [[ -s "$(brew --prefix nvm)/nvm.sh" ]] && source $(brew --prefix nvm)/nvm.sh
-
-    # This loads nvm bash_completion
-    [[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ]] && source $(brew --prefix nvm)/etc/bash_completion.d/nvm
-
-    nvm "$@"
-}
+# NOTE: don't use this unless you need nvm for some reason
+# function nvm () {
+#     # this function is a wrapper for nvm that lazy loads nvm
+#
+#     [[ -d "$HOME/.nvm" ]] || mkdir $HOME/.nvm
+#     export NVM_DIR="$HOME/.nvm"
+#
+#     # This loads nvm
+#     [[ -s "$(brew --prefix nvm)/nvm.sh" ]] && source $(brew --prefix nvm)/nvm.sh
+#
+#     # This loads nvm bash_completion
+#     [[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ]] && source $(brew --prefix nvm)/etc/bash_completion.d/nvm
+#
+#     nvm "$@"
+# }
 
 function pyenv () {
     # this function is a wrapper for pyenv that lazy loads pyenv
