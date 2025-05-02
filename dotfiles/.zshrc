@@ -599,13 +599,9 @@ function gwco () {
         return
     fi
 
-    # local tracking=true
     local branch=$_branch
-    # local upstream_branch=$branch
     if echo $_branch | grep -q 'remotes/origin'; then
-        # tracking=false
         branch=${_branch#remotes/origin/}
-        # upstream_branch=$branch
     fi
 
     if [ -d $branch ]; then
