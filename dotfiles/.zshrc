@@ -599,13 +599,13 @@ function gwco () {
         return
     fi
 
-    local tracking=true
+    # local tracking=true
     local branch=$_branch
-    local upstream_branch
+    # local upstream_branch=$branch
     if echo $_branch | grep -q 'remotes/origin'; then
-        tracking=false
+        # tracking=false
         branch=${_branch#remotes/origin/}
-        upstream_branch=$branch
+        # upstream_branch=$branch
     fi
 
     if [ -d $branch ]; then
@@ -613,8 +613,8 @@ function gwco () {
         return
     fi
 
-    git worktree add $branch $upstream_branch
-    [[ $tracking == "true" ]] && git branch --set-upstream-to=origin/$branch $branch
+    git worktree add $branch $branch
+    git branch --set-upstream-to=origin/$branch $branch
     cd $branch
 }
 
