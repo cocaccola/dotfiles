@@ -247,6 +247,7 @@ alias vim='nvim'
 alias vh="fc -l -n -50 -1 | nvim -c 'set filetype=zsh' -"
 
 alias glow='glow -s $GLAMOUR_STYLE'
+alias todo='test -f .todo.md && glow .todo.md || echo "no todo file found"'
 
 alias ddev='cd ~/dev'
 alias ghpr='gh pr create --draft --title'
