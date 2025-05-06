@@ -66,12 +66,12 @@ brew install \
         glow \
         gotestsum \
         dive \
-        nvm \
         pandoc \
         go-task \
         ykman \
         ghostty \
-        openssh
+        openssh \
+        volta
 
 # make dev directory for git repos
 #mkdir ~/dev
