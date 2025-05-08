@@ -1,10 +1,4 @@
 return {
-    {
-        'williamboman/mason.nvim',
-        lazy = false,
-        config = true,
-    },
-
     -- Snippets
     {
         "L3MON4D3/LuaSnip",
@@ -92,11 +86,9 @@ return {
     -- LSP
     {
         'neovim/nvim-lspconfig',
-        cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
-        event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
-            { 'williamboman/mason.nvim' },
-            { 'williamboman/mason-lspconfig.nvim' },
+            { 'mason-org/mason.nvim' },
+            { 'mason-org/mason-lspconfig.nvim' },
         },
         config = function()
             vim.opt.signcolumn = 'yes'
@@ -167,16 +159,8 @@ return {
                 },
             })
 
-            require('mason-lspconfig').setup({
-                ensure_installed = {},
-                handlers = {
-                    -- this first function is the "default handler"
-                    -- it applies to every language server without a "custom handler"
-                    function(server_name)
-                        vim.lsp.enable(server_name)
-                    end,
-                }
-            })
+            require("mason").setup()
+            require('mason-lspconfig').setup()
         end
     }
 }
