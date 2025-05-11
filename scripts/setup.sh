@@ -53,8 +53,6 @@ brew install \
         ripgrep \
         jq \
         yq \
-        terraform \
-        terragrunt \
         ipcalc \
         git-delta \
         gum \
@@ -70,8 +68,7 @@ brew install \
         go-task \
         ykman \
         ghostty \
-        openssh \
         volta
 
 # make dev directory for git repos
-#mkdir ~/dev
+test -d ~/dev || mkdir ~/dev
