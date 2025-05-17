@@ -249,7 +249,7 @@ alias vh="fc -l -n -50 -1 | nvim -c 'set filetype=zsh' -"
 alias glow='glow -s $GLAMOUR_STYLE'
 alias todo='test -f .todo.md && glow .todo.md || echo "no todo file found"'
 
-alias ddev='cd ~/dev'
+alias ddev='cd ~/Development'
 alias ghpr='gh pr create --draft --title'
 
 # trying out a few draft aliases
@@ -476,14 +476,14 @@ function v () {
 }
 
 function dev () {
-    # change between repos in ~/dev
+    # change between repos in ~/Development
 
     local selected
     selected=$(\
-        fd -t d -d 1 -H -x echo {/} \; . ~/dev \
+        fd -t d -d 1 -H -x echo {/} \; . ~/Development \
         | gum filter --limit=1 --indicator=">")
 
-    cd ~/dev/$selected
+    cd ~/Development/$selected
     gws
 }
 

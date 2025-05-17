@@ -3,11 +3,11 @@ layout {
     tab name="typescript dev" {
         pane {
             pane {
-                cwd "~/dev/ts-testing-area"
+                cwd "~/Development/ts-testing-area"
                 size "85%"
             }
             pane {
-                cwd "~/dev/ts-testing-area"
+                cwd "~/Development/ts-testing-area"
                 size "15%"
                 command "zsh"
                 args "-c" "find src/ -type f | entr -pcs 'tsc && node dist/index.js'"

@@ -71,4 +71,4 @@ brew install \
         volta
 
 # make dev directory for git repos
-test -d ~/dev || mkdir ~/dev
+test -d ~/Development || mkdir ~/dev
