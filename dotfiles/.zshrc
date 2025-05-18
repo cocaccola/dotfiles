@@ -336,6 +336,9 @@ alias exp='explorer.exe'
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+# dotnet
+export DOTNET_ROOT="/usr/local/share/dotnet"
+
 # homebrew ssh agent on macOS
 test -S ~/.ssh/agent && export SSH_AUTH_SOCK=$HOME/.ssh/agent
 
