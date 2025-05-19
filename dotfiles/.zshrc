@@ -515,13 +515,61 @@ function pyenv () {
     pyenv "$@"
 }
 
-function clean_branches () {
-    # clean_branches - cleans up local branches
+# TODO: delete once the below function gwclean is ready
+# function clean_branches () {
+#     # clean_branches - cleans up local branches
+#
+#     _change_to_bare
+#
+#     git worktree list --porcelain \
+#         | awk '
+#     function is_excluded(worktree_path) {
+#         n = split(worktree_path, parts, "/")
+#         if (parts[n] ~ /(\.bare|main|master)/) {
+#             return 1
+#         }
+#         return 0
+#     }
+#
+#     {
+#         if ($0 !~ /^worktree/) {
+#             getline
+#         }
+#
+#         if (is_excluded($NF) == 1) {
+#             is_next=0
+#             while (is_next == 0) {
+#                 getline
+#                 if ($0 == "") is_next=1
+#             }
+#             next
+#         }
+#
+#         # this is to catch when we are at the end of the output
+#         # we want to skip the below processing
+#         if ($0 == "") next
+#
+#         worktree["path"]=$NF
+#         getline
+#         getline
+#         sub(/refs\/heads\//, "", $NF)
+#         worktree["branch"]=$NF
+#
+#         status = system("git worktree remove "worktree["path"])
+#         if (status == 0) {
+#             system("git branch -D "worktree["branch"])
+#         }
+#     }'
+# }
 
-    _change_to_bare
+# TEST: this function is current set to be read only
+# TODO: set this function to delete when ready
+function gwclean () {
+    # gwclean - delete worktrees and branches
+    # remove worktrees over a month old and a half
+    # remove branches with no commits in over 6 months
 
-    git worktree list --porcelain \
-        | awk '
+    git worktree list --porcelain | awk '
     function is_excluded(worktree_path) {
         n = split(worktree_path, parts, "/")
         if (parts[n] ~ /(\.bare|main|master)/) {
@@ -530,35 +578,35 @@ function clean_branches () {
         return 0
     }
 
-    {
-        if ($0 !~ /^worktree/) {
-            getline
-        }
+    BEGIN {
+        "date +%s" | getline now
+        day=86400
+        ndays=47
+    }
 
-        if (is_excluded($NF) == 1) {
-            is_next=0
-            while (is_next == 0) {
-                getline
-                if ($0 == "") is_next=1
-            }
-            next
-        }
-
-        # this is to catch when we are at the end of the output
-        # we want to skip the below processing
-        if ($0 == "") next
-
-        worktree["path"]=$NF
-        getline
-        getline
-        sub(/refs\/heads\//, "", $NF)
-        worktree["branch"]=$NF
-
-        status = system("git worktree remove "worktree["path"])
-        if (status == 0) {
-            system("git branch -D "worktree["branch"])
+    /worktree/ {
+        "stat -f %m "$2 | getline mtime
+        if(now-mtime >= (days*ndays) && is_excluded($2) == 0) {
+            print "would run: git worktree remove "$2
         }
     }'
+
+    day=86400
+    month=$((31*$day))
+    some_time_ago=$(($(date +%s) - 6*month))
+
+    # TODO: remove this debug echo on final
+    echo "DEBUG: Branches older than 6 months (command printed for removal)"
+
+    git for-each-ref \
+        --sort=committerdate \
+        --format="%(refname:short) %(committerdate:unix)" \
+        refs/heads \
+    | while read -r branch date; do
+        if [[ $date < $one_month_ago && ("$branch" != "main" || "$branch" != "master" ) ]]; then
+            echo "would run: git branch -D $branch"
+        fi
+    done
 }
 
 function gcln () {
