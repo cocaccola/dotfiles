@@ -564,12 +564,17 @@ function pyenv () {
 
 # TEST: this function is current set to be read only
 # TODO: set this function to delete when ready
-function gwclean () {
-    # gwclean - delete worktrees and branches
+function _gwclean () {
+    # _gwclean - delete worktrees and branches
     # remove worktrees over a month old and a half
     # remove branches with no commits in over 6 months
 
-    git worktree list --porcelain | awk '
+    dry_run=""
+    if [[ -n "$1" ]]; then
+        dry_run="true"
+    fi
+
+    git worktree list --porcelain | awk -v dry_run="$dry_run" '
     function is_excluded(worktree_path) {
         n = split(worktree_path, parts, "/")
         if (parts[n] ~ /(\.bare|main|master)/) {
@@ -587,7 +592,11 @@ function gwclean () {
     /worktree/ {
         "stat -f %m "$2 | getline mtime
         if(now-mtime >= (days*ndays) && is_excluded($2) == 0) {
-            print "would run: git worktree remove "$2
+            if(dry_run) {
+                print "would run: git worktree remove "$2
+            } else {
+                print "would delete with: system git worktree remove "$2
+            }
         }
     }'
 
@@ -595,18 +604,24 @@ function gwclean () {
     month=$((31*$day))
     some_time_ago=$(($(date +%s) - 6*month))
 
-    # TODO: remove this debug echo on final
-    echo "DEBUG: Branches older than 6 months (command printed for removal)"
-
     git for-each-ref \
         --sort=committerdate \
         --format="%(refname:short) %(committerdate:unix)" \
         refs/heads \
     | while read -r branch date; do
-        if [[ $date < $one_month_ago && ("$branch" != "main" || "$branch" != "master" ) ]]; then
-            echo "would run: git branch -D $branch"
+        if [[ $date < $some_time_ago && ("$branch" != "main" || "$branch" != "master" ) ]]; then
+            [[ -n "$dry_run" ]] && echo "would run: git branch -D $branch"
+            [[ -z "$dry_run" ]] && echo "would delete with: branch -D $branch"
         fi
     done
+}
+
+function gwdryclean () {
+    _gwclean "dry_run"
+}
+
+function gwclean () {
+    _gwclean
 }
 
 function gcln () {
