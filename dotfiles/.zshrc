@@ -611,7 +611,7 @@ function _gwclean () {
     | while read -r branch date; do
         if [[ $date < $some_time_ago && ("$branch" != "main" || "$branch" != "master" ) ]]; then
             [[ -n "$dry_run" ]] && echo "would run: git branch -D $branch"
-            [[ -z "$dry_run" ]] && echo "would delete with: branch -D $branch"
+            [[ -z "$dry_run" ]] && echo "would delete with: git branch -D $branch"
         fi
     done
 }
