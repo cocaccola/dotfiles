@@ -336,6 +336,9 @@ alias exp='explorer.exe'
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+# dotnet
+export DOTNET_ROOT="/usr/local/share/dotnet"
+
 # homebrew ssh agent on macOS
 test -S ~/.ssh/agent && export SSH_AUTH_SOCK=$HOME/.ssh/agent
 
@@ -512,13 +515,66 @@ function pyenv () {
     pyenv "$@"
 }
 
-function clean_branches () {
-    # clean_branches - cleans up local branches
+# TODO: delete once the below function gwclean is ready
+# function clean_branches () {
+#     # clean_branches - cleans up local branches
+#
+#     _change_to_bare
+#
+#     git worktree list --porcelain \
+#         | awk '
+#     function is_excluded(worktree_path) {
+#         n = split(worktree_path, parts, "/")
+#         if (parts[n] ~ /(\.bare|main|master)/) {
+#             return 1
+#         }
+#         return 0
+#     }
+#
+#     {
+#         if ($0 !~ /^worktree/) {
+#             getline
+#         }
+#
+#         if (is_excluded($NF) == 1) {
+#             is_next=0
+#             while (is_next == 0) {
+#                 getline
+#                 if ($0 == "") is_next=1
+#             }
+#             next
+#         }
+#
+#         # this is to catch when we are at the end of the output
+#         # we want to skip the below processing
+#         if ($0 == "") next
+#
+#         worktree["path"]=$NF
+#         getline
+#         getline
+#         sub(/refs\/heads\//, "", $NF)
+#         worktree["branch"]=$NF
+#
+#         status = system("git worktree remove "worktree["path"])
+#         if (status == 0) {
+#             system("git branch -D "worktree["branch"])
+#         }
+#     }'
+# }
 
-    _change_to_bare
+# TEST: this function is current set to be read only
+# TODO: set this function to delete when ready
+function _gwclean () {
+    # _gwclean - delete worktrees and branches
+    # remove worktrees over a month old and a half
+    # remove branches with no commits in over 6 months
 
-    git worktree list --porcelain \
-        | awk '
+    dry_run=""
+    if [[ -n "$1" ]]; then
+        dry_run="true"
+    fi
+
+    git worktree list --porcelain | awk -v dry_run="$dry_run" '
     function is_excluded(worktree_path) {
         n = split(worktree_path, parts, "/")
         if (parts[n] ~ /(\.bare|main|master)/) {
@@ -527,35 +583,45 @@ function clean_branches () {
         return 0
     }
 
-    {
-        if ($0 !~ /^worktree/) {
-            getline
-        }
+    BEGIN {
+        "date +%s" | getline now
+        day=86400
+        ndays=47
+    }
 
-        if (is_excluded($NF) == 1) {
-            is_next=0
-            while (is_next == 0) {
-                getline
-                if ($0 == "") is_next=1
+    /worktree/ {
+        "stat -f %m "$2 | getline mtime
+        if(now-mtime >= (days*ndays) && is_excluded($2) == 0) {
+            if(dry_run) {
+                print "would run: git worktree remove "$2
+            } else {
+                print "would delete with: system git worktree remove "$2
             }
-            next
-        }
-
-        # this is to catch when we are at the end of the output
-        # we want to skip the below processing
-        if ($0 == "") next
-
-        worktree["path"]=$NF
-        getline
-        getline
-        sub(/refs\/heads\//, "", $NF)
-        worktree["branch"]=$NF
-
-        status = system("git worktree remove "worktree["path"])
-        if (status == 0) {
-            system("git branch -D "worktree["branch"])
         }
     }'
+
+    day=86400
+    month=$((31*$day))
+    some_time_ago=$(($(date +%s) - 6*month))
+
+    git for-each-ref \
+        --sort=committerdate \
+        --format="%(refname:short) %(committerdate:unix)" \
+        refs/heads \
+    | while read -r branch date; do
+        if [[ $date < $some_time_ago && ("$branch" != "main" || "$branch" != "master" ) ]]; then
+            [[ -n "$dry_run" ]] && echo "would run: git branch -D $branch"
+            [[ -z "$dry_run" ]] && echo "would delete with: branch -D $branch"
+        fi
+    done
+}
+
+function gwdryclean () {
+    _gwclean "dry_run"
+}
+
+function gwclean () {
+    _gwclean
 }
 
 function gcln () {
