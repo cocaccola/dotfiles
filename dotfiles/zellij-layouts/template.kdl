@@ -6,5 +6,5 @@ layout {
         }
     }
     compact name="tab 1" cwd="/tmp" focus=true
-    compact name="tab 2" cwd="~/dev"
+    compact name="tab 2" cwd="~/Development"
 }
