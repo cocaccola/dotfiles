@@ -236,6 +236,7 @@ alias tree='eza --icons --tree'
 
 alias wh='which'
 alias b='bat'
+alias bp='bat -p'
 alias brewup='brew update && brew outdated'
 alias less='less -R'
 alias grep='grep --color=auto'
