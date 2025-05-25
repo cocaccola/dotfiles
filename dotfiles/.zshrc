@@ -515,55 +515,6 @@ function pyenv () {
     pyenv "$@"
 }
 
-# TODO: delete once the below function gwclean is ready
-# function clean_branches () {
-#     # clean_branches - cleans up local branches
-#
-#     _change_to_bare
-#
-#     git worktree list --porcelain \
-#         | awk '
-#     function is_excluded(worktree_path) {
-#         n = split(worktree_path, parts, "/")
-#         if (parts[n] ~ /(\.bare|main|master)/) {
-#             return 1
-#         }
-#         return 0
-#     }
-#
-#     {
-#         if ($0 !~ /^worktree/) {
-#             getline
-#         }
-#
-#         if (is_excluded($NF) == 1) {
-#             is_next=0
-#             while (is_next == 0) {
-#                 getline
-#                 if ($0 == "") is_next=1
-#             }
-#             next
-#         }
-#
-#         # this is to catch when we are at the end of the output
-#         # we want to skip the below processing
-#         if ($0 == "") next
-#
-#         worktree["path"]=$NF
-#         getline
-#         getline
-#         sub(/refs\/heads\//, "", $NF)
-#         worktree["branch"]=$NF
-#
-#         status = system("git worktree remove "worktree["path"])
-#         if (status == 0) {
-#             system("git branch -D "worktree["branch"])
-#         }
-#     }'
-# }
-
-# TEST: this function is current set to be read only
-# TODO: set this function to delete when ready
 function _gwclean () {
     # _gwclean - delete worktrees and branches
     # remove worktrees over a month old and a half
@@ -595,7 +546,7 @@ function _gwclean () {
             if(dry_run) {
                 print "would run: git worktree remove "$2
             } else {
-                print "would delete with: system git worktree remove "$2
+                system("git worktree remove "$2)
             }
         }
     }'
@@ -611,7 +562,7 @@ function _gwclean () {
     | while read -r branch date; do
         if [[ $date < $some_time_ago && ("$branch" != "main" || "$branch" != "master" ) ]]; then
             [[ -n "$dry_run" ]] && echo "would run: git branch -D $branch"
-            [[ -z "$dry_run" ]] && echo "would delete with: git branch -D $branch"
+            [[ -z "$dry_run" ]] && git branch -D "$branch"
         fi
     done
 }
