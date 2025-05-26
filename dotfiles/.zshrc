@@ -236,6 +236,7 @@ alias tree='eza --icons --tree'
 
 alias wh='which'
 alias b='bat'
+alias bp='bat -p'
 alias brewup='brew update && brew outdated'
 alias less='less -R'
 alias grep='grep --color=auto'
@@ -325,6 +326,8 @@ alias zja='zellij attach'
 alias zjr='zellij run'
 alias zje='zellij edit'
 alias zjda='zellij delete-all-sessions'
+
+alias uvr='uv run'
 
 # wsl2
 alias exp='explorer.exe'

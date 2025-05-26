@@ -68,7 +68,8 @@ brew install \
         go-task \
         ykman \
         ghostty \
-        volta
+        volta \
+        uv
 
 # make dev directory for git repos
 test -d ~/dev || mkdir ~/dev
