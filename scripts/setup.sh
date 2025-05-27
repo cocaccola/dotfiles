@@ -72,4 +72,4 @@ brew install \
         uv
 
 # make dev directory for git repos
-test -d ~/dev || mkdir ~/dev
+test -d ~/Development || mkdir ~/Development
