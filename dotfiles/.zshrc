@@ -280,6 +280,7 @@ alias gdi='git diff'
 alias gdc='DELTA_FEATURES=+side-by-side git diff --cached'
 alias gdci='git diff --cached'
 alias gpl='git pull'
+alias gplu='gfo && git pull'
 alias gsha='git rev-parse --verify HEAD'
 alias gl="git log --pretty='format:%C(yellow)%h | %ad%Cred%d | %Creset%s%Cblue [%cn]' --decorate --date=iso --graph"
 alias glr="git log --pretty='format:%C(yellow)%h | %ad%Cred%d | %Creset%s%Cblue [%cn]' --decorate --date=relative --reverse"
