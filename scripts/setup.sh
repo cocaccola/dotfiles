@@ -69,7 +69,8 @@ brew install \
         ykman \
         ghostty \
         volta \
-        uv
+        uv \
+        fx
 
 # make dev directory for git repos
 test -d ~/Development || mkdir ~/Development

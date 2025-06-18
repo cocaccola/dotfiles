@@ -933,5 +933,8 @@ eval "$(direnv hook zsh)"
 # prompt
 eval "$(starship init zsh)"
 
+# fx
+source <(fx --comp zsh)
+
 # motd
 moo
