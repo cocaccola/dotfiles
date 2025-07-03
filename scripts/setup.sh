@@ -70,7 +70,8 @@ brew install \
         ghostty \
         volta \
         uv \
-        fx
+        fx \
+        luarocks
 
 # make dev directory for git repos
 test -d ~/Development || mkdir ~/Development
