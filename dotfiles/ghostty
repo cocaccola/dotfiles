@@ -2,6 +2,7 @@
 clipboard-paste-protection = true
 cursor-style = block_hollow
 cursor-style-blink = false
+cursor-invert-fg-bg = true
 font-family = FiraCode Nerd Font Mono
 font-feature = -calt
 font-feature = -dlig
