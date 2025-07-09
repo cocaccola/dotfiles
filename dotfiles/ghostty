@@ -1,8 +1,9 @@
 # font-thicken = true
 clipboard-paste-protection = true
-cursor-style = block_hollow
-cursor-style-blink = false
-cursor-invert-fg-bg = true
+# cursor-style = block_hollow
+cursor-style = block
+cursor-style-blink = true
+cursor-invert-fg-bg = false
 font-family = FiraCode Nerd Font Mono
 font-feature = -calt
 font-feature = -dlig
