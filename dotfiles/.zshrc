@@ -134,7 +134,20 @@ fi
 
 zmodload zsh/complist
 autoload -Uz compinit promptinit
-compinit
+
+# NOTE: this only works on macOS/BSD systems
+# `stat` call will need to modified for Linux
+# See: https://www.man7.org/linux/man-pages/man1/stat.1.html
+
+# This compares the day of year (001..366) to the modtime on the zcompdump file.
+# If the days are not the same we will rebuild the cache. This means the cache will be rebuilt once per day.
+# In the case that the zcompdump file does not exist, it will be created.
+if [[ "$(date +%j)" != "$(stat -f %Sm -t %j ~/.zcompdump 2>&-)" ]]; then
+    compinit
+else
+    compinit -C
+fi
+
 promptinit
 
 # enable auto rehash
