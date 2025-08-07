@@ -1,4 +1,17 @@
 -- keyboard mappings
+--
+-- modes: https://neovim.io/doc/user/map.html#map-listing
+--
+--  n       Normal
+--  v	    Visual and Select
+--  s	    Select
+--  x	    Visual
+--  o	    Operator-pending
+--  i	    Insert
+--  l	    ":lmap" mappings for Insert, Command-line and Lang-Arg
+--  c	    Command-line
+--  t	    Terminal-Job
+--
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
