@@ -8,7 +8,8 @@ return {
                 enabled = true
             },
             char = {
-                jump_labels = true
+                jump_labels = true,
+                label = { exclude = "hjkliardcsx" },
             }
         }
     },
