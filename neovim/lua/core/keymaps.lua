@@ -20,6 +20,7 @@ vim.keymap.set('i', 'jk', '<Esc>', { silent = true })
 
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
+vim.keymap.set("n", "<leader>b", "<cmd>%y+<CR>", { desc = "yank entire buffer" })
 
 -- key cursor centered when scrolling up / down or
 -- moving between search results
