@@ -8,8 +8,11 @@ return {
                 enabled = true
             },
             char = {
+                -- TODO: this feature seems broken for 'f' motions
+                -- https://github.com/folke/flash.nvim/issues/442
+                enabled = false,
                 jump_labels = true,
-                label = { exclude = "hjkliardcsxy" },
+                label = { exclude = "hjkliardcsxyft" },
             }
         }
     },
