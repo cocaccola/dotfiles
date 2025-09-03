@@ -1,5 +1,5 @@
 return {
-    'echasnovski/mini.surround',
+    'nvim-mini/mini.surround',
     version = false,
     opts = {
         n_lines = 100,
