@@ -41,7 +41,6 @@ brew install \
         fzf \
         tree \
         zoxide \
-        pinentry-mac \
         gnupg \
         starship \
         direnv \
@@ -71,7 +70,10 @@ brew install \
         volta \
         uv \
         fx \
-        luarocks
+        luarocks \
+        tree-sitter \
+        tree-sitter-cli \
+        node
 
 # make dev directory for git repos
 test -d ~/Development || mkdir ~/Development

@@ -365,7 +365,7 @@ test -S ~/.ssh/agent && export SSH_AUTH_SOCK=$HOME/.ssh/agent
 
 # keychain
 if command -v keychain >&-; then
-    eval $(keychain --quick --quiet --eval --noask --nogui --agents ssh)
+    eval $(keychain --quick --quiet --eval --noask --nogui)
 fi
 
 # GPG agent
