@@ -18,6 +18,9 @@ vim.g.maplocalleader = ' '
 
 vim.keymap.set('i', 'jk', '<Esc>', { silent = true })
 
+-- enable alt+backspace to work
+vim.keymap.set('i', '<M-BS>', '<C-w>', { desc = 'Delete word backward' })
+
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 vim.keymap.set("n", "<leader>b", "<cmd>%y+<CR>", { desc = "yank entire buffer" })
