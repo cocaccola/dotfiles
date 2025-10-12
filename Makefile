@@ -16,6 +16,8 @@ delta_theme:
 	@curl -fsSL https://raw.githubusercontent.com/catppuccin/delta/main/catppuccin.gitconfig -o ~/.config/delta/catppuccin.gitconfig
 
 gitconfig:
+	@cp -v dotfiles/.gitconfig-github ~
+	@cp -v dotfiles/.gitconfig-gitlab ~
 	@mv -v ~/.gitconfig ~/.gitconfig.bak
 	@cp -v dotfiles/.gitconfig ~
 	@cp -v dotfiles/.gitignore_global ~
