@@ -88,6 +88,7 @@ bindkey "^N" down-history
 
 # See: https://superuser.com/questions/1421423/how-to-bind-option-delete-to-backward-delete-word-in-zsh-vi-mode-in-tmux-and-ala
 WORDCHARS=${WORDCHARS/\/}
+WORDCHARS=${WORDCHARS/-/}
 bindkey '^[^?' backward-kill-word
 
 # Enable Ctrl-x-e to edit command line
