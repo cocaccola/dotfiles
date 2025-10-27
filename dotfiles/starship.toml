@@ -29,6 +29,7 @@ disabled = false
 [git_branch]
 symbol = '󱁕 '
 format = '[$symbol$branch(:$remote_branch)]($style)'
+ignore_bare_repo = true
 disabled = false
 
 [git_commit]
