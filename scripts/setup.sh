@@ -73,7 +73,8 @@ brew install \
         luarocks \
         tree-sitter \
         tree-sitter-cli \
-        node
+        node \
+        tmux
 
 # make dev directory for git repos
 test -d ~/Development || mkdir ~/Development
