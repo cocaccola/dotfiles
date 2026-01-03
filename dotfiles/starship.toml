@@ -83,6 +83,7 @@ disabled = false
 Macos = "󱁆 "
 Linux = "󰌽 "
 Ubuntu = "󰌽 "
+Fedora = "󰮤 "
 Unknown = "󰮯 "
 
 [directory]

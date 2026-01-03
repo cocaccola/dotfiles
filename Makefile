@@ -136,7 +136,15 @@ rebuild_zsh_completion_cache:
 	@rm ~/.zcompdump*; compinit
 
 ghostty:
-	@cp -v dotfiles/ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config
+	@[[ "$$(uname)" == "Darwin" ]] && cp -v dotfiles/ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config
+	@[[ "$$(uname)" == "Linux" ]] && cp -v dotfiles/ghostty ~/.config/ghostty/config
+
+ghostty_linux_setup:
+	@[[ "$$(uname)" == "Linux" ]] && { \
+		mkdir -p ~/.config/ghostty/themes 2>&- || true; \
+		curl -fsSL https://raw.githubusercontent.com/catppuccin/ghostty/refs/heads/main/themes/catppuccin-mocha.conf -o ~/.config/ghostty/themes/catppuccin-mocha.conf && \
+		sed -i 's/\(theme = \).*$$/\1catppuccin-mocha.conf/' ~/.config/ghostty/config; \
+		sed -i 's/\(font-size = \).*/\112/' ~/.config/ghostty/config; }
 
 direnv:
 	@mkdir -p ~/.config/direnv/ 2>&- || true

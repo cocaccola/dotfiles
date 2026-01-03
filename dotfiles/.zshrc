@@ -109,10 +109,11 @@ for index ({1..9}) alias "$index"="cd -${index}"; unset index
 # homebrew on macOS arm64
 if [[ $(uname) == "Darwin" ]] && [[ $(uname -m) == "arm64" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
-# homebrew on Linux x86_64
-elif [[ $(uname) == "Linux" ]] && [[ $(uname -m) == "x86_64" ]]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
+# homebrew on Linux x86_64
+#elif [[ $(uname) == "Linux" ]] && [[ $(uname -m) == "x86_64" ]]; then
+#    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+#fi
 
 export HOMEBREW_NO_ANALYTICS=1
 
@@ -951,7 +952,7 @@ eval "$(direnv hook zsh)"
 eval "$(starship init zsh)"
 
 # fx
-source <(fx --comp zsh)
+# source <(fx --comp zsh)
 
 # motd
 moo
