@@ -31,11 +31,23 @@ return {
                 "markdown",
             }
 
-            local _installed = ts.get_installed()
+            local ignore = {
+                "oil",
+                "mason_backdrop",
+                "mason",
+                "TelescopePrompt",
+                "TelescopeResults",
+                "blink-cmp-menu",
+                "blink-cmp-documentation",
+                "lazy_backdrop",
+                "lazy",
+            }
+
+            local installed = ts.get_installed()
             local newly_installed = {}
             local to_install = vim.iter(ensure_installed):filter(
                 function(parser)
-                    if vim.tbl_contains(_installed, parser) then
+                    if vim.tbl_contains(installed, parser) then
                         return false
                     end
                     table.insert(newly_installed, parser)
@@ -44,7 +56,9 @@ return {
             ):totable()
 
             ts.install(to_install)
-            local installed = vim.tbl_extend('keep', _installed, newly_installed)
+            vim.list_extend(installed, newly_installed)
+            vim.list_extend(installed, ignore)
+
 
             vim.api.nvim_create_autocmd('FileType', {
                 pattern = { '*' },
