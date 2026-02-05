@@ -33,6 +33,7 @@ return {
 
             local ignore = {
                 "oil",
+                "oil_preview",
                 "mason_backdrop",
                 "mason",
                 "TelescopePrompt",
