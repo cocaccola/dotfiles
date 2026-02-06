@@ -42,6 +42,8 @@ return {
                 "blink-cmp-documentation",
                 "lazy_backdrop",
                 "lazy",
+                "qf",
+                "man",
             }
 
             local installed = ts.get_installed()
