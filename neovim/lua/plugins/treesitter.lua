@@ -45,6 +45,7 @@ return {
                 "qf",
                 "man",
                 "checkhealth",
+                "sh",
             }
 
             local installed = ts.get_installed()
