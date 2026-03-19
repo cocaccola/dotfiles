@@ -44,6 +44,7 @@ return {
                 "lazy",
                 "qf",
                 "man",
+                "checkhealth",
             }
 
             local installed = ts.get_installed()
