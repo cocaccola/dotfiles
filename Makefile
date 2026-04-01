@@ -80,10 +80,10 @@ k9s_theme_linux:
 	@yq -i '.k9s.ui.skin = "catppuccin"' ~/.config/k9s/config.yaml
 	@rm -rf ~/.config/k9s/skins/catppuccin
 	@cat <<EOF >~/.config/k9s/config.yaml
-k9s:
-  ui:
-    skin: catppuccin-mocha
-EOF
+	k9s:
+	  ui:
+	    skin: catppuccin-mocha
+	EOF
 
 k9s_theme:
 	@git clone https://github.com/catppuccin/k9s.git ~/Library/Application\ Support/k9s/skins/catppuccin --depth 1
