@@ -243,6 +243,13 @@ unsetopt completealiases
 # fi
 
 # Aliases
+
+# if we are on macOS create aliases for compatibility with linux configs on wayland
+if [[ $(uname) == "Darwin" ]]; then
+    alias wl-copy='pbcopy'
+    alias wl-paste='pbpaste'
+fi
+
 # assumes installation of https://github.com/ryanoasis/nerd-fonts
 alias ls='eza -F --icons=auto'
 alias ll='ls --long --header --binary --smart-group --links --git'
@@ -410,7 +417,7 @@ export FZF_DEFAULT_OPTS="
 --marker='⚑'
 --bind '?:toggle-preview'
 --bind 'ctrl-a:select-all'
---bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
+--bind 'ctrl-y:execute-silent(echo {+} | wl-copy)'
 --bind 'ctrl-e:execute(echo {+} | xargs -o nvim)'
 --bind 'ctrl-v:execute(nvim {+})'
 --bind 'ctrl-alt-k:preview-page-up'
