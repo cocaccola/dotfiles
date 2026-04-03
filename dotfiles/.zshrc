@@ -250,6 +250,11 @@ if [[ $(uname) == "Darwin" ]]; then
     alias wl-paste='pbpaste'
 fi
 
+case $(uname) in
+Darwin) alias copy='pbcopy' ;;
+Linux)  alias copy='wl-copy -n' ;;
+esac
+
 # assumes installation of https://github.com/ryanoasis/nerd-fonts
 alias ls='eza -F --icons=auto'
 alias ll='ls --long --header --binary --smart-group --links --git'
@@ -357,6 +362,9 @@ alias uvr='uv run'
 # wsl2
 alias exp='explorer.exe'
 
+# tmux
+alias tls='tmux list-sessions'
+
 
 # Others
 
@@ -457,6 +465,61 @@ function _fzf_comprun() {
         ssh)          fzf --preview 'dig {}'                   "$@" ;;
         *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
     esac
+}
+
+# tmux
+function tns () {
+    # tns - tmux new session
+
+    if [[ -z "$1" ]]; then
+        echo "you need a session name" >&2
+        return
+    fi
+
+    tmux new-session -d -s "$1"
+    tmux switch-client -t "$1"
+
+    tlayout
+}
+
+function tks () {
+    # tks - tmux kill session
+    selected_session=$(\
+        tmux list-sessions -F '#{session_attached} #S' \
+            | awk '{ if($1 == 0) print $2 }' \
+            | gum filter --limit=1 --indicator=">")
+
+    tmux kill-session -t $selected_session
+}
+
+function tlayout () {
+    # tlayout - tmux layout
+    local layout_dir=~/.tmux-layouts/
+
+    if [[ ! -d "$LAYOUT_DIR" ]]; then
+        echo "$LAYOUT_DIR does not exist" >&2
+        return
+    fi
+
+    local layout=$(find $LAYOUT_DIR -type f -name '*.sh' \
+        | awk -F'/' 'BEGIN { print "default" } { sub(/\.sh$/, ""); print $NF }' \
+        | gum filter --limit=1 --indicator=">")
+
+    if [[ -z "$layout" ]]; then
+        echo "no layout selected" >&2
+        return
+    fi
+
+    if [[ "$layout" == "default" ]]; then
+        # there's nothing left to do
+        return
+    fi
+
+    /$layout_dir/${layout}.sh
+
+    # We need to handle the original window for the new session
+    tmux select-window -t :2
+    tmux kill-window -t :1
 }
 
 # Helper Functions
