@@ -467,7 +467,6 @@ function _fzf_comprun() {
     esac
 }
 
-# tmux
 function tns () {
     # tns - tmux new session
 
@@ -476,10 +475,8 @@ function tns () {
         return
     fi
 
-    tmux new-session -d -s "$1"
+    tmux new-session -d -s "$1" "$HOME/bin/layouts.sh tns"
     tmux switch-client -t "$1"
-
-    tlayout
 }
 
 function tks () {
@@ -492,35 +489,6 @@ function tks () {
     tmux kill-session -t $selected_session
 }
 
-function tlayout () {
-    # tlayout - tmux layout
-    local layout_dir=~/.tmux-layouts/
-
-    if [[ ! -d "$LAYOUT_DIR" ]]; then
-        echo "$LAYOUT_DIR does not exist" >&2
-        return
-    fi
-
-    local layout=$(find $LAYOUT_DIR -type f -name '*.sh' \
-        | awk -F'/' 'BEGIN { print "default" } { sub(/\.sh$/, ""); print $NF }' \
-        | gum filter --limit=1 --indicator=">")
-
-    if [[ -z "$layout" ]]; then
-        echo "no layout selected" >&2
-        return
-    fi
-
-    if [[ "$layout" == "default" ]]; then
-        # there's nothing left to do
-        return
-    fi
-
-    /$layout_dir/${layout}.sh
-
-    # We need to handle the original window for the new session
-    tmux select-window -t :2
-    tmux kill-window -t :1
-}
 
 # Helper Functions
 function _primary_branch () {

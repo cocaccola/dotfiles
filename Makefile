@@ -44,8 +44,8 @@ zshrc: gitconfig bat_theme zsh_syntax_highlighting glamor_theme starship
 tmux_conf:
 	@cp -v dotfiles/.tmux.conf ~
 
-
-tmux_layouts:
+tmux_layouts: bin
+	@cp -v tmux/layouts.sh ~/bin/
 	@mkdir ~/.tmux-layouts 2>&- || true
 	@cp -v tmux/layouts/* ~/.tmux-layouts/
 
