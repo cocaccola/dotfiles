@@ -364,6 +364,7 @@ alias exp='explorer.exe'
 
 # tmux
 alias tls='tmux list-sessions'
+alias ta='tmux attach -t'
 
 
 # Others
