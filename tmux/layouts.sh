@@ -21,7 +21,8 @@ if [[ -z "$layout" ]]; then
 fi
 
 if [[ "$layout" == "default" ]]; then
-    # there's nothing left to do
+    # Create a new window so that when this script exits it won't kill the session
+    tmux new-window -d
     exit 0
 fi
 
