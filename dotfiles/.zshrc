@@ -60,6 +60,10 @@ if [[ -d /usr/local/go/bin ]]; then
     export PATH=$PATH:/usr/local/go/bin
 fi
 
+if [[ -d /opt/nvim-linux-x86_64/bin ]]; then
+    export PATH=$PATH:/opt/nvim-linux-x86_64/bin
+fi
+
 # keep for example purposes
 # # GKE
 #
