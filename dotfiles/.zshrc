@@ -324,6 +324,7 @@ alias gstp='git stash pop'
 alias gmc='nvim $(git diff --name-only --diff-filter=U --relative)'
 alias gubp='gub && gp'
 alias branch='git branch --show-current'
+alias repo='basename -s .git $(git config --get remote.origin.url)'
 
 alias ghwr='gh workflow run'
 alias ghwrc='gh workflow run -r $(git branch --show-current)'
