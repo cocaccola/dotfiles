@@ -1,2 +1,2 @@
 require('core')
-require('plugin-loader')
+-- files in the plugin directory should load automatically by aphabetical order

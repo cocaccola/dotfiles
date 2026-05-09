@@ -1,3 +1,11 @@
+vim.pack.add({
+    { src = 'https://github.com/nvim-telescope/telescope.nvim', name = 'telescope',           version = vim.version.range('*') },
+    { src = 'https://github.com/nvim-lua/plenary.nvim',         name = 'plenary' },
+    { src = '',                                                 name = 'telescope-fzf-native' },
+    { src = '',                                                 name = 'telescope-ui-select' },
+})
+
+
 return {
     'nvim-telescope/telescope.nvim',
     -- branch = '0.1.x',
